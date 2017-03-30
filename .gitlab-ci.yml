@@ -1,0 +1,27 @@
+mage: python:3.5
+
+services:
+      - postgres:latest
+
+variables:
+    POSTGRES_DB: scraper-db
+    POSTGRES_USER: runner
+    POSTGRES_PASSWORD: "$DATABASE_PASSWORD"
+
+# Install reqs before every stage
+before_script:
+    - pip3 install -r requirements.txt
+    # Run all tests with coverage
+    test:
+    script:
+        - python3 manage.py collectstatic --no-input  # whitenoise requires collectstatic for tests
+        - coverage run manage.py test
+        - coverage report -m
+
+# Run pylint on all .py files except those in venv/ and migrations/
+lint:
+    script:
+        - find -name '*.py' -not -path "./venv/*" -not -path "./*/migrations/*" | xargs pylint -j 0 --rcfile=pylint.rc | tee pylint.log || exit 0
+    artifacts:
+        paths:
+            - pylint.log
