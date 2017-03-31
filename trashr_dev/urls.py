@@ -19,5 +19,5 @@ from trashr_dev.views import IndexView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', IndexView.as_view()),
+    url(r'^$', IndexView.as_view(), name="index"),
 ]
