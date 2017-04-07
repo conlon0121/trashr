@@ -11,11 +11,17 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import dj_database_url
+
+DATABASES['default'] =  dj_database_url.config()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ALLOWED_HOSTS = ['*']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -26,7 +32,11 @@ SECRET_KEY = '7$=2mr+@mdh_ry9y$h_*x79oh&3%p)(!-xx*5wmle)d-h(vzmy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # Application definition
 
