@@ -15,7 +15,6 @@ mccabe==0.6.1
 packaging==16.8
 psycopg2==2.6.2
 pycodestyle==2.3.1
-pylint==1.6.5
 pyparsing==2.1.10
 PySocks==1.5.7
 pytz==2016.6.1
