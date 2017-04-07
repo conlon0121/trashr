@@ -29,12 +29,6 @@ SECRET_KEY = '7$=2mr+@mdh_ry9y$h_*x79oh&3%p)(!-xx*5wmle)d-h(vzmy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -134,4 +128,3 @@ USE_TZ = True
 STATIC_URL = '/static/'
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-
