@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import sys
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,6 +21,7 @@ SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = ['*']
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -40,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'trashr_dev',
 ]
+
 # TODO: Send csrf tokens to get request
 MIDDLEWARE = [
     #'django.middleware.security.SecurityMiddleware',
@@ -81,12 +85,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'trashr',
-        'USER': 'nick',
-        'PASSWORD': 'nick',
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
         'HOST': 'localhost',
         'PORT': '',
     }
 }
+
+# Update database configuration with $DATABASE_URL.
+DATABASES['default'].update(dj_database_url.config())
 
 
 # Password validation
