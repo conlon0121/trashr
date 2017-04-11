@@ -76,4 +76,5 @@ ENV/
 .spyderproject
 # Rope project settings
 .ropeprojectgitignore
+*.swp
 

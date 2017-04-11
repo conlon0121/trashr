@@ -80,13 +80,13 @@ WSGI_APPLICATION = 'base.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
+import pdb; pdb.set_trace()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'trashr',
-        'USER': os.environ.get('DATABASE_USER'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'USER': 'nick',
+        'PASSWORD': 'nick',
         'HOST': 'localhost',
         'PORT': '',
     }
