@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import TemplateView, View
 from django.views.decorators.csrf import csrf_exempt
-from trashr_dev.models import Dumpster
+from base.models import Dumpster
 
 
 class IndexView(View):

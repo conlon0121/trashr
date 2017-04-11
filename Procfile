@@ -1,2 +1,2 @@
-web: gunicorn trashr_dev.wsgi --log-file=-
-gunicorn trashr_dev.wsgi:application --preload --workers 1
+web: gunicorn base.wsgi --log-file=-
+gunicorn base.wsgi:application --preload --workers 1
