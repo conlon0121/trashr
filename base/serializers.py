@@ -1,20 +1,26 @@
+from base.models import Dumpster
+from base.models import IntervalReading
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 
-class IntervalReadingSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    raw_reading = serializers.IntegerField(required=True)
-    percent_capacity = serializers.DecimalField(max_digits=5, decimal_places=2)
-    timestamp = serializers.DateTimeField()
-    # Pass the id of the dumpster
-    dumpster_id = serializers.ReadOnlyField(source='dumpster', read_only=True)
+class IntervalReadingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IntervalReading
+        fields = ('raw_reading', 'timestamp', 'dumpster')
 
     def create(self, validated_data):
-        dumpster = Dumpster.objects.get(id=validated_data['dumpster'])
-        percent_capacity = dumpster.capacity / validated_data['raw_reading']
-
-        return IntervalReading.objects.create(
-            raw_reading=validated_data['raw_reading'],
+        dumpster = Dumpster.objects.filter(id=self.initial_data['dumpster'])
+        if dumpster.exists():
+            dumpster = dumpster.get()
+        else:
+            raise ValidationError("Dumpster Does not exist")
+        # Find how full the dumpster is based on the raw reading
+        percent_capacity = dumpster.capacity / (dumpster.capacity - validated_data.get('raw_reading'))
+        reading = IntervalReading.objects.update_or_create(
+            raw_reading=validated_data.get('raw_reading'),
             percent_capacity=percent_capacity,
+            timestamp=validated_data.get('timestamp'),
             dumpster=dumpster
-        )
+        )[0]
+        return reading
