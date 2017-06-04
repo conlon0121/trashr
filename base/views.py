@@ -43,8 +43,4 @@ class IndexView(View):
             greeting = "Good Afternoon, Lani"
         else:
             greeting = "Good Morning, Lani"
-        if percent_capacity == 0:
-            percent_capacity = "not full"
-        else:
-            pecent_capacity = "full"
         return render_to_response(self.template_name, {'percent_capacity': percent_capacity, 'greeting': greeting})
