@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': 'trashr',
         'USER': os.environ.get('user'),
         'PASSWORD': os.environ.get('pass'),
-        'HOST': 'localhost',
+        'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
         'PORT': '',
     }
 }
