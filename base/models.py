@@ -5,10 +5,12 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.conf import settings
 
+
 class Dumpster(models.Model):
     latitude = models.DecimalField(default=0, max_digits=7, decimal_places=3)
     longitude = models.DecimalField(default=0, max_digits=7, decimal_places=3)
     capacity = models.IntegerField(default=10)
+
 
 class IntervalReading(models.Model):
     raw_reading = models.IntegerField(default=0)
@@ -18,6 +20,12 @@ class IntervalReading(models.Model):
 
     def __str__(self):
         return str(self.timestamp)
+
+
+class UniEvent(models.Model):
+    name = models.CharField(max_length=100, default='')
+    date = models.DateTimeField(default=timezone.now)
+    affected_dumpsters = models.ManyToManyField(Dumpster)
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

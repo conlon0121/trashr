@@ -5,11 +5,12 @@ from django.utils import timezone
 from django.views.generic import TemplateView, View
 from django.views.decorators.csrf import csrf_exempt
 from base.models import Dumpster, IntervalReading
-from rest_framework import viewsets
 from base.serializers import IntervalReadingSerializer
-from rest_framework.views import APIView
+from rest_framework import status, viewsets
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.views import APIView
+import ast
 
 
 class CreateReading(APIView):
@@ -17,13 +18,22 @@ class CreateReading(APIView):
     queryset = IntervalReading.objects.all()
 
     def post(self, request, format=None):
-        # Serialize the data we have received
-        serializer = IntervalReadingSerializer(data=request.data)
-        #Check if the data is valid
-        if serializer.is_valid():
-            #Save the serializer to create a reading
-            serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # Make the string that was sent into a dictionary
+        data = ast.literal_eval(request.data['data'])
+        dumpster = Dumpster.objects.filter(id=data['dumpster'])
+        if dumpster.exists():
+            dumpster = dumpster.get()
+        else:
+            raise ValidationError("Dumpster Does not exist")
+        # Find how full the dumpster is based on the raw reading
+        percent_capacity = dumpster.capacity / (dumpster.capacity - data['raw_reading'])
+        reading = IntervalReading.objects.update_or_create(
+            raw_reading=data['raw_reading'],
+            percent_capacity=percent_capacity,
+            timestamp=request.data['published_at'],
+            dumpster=dumpster
+        )[0]
+        return Response(data, status=status.HTTP_201_CREATED)
 
 class IndexView(View):
     template_name = "index.html"
