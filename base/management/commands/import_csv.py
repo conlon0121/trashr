@@ -22,7 +22,6 @@ class Command(BaseCommand):
         else:
             ncsu = ncsu.get()
         filepath = options.get('f')
-        import pdb; pdb.set_trace()
         with open(filepath, 'r', encoding='latin-1') as csv_file:
             csv_reader = csv.reader(csv_file)
             next(csv_reader)
