@@ -13,11 +13,19 @@ class Organization(models.Model):
 
 class Dumpster(models.Model):
     org = models.ForeignKey(Organization, default=1)
+    location = models.CharField(max_length=100, default='')
+    address = models.CharField(max_length=100, default='')
+    rfid = models.CharField(max_length=50, default='')
+    capacity = models.IntegerField(default=0)
+    capacity_units = models.CharField(max_length=20, default='')
+    container_type = models.CharField(max_length=50, default='')
     latitude = models.DecimalField(default=0, max_digits=7, decimal_places=3)
     longitude = models.DecimalField(default=0, max_digits=7, decimal_places=3)
-    capacity = models.IntegerField(default=10)
     # Whether or not the sensor is sending readings
     functioning = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.address)
 
 
 class IntervalReading(models.Model):
