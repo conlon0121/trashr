@@ -1,30 +1,29 @@
-mage: python:3.6
+
+image: python:3.6
 
 services:
-      - postgres:latest
+  - postgres:latest
 
 variables:
-    POSTGRES_DB: trashr 
-    POSTGRES_USER: nick
-    POSTGRES_PASSWORD: "$DATABASE_PASSWORD"
+  POSTGRES_DB: trashr
+  POSTGRES_USER: nick
+  POSTGRES_PASSWORD: "$DATABASE_PASSWORD"
 
 # Install reqs before every stage
 before_script:
-- pip3 install -r requirements.txt
-    # Run all tests with coverage
-  test:
-    script:
-    - python3 manage.py collectstatic --no-input  # whitenoise requires collectstatic for tests
-    - coverage run manage.py test
-    - coverage report -m
-    only:
-    - develop
-    - master
+  - pip3 install -r requirements.txt
+
+# Run all tests with coverage
+test:
+  script:
+  - python3 manage.py collectstatic --no-input  # whitenoise requires collectstatic for tests
+  - coverage run manage.py test
+  - coverage report -m
 
 # Run pylint on all .py files except those in venv/ and migrations/
 lint:
-    script:
-        - find -name '*.py' -not -path "./venv/*" -not -path "./*/migrations/*" | xargs pylint -j 0 --rcfile=.pylintrc | tee pylint.log || exit 0
-    artifacts:
-        paths:
-            - pylint.log
+  script:
+    - find -name '*.py' -not -path "./venv/*" -not -path "./*/migrations/*" | xargs pylint -j 0 --rcfile=.pylintrc | tee pylint.log || exit 0
+  artifacts:
+    paths:
+      - pylint.log
