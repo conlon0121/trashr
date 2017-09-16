@@ -23,10 +23,10 @@ test:
 # Run pylint on all .py files except those in venv/ and migrations/
 lint:
   script:
+    - find -name '*.py' -not -path "./venv/*" -not -path "./*/migrations/*" | xargs pylint -j 0 --rcfile=.pylintrc | tee pylint.log || exit 0
     - python3 manage.py collectstatic --no-input  # whitenoise requires collectstatic for tests
     - coverage run manage.py test
     - coverage report -m
-    - find -name '*.py' -not -path "./venv/*" -not -path "./*/migrations/*" | xargs pylint -j 0 --rcfile=.pylintrc | tee pylint.log || exit 0
   artifacts:
     paths:
       - pylint.log
