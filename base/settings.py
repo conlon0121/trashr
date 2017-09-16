@@ -94,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'trashr',
         'USER': os.environ.get('user'),
-        'PASSWORD': os.environ.get('pass'),
+        'PASSWORD': os.environ.get('DATABAS_PASSWORD'),
         'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
         'PORT': '',
     }
