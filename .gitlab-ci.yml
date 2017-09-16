@@ -10,16 +10,16 @@ variables:
 
 # Install reqs before every stage
 before_script:
-  - pip3 install -r requirements.txt
+- pip3 install -r requirements.txt
     # Run all tests with coverage
   test:
     script:
-        - python3 manage.py collectstatic --no-input  # whitenoise requires collectstatic for tests
-        - coverage run manage.py test
-        - coverage report -m
+    - python3 manage.py collectstatic --no-input  # whitenoise requires collectstatic for tests
+    - coverage run manage.py test
+    - coverage report -m
     only:
-        - develop
-        - master
+    - develop
+    - master
 
 # Run pylint on all .py files except those in venv/ and migrations/
 lint:
