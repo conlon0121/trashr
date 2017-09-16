@@ -20,25 +20,22 @@ class CreateReading(APIView):
     def post(self, request, format=None):
         # Make the string that was sent into a dictionary
         data = ast.literal_eval(request.data['data'])
-        print(data)
         dumpster = Dumpster.objects.filter(id=data['dumpster'])
         if dumpster.exists():
             dumpster = dumpster.get()
         else:
-            dumpster = Dumpster.objects.create(
-                    id=data['dumpster'],
-                    latitude=data['latitude'],
-                    longitude=data['longitude'],
-                    capacity=data['raw_reading']
-                    )
+            dumpster = Dumpster.objects.create(id=data['dumpster'])
         # Find how full the dumpster is based on the raw reading
-        percent_capacity =  (dumpster.capacity - int(data['raw_reading'])) / dumpster.capacity
-        reading = IntervalReading.objects.update_or_create(
-            raw_reading=data['raw_reading'],
-            percent_capacity=percent_capacity,
-            timestamp=request.data['published_at'],
-            dumpster=dumpster
-        )[0]
+        try:
+            percent_capacity =  (dumpster.capacity - int(data['raw_reading'])) / dumpster.capacity
+            reading = IntervalReading.objects.update_or_create(
+                raw_reading=data['raw_reading'],
+                percent_capacity=percent_capacity,
+                timestamp=request.data['published_at'],
+                dumpster=dumpster
+            )[0]
+        except DivisionByZeroError:
+            return Response(data, status=400)
         return Response(data, status=status.HTTP_201_CREATED)
 
 class IndexView(View):
