@@ -7,7 +7,6 @@ class Command(BaseCommand):
     help = "Creates events based on the NC state calendar"
 
     def handle(self, *args, **options):
-        import pdb; pdb.set_trace()
         page = requests.get('http://calendar.activedatax.com/ncstate/EventList.aspx')
         tree = html.fromstring(page.content)
         event_dates = tree.xpath('//table[@id="tblHighlight"]//span[@class="listheadtext"]/text()')
