@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'rest_framework',
+    'bootstrap3',
 ]
 
 # TODO: Send csrf tokens to get request
