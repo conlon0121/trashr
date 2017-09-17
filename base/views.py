@@ -57,3 +57,10 @@ class IndexView(View):
         else:
             greeting = "Good Morning, Lani"
         return render_to_response(self.template_name, {'percent_capacity': percent_capacity, 'greeting': greeting})
+
+
+class HomePageView(View):
+    template_name = "logged_in/homepage.html"
+
+    def get(self, request):
+        return render_to_response(self.template_name)

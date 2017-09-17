@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^create/', CreateReading.as_view(), name="create"),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^home/$', HomePageView.as_view(), name='home'),
 ]
