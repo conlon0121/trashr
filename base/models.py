@@ -29,6 +29,7 @@ class Dumpster(models.Model):
 
 
 class IntervalReading(models.Model):
+    angle = models.IntegerField(default=0)
     raw_reading = models.IntegerField(default=0)
     percent_capacity = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     timestamp = models.DateTimeField(default=timezone.now)
