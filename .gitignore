@@ -77,4 +77,4 @@ ENV/
 # Rope project settings
 .ropeprojectgitignore
 *.swp
-
+base/migrations

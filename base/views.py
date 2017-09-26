@@ -66,3 +66,24 @@ class HomePageView(View):
 
     def get(self, request):
         return render_to_response(self.template_name)
+
+
+class DemoView(View):
+    template_name = "old_index.html"
+
+    def get(self, request):
+        # Get the percent capacity of the latest interval reading for the input dumpster
+        percent_capacity = IntervalReading.objects.filter(dumpster__id=1)
+        if percent_capacity.exists():
+            percent_capacity = int(percent_capacity.latest('timestamp').percent_capacity)
+        else:
+            percent_capacity = 0
+        # TODO: don't subtract 4
+        current_hour = timezone.now().hour - 4
+        if current_hour >= 17:
+            greeting = "Good Evening, Lani"
+        elif current_hour > 12:
+            greeting = "Good Afternoon, Lani"
+        else:
+            greeting = "Good Morning, Lani"
+        return render_to_response(self.template_name, {'percent_capacity': percent_capacity, 'greeting': greeting})

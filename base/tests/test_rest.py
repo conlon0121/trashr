@@ -21,10 +21,10 @@ class TestRest(APITestCase):
         self.client.force_authenticate(user=self.adminuser)
 
     def test_create_reading(self):
-        test_data = {'data' : "{'dumpster': 1,'raw_reading': 50}",'ttl':60,
+        test_data = {'data' : "{'dumpster': 1,'readings': [(34, 50), (52, 60), (72, 70)]}",'ttl':60,
         "published_at":"2017-09-16T17:56:11.458Z","coreid":"api","name":"local_test"}
         self.client.post(reverse('create'), data=test_data, format='json')
-        self.assertEqual(1, IntervalReading.objects.count())
+        self.assertEqual(3, IntervalReading.objects.count())
         reading = IntervalReading.objects.first()
         self.assertAlmostEqual(.5, reading.percent_capacity)
         self.assertEqual(1, reading.dumpster.id)
