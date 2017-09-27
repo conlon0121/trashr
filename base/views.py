@@ -38,7 +38,7 @@ class CreateReading(APIView):
                     timestamp=request.data['published_at'],
                     dumpster=dumpster
                 )[0]
-            except DivisionByZeroError:
+            except ZeroDivisionError:
                 return Response(data, status=400)
         # logging.getLogger().info('reading created')
         print('reading created')
