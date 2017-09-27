@@ -1,3 +1,6 @@
+import logging
+import ast
+
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.urls import reverse
@@ -10,7 +13,6 @@ from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import ast
 
 
 class CreateReading(APIView):
@@ -28,16 +30,18 @@ class CreateReading(APIView):
         # Find how full the dumpster is based on the raw reading
         for i in range(3):
             try:
-                percent_capacity =  (dumpster.capacity - int(data['readings'][i][1])) / dumpster.capacity
+                percent_fill =  (dumpster.capacity - int(data['readings'][i][1])) / dumpster.capacity
                 reading = IntervalReading.objects.update_or_create(
                     angle=data['readings'][i][0],
                     raw_reading=data['readings'][i][1],
-                    percent_capacity=percent_capacity,
+                    percent_fill=percent_fill,
                     timestamp=request.data['published_at'],
                     dumpster=dumpster
                 )[0]
             except DivisionByZeroError:
                 return Response(data, status=400)
+        # logging.getLogger().info('reading created')
+        print('reading created')
         return Response(data, status=status.HTTP_201_CREATED)
 
 class IndexView(View):

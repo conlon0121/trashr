@@ -26,6 +26,6 @@ class TestRest(APITestCase):
         self.client.post(reverse('create'), data=test_data, format='json')
         self.assertEqual(3, IntervalReading.objects.count())
         reading = IntervalReading.objects.first()
-        self.assertAlmostEqual(.5, reading.percent_capacity)
+        self.assertAlmostEqual(.5, reading.percent_fill)
         self.assertEqual(1, reading.dumpster.id)
 
