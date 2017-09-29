@@ -8,7 +8,7 @@ from django.shortcuts import reverse
 from rest_framework.test import APITestCase
 
 from base.views import CreateReading
-from base.models import IntervalReading, Dumpster, Organization
+from base.models import IntervalReading, Dumpster, Organization, IntervalSet
 
 
 class TestRest(APITestCase):
@@ -25,7 +25,9 @@ class TestRest(APITestCase):
         "published_at":"2017-09-16T17:56:11.458Z","coreid":"api","name":"local_test"}
         self.client.post(reverse('create'), data=test_data, format='json')
         self.assertEqual(3, IntervalReading.objects.count())
+        self.assertEqual(1, IntervalSet.objects.count())
         reading = IntervalReading.objects.first()
+        int_set = IntervalSet.objects.first()
         self.assertAlmostEqual(.5, reading.percent_fill)
-        self.assertEqual(1, reading.dumpster.id)
+        self.assertEqual(1, int_set.dumpster.id)
 

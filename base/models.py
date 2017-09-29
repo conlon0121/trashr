@@ -31,17 +31,25 @@ class Dumpster(models.Model):
 
     def __str__(self):
         return str(self.address)
+    
+
+class IntervalSet(models.Model):
+    timestamp = models.DateTimeField(default=timezone.now)
+    dumpster = models.ForeignKey(Dumpster)
+
+
+    def __str__(self):
+        return str(self.timestamp)
 
 
 class IntervalReading(models.Model):
     angle = models.IntegerField(default=0)
     raw_reading = models.IntegerField(default=0)
     percent_fill = models.DecimalField(default=0, max_digits=5, decimal_places=2)
-    timestamp = models.DateTimeField(default=timezone.now)
-    dumpster = models.ForeignKey(Dumpster)
+    interval_set = models.ForeignKey(IntervalSet)
 
     def __str__(self):
-        return str(self.timestamp)
+        return str(self.angle)
 
 
 class UniEvent(models.Model):

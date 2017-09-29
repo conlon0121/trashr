@@ -26,10 +26,15 @@
   	<font size="5m" color="white">
   		<p>Bragaw dumpster is at </font> 
 		<font size="5m" color="green">
-        {{ percent_capacity }}%
+        {{ percent_fill }}%
 	</font>
   	<font size="5m" color="white">
-  		capacity </font></p>
+  		capacity 
+    </font></p>
+  	<font size="5m" color="white">
+        Last reading taken at 
+        <p>{{ timestamp }}</p>
+    </font>
 </div>
 </center>
 </body>

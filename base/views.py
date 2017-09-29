@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import TemplateView, View
 from django.views.decorators.csrf import csrf_exempt
-from base.models import Dumpster, IntervalReading
+from base.models import Dumpster, IntervalReading, IntervalSet
 from base.serializers import IntervalReadingSerializer
 from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
@@ -28,6 +28,7 @@ class CreateReading(APIView):
         else:
             dumpster = Dumpster.objects.create(id=data['dumpster'])
         # Find how full the dumpster is based on the raw reading
+        int_set = IntervalSet.objects.create(dumpster=dumpster, timestamp=request.data['published_at'])
         for i in range(3):
             try:
                 percent_fill =  (dumpster.capacity - int(data['readings'][i][1])) / dumpster.capacity
@@ -35,8 +36,7 @@ class CreateReading(APIView):
                     angle=data['readings'][i][0],
                     raw_reading=data['readings'][i][1],
                     percent_fill=percent_fill,
-                    timestamp=request.data['published_at'],
-                    dumpster=dumpster
+                    interval_set=int_set
                 )[0]
             except ZeroDivisionError:
                 return Response(data, status=400)
@@ -48,21 +48,7 @@ class IndexView(View):
     template_name = "index.html"
 
     def get(self, request):
-        # Get the percent capacity of the latest interval reading for the input dumpster
-        percent_capacity = IntervalReading.objects.filter(dumpster__id=1)
-        if percent_capacity.exists():
-            percent_capacity = int(percent_capacity.latest('timestamp').percent_capacity)
-        else:
-            percent_capacity = 0
-        # TODO: don't subtract 4
-        current_hour = timezone.now().hour - 4
-        if current_hour >= 17:
-            greeting = "Good Evening, Lani"
-        elif current_hour > 12:
-            greeting = "Good Afternoon, Lani"
-        else:
-            greeting = "Good Morning, Lani"
-        return render_to_response(self.template_name, {'percent_capacity': percent_capacity, 'greeting': greeting})
+        return render_to_response(self.template_name)
 
 
 class HomePageView(View):
@@ -77,17 +63,20 @@ class DemoView(View):
 
     def get(self, request):
         # Get the percent capacity of the latest interval reading for the input dumpster
-        percent_capacity = IntervalReading.objects.filter(dumpster__id=1)
-        if percent_capacity.exists():
-            percent_capacity = int(percent_capacity.latest('timestamp').percent_capacity)
-        else:
-            percent_capacity = 0
-        # TODO: don't subtract 4
-        current_hour = timezone.now().hour - 4
+        current_hour = timezone.localtime(timezone.now()).hour
         if current_hour >= 17:
             greeting = "Good Evening, Lani"
         elif current_hour > 12:
             greeting = "Good Afternoon, Lani"
         else:
             greeting = "Good Morning, Lani"
-        return render_to_response(self.template_name, {'percent_capacity': percent_capacity, 'greeting': greeting})
+        try:
+            int_set = IntervalSet.objects.filter(dumpster__id=1).latest('timestamp')
+            timestamp = timezone.localtime(int_set.timestamp)
+            percent_fill = 0
+            for reading in int_set.intervalreading_set.all():
+                percent_fill += int(reading.percent_fill)
+            percent_fill = percent_fill / int_set.intervalreading_set.count()
+        except IntervalSet.DoesNotExist:
+            percent_fill = 0
+        return render_to_response(self.template_name, {'percent_fill': percent_fill, 'greeting': greeting, 'timestamp': timestamp})
