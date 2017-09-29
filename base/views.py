@@ -79,4 +79,5 @@ class DemoView(View):
             percent_fill = percent_fill / int_set.intervalreading_set.count()
         except IntervalSet.DoesNotExist:
             percent_fill = 0
+            timestamp = None
         return render_to_response(self.template_name, {'percent_fill': percent_fill, 'greeting': greeting, 'timestamp': timestamp})

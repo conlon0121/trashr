@@ -23,6 +23,7 @@
 		<br /> <br /> <br />
         <p>{{ greeting }}</p>
   	</font>
+    {% if timestamp %}
   	<font size="5m" color="white">
   		<p>Bragaw dumpster is at </font> 
 		<font size="5m" color="green">
@@ -35,6 +36,11 @@
         Last reading taken at 
         <p>{{ timestamp }}</p>
     </font>
+    {% else %}
+  	<font size="5m" color="white">
+        No readings available yet
+    </font>
+    {% endif %}
 </div>
 </center>
 </body>
