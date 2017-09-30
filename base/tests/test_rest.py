@@ -28,6 +28,6 @@ class TestRest(APITestCase):
         self.assertEqual(1, IntervalSet.objects.count())
         reading = IntervalReading.objects.first()
         int_set = IntervalSet.objects.first()
-        self.assertAlmostEqual(.5, reading.percent_fill)
+        self.assertAlmostEqual(71, int(reading.percent_fill))
         self.assertEqual(1, int_set.dumpster.id)
 

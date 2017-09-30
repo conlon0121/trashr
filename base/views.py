@@ -1,5 +1,6 @@
 import logging
 import ast
+import math
 
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
@@ -31,10 +32,22 @@ class CreateReading(APIView):
         int_set = IntervalSet.objects.create(dumpster=dumpster, timestamp=request.data['published_at'])
         for i in range(3):
             try:
-                percent_fill =  (dumpster.capacity - int(data['readings'][i][1])) / dumpster.capacity
+                reading = data['readings'][i][1]
+                angle = data['readings'][i][0]
+                if angle == 34:
+                    angle = 36
+                elif angle == 52:
+                    angle = 54
+                angle = 90 - angle
+                if reading > 0:
+                    adjusted_reading = data['readings'][i][1] * math.cos(math.radians(angle))
+                    percent_fill =  100 * (dumpster.capacity - int(adjusted_reading)) / dumpster.capacity
+                else:
+                    percent_fill = 0
+                    adjusted_reading = 0
                 reading = IntervalReading.objects.update_or_create(
                     angle=data['readings'][i][0],
-                    raw_reading=data['readings'][i][1],
+                    raw_reading=adjusted_reading,
                     percent_fill=percent_fill,
                     interval_set=int_set
                 )[0]
@@ -74,8 +87,10 @@ class DemoView(View):
             int_set = IntervalSet.objects.filter(dumpster__id=1).latest('timestamp')
             timestamp = timezone.localtime(int_set.timestamp)
             percent_fill = 0
+            import pdb; pdb.set_trace()
             for reading in int_set.intervalreading_set.all():
-                percent_fill += int(reading.percent_fill)
+                if reading.angle == 54 and reading.raw_reading < 117.5:
+                    percent_fill += int(reading.percent_fill)
             percent_fill = percent_fill / int_set.intervalreading_set.count()
         except IntervalSet.DoesNotExist:
             percent_fill = 0
