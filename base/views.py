@@ -87,7 +87,6 @@ class DemoView(View):
             int_set = IntervalSet.objects.filter(dumpster__id=1).latest('timestamp')
             timestamp = timezone.localtime(int_set.timestamp)
             percent_fill = 0
-            import pdb; pdb.set_trace()
             for reading in int_set.intervalreading_set.all():
                 if reading.angle == 54 and reading.raw_reading < 117.5:
                     percent_fill += int(reading.percent_fill)
