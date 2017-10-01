@@ -33,7 +33,7 @@ class CreateReading(APIView):
         for i in range(3):
             try:
                 reading = data['readings'][i][1]
-                angle = data['readings'][i][0]
+                angle = int(data['readings'][i][0])
                 if angle == 34:
                     angle = 36
                 elif angle == 52:
