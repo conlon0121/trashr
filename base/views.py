@@ -88,7 +88,10 @@ class DemoView(View):
             timestamp = timezone.localtime(int_set.timestamp)
             percent_fill = 0
             for reading in int_set.intervalreading_set.all():
-                if reading.angle == 54 and reading.raw_reading < 117.5:
+                if reading.angle == 54:
+                    if reading.raw_reading < 117.5:
+                        percent_fill += int(reading.percent_fill)
+                else:
                     percent_fill += int(reading.percent_fill)
             percent_fill = percent_fill / int_set.intervalreading_set.count()
         except IntervalSet.DoesNotExist:
