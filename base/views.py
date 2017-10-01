@@ -46,7 +46,7 @@ class CreateReading(APIView):
                     percent_fill = -1
                     adjusted_reading = -1
                 reading = IntervalReading.objects.update_or_create(
-                    angle=data['readings'][i][0],
+                    angle=angle,
                     raw_reading=adjusted_reading,
                     percent_fill=percent_fill,
                     interval_set=int_set
@@ -87,11 +87,13 @@ class DemoView(View):
             int_set = IntervalSet.objects.filter(dumpster__id=1).latest('timestamp')
             timestamp = timezone.localtime(int_set.timestamp)
             percent_fill = 0
+            count = 0
             for reading in int_set.intervalreading_set.all():
                 if reading.angle != 36 and reading.raw_reading != -1:
                     percent_fill += int(reading.percent_fill)
-            percent_fill = percent_fill / int_set.intervalreading_set.count()
-        except IntervalSet.DoesNotExist:
+                    count += 1
+            percent_fill = percent_fill / count
+        except (IntervalSet.DoesNotExist, ZeroDivisionError):
             percent_fill = 0
             timestamp = None
         return render_to_response(self.template_name, {'percent_fill': round(percent_fill, 1), 'greeting': greeting, 'timestamp': timestamp})
