@@ -30,17 +30,29 @@ class CreateReading(APIView):
             dumpster = Dumpster.objects.create(id=data['dumpster'])
         # Find how full the dumpster is based on the raw reading
         int_set = IntervalSet.objects.create(dumpster=dumpster, timestamp=request.data['published_at'])
-        for i in range(3):
+        angle = 90 - int(data['readings'][2][0])
+        reading = data['readings'][2][1]
+        if reading > 0:
+            adjusted_reading = reading * math.cos(math.radians(30))
             try:
+                percent_fill =  100 * (dumpster.capacity - int(adjusted_reading)) / dumpster.capacity
+            except ZeroDivisionError:
+                return Response(data, status=400)
+            reading = IntervalReading.objects.update_or_create(
+                angle=angle,
+                raw_reading=adjusted_reading,
+                percent_fill=percent_fill,
+                interval_set=int_set
+            )[0]
+        else:
+            percent_fill = -1
+            adjusted_reading = -1
+        for i in range(2):
+            try:
+                angle = 90 - int(data['readings'][i][0])
                 reading = data['readings'][i][1]
-                angle = int(data['readings'][i][0])
-                if angle == 34:
-                    angle = 36
-                elif angle == 52:
-                    angle = 54
-                angle = 90 - angle
                 if reading > 0:
-                    adjusted_reading = data['readings'][i][1] * math.cos(math.radians(angle))
+                    adjusted_reading = reading * math.cos(math.radians(angle))
                     percent_fill =  100 * (dumpster.capacity - int(adjusted_reading)) / dumpster.capacity
                 else:
                     percent_fill = -1
@@ -83,17 +95,19 @@ class DemoView(View):
             greeting = "Good Afternoon, Lani"
         else:
             greeting = "Good Morning, Lani"
-        try:
-            int_set = IntervalSet.objects.filter(dumpster__id=1).latest('timestamp')
-            timestamp = timezone.localtime(int_set.timestamp)
-            percent_fill = 0
-            count = 0
-            for reading in int_set.intervalreading_set.all():
-                if reading.angle != 36 and reading.raw_reading != -1:
-                    percent_fill += int(reading.percent_fill)
-                    count += 1
-            percent_fill = percent_fill / count
-        except (IntervalSet.DoesNotExist, ZeroDivisionError):
-            percent_fill = 0
-            timestamp = None
+        done = False
+        # Try at most 5 times to get a good reading
+        for i in range(5):
+            try:
+                int_set = IntervalSet.objects.filter(dumpster__id=1).order_by('-timestamp')[i]
+                timestamp = timezone.localtime(int_set.timestamp)
+                try:
+                    reading = int_set.intervalreading_set.get(angle=18)
+                    percent_fill = int(reading.percent_fill) - (int(reading.percent_fill) % 5)
+                except IntervalReading.DoesNotExist:
+                    continue
+            except IntervalSet.DoesNotExist:
+                percent_fill = 0
+                timestamp = None
+            break
         return render_to_response(self.template_name, {'percent_fill': round(percent_fill, 1), 'greeting': greeting, 'timestamp': timestamp})
