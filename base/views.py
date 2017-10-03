@@ -70,6 +70,7 @@ class CreateReading(APIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 class IndexView(View):
+    #TODO:Change to index when functional
     template_name = "index.html"
 
     def get(self, request):
