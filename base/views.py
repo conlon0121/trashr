@@ -111,4 +111,4 @@ class DemoView(View):
                 percent_fill = 0
                 timestamp = None
             break
-        return render_to_response(self.template_name, {'percent_fill': round(percent_fill, 1), 'greeting': greeting, 'timestamp': timestamp})
+        return render_to_response(self.template_name, {'percent_fill': percent_fill, 'greeting': greeting, 'timestamp': timestamp})
