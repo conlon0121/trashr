@@ -98,17 +98,16 @@ class DemoView(View):
             greeting = "Good Morning, Lani"
         done = False
         # Try at most 5 times to get a good reading
-        for i in range(5):
-            try:
-                int_set = IntervalSet.objects.filter(dumpster__id=1).order_by('-timestamp')[i]
+        try:
+            for int_set in IntervalSet.objects.filter(dumpster__id=1).order_by('-timestamp'):
                 timestamp = timezone.localtime(int_set.timestamp)
                 try:
                     reading = int_set.intervalreading_set.get(angle=18)
                     percent_fill = int(reading.percent_fill) - (int(reading.percent_fill) % 5)
+                    break
                 except IntervalReading.DoesNotExist:
                     continue
-            except IntervalSet.DoesNotExist:
-                percent_fill = 0
-                timestamp = None
-            break
+        except IntervalSet.DoesNotExist:
+            percent_fill = 0
+            timestamp = None
         return render_to_response(self.template_name, {'percent_fill': percent_fill, 'greeting': greeting, 'timestamp': timestamp})
