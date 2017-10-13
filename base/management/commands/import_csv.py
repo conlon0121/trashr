@@ -1,6 +1,8 @@
 import csv
+import os
 
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from base.models import Organization, Dumpster
 
 
@@ -22,6 +24,7 @@ class Command(BaseCommand):
         else:
             ncsu = ncsu.get()
         filepath = options.get('f')
+        filepath = os.path.join(settings.BASE_DIR, filepath)
         with open(filepath, 'r', encoding='latin-1') as csv_file:
             csv_reader = csv.reader(csv_file)
             next(csv_reader)

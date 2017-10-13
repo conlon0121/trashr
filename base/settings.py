@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'bootstrap3',
     'sass_processor',
+    'django_tables2',
 ]
 
 # TODO: Send csrf tokens to get request

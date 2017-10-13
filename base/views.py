@@ -3,13 +3,15 @@ import ast
 import math
 
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, View, FormView
 from django.views.decorators.csrf import csrf_exempt
+from django_tables2 import RequestConfig
 from base.models import Dumpster, IntervalReading, IntervalSet
-from base.serializers import IntervalReadingSerializer
+from base.tables import DumpsterTable
+from base.forms import DumpsterFilterForm
 from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -79,9 +81,13 @@ class IndexView(View):
 
 class HomePageView(View):
     template_name = "logged_in/homepage.html"
+    form_class = DumpsterFilterForm
 
     def get(self, request):
-        return render_to_response(self.template_name)
+        table = DumpsterTable(Dumpster.objects.all())
+        form = self.form_class()
+        RequestConfig(request, paginate={"per_page": 20}).configure(table)
+        return render(request, self.template_name, {'table': table, 'form': form})
 
 
 class DemoView(View):
@@ -110,4 +116,4 @@ class DemoView(View):
         except IntervalSet.DoesNotExist:
             percent_fill = 0
             timestamp = None
-        return render_to_response(self.template_name, {'percent_fill': percent_fill, 'greeting': greeting, 'timestamp': timestamp})
+        return render(request, self.template_name, {'percent_fill': percent_fill, 'greeting': greeting, 'timestamp': timestamp})
