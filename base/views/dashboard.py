@@ -17,35 +17,34 @@ class DashboardView(View):
         return render(request, self.template_name, {'table': table, 'form': form})
 
 class DumpsterFilterTable(View):
+    template_name = "table.html"
 
-    @staticmethod
-    def post(request):
+    def post(self, request):
         data = dict(request.POST)
         percent_fill = -1
         dumpster_filter = Dumpster.objects.all()
         operator = None
-        import pdb; pdb.set_trace()
         if data['address'][0]:
-            dumpster_filter = Dumpster.objects.filter(address=data['address'])
+            dumpster_filter = Dumpster.objects.filter(address__icontains=data['address'][0])
         if data['location'][0]:
-            dumpster_filter = dumpster_filter.filter(location=data['location'])
+            dumpster_filter = dumpster_filter.filter(location__icontains=data['location'][0])
         if data['utility'][0]:
-            dumpster_filter = dumpster_filter.filter(utility=data['utility'])
+            dumpster_filter = dumpster_filter.filter(utility=data['utility'][0])
         if data['percent_fill'][0]:
             percent_fill = int(data['percent_fill'][0])
-            operator = data['operator'][0]
-            if int(operator) == -1:
+            operator = int(data['operator'][0])
+            if operator == -1:
                 for dumpster in dumpster_filter:
                     if dumpster.percent_fill >= percent_fill:
-                        dumpster_filter.exclude(pk=dumpster.pk)
-            if int(operator) == 0:
+                        dumpster_filter = dumpster_filter.exclude(pk=dumpster.pk)
+            if operator == 0:
                 for dumpster in dumpster_filter:
                     if dumpster.percent_fill == percent_fill:
-                        dumpster_filter.exclude(pk=dumpster.pk)
-            if int(operator) == 1:
+                        dumpster_filter = dumpster_filter.exclude(pk=dumpster.pk)
+            if operator == 1:
                 for dumpster in dumpster_filter:
                     if dumpster.percent_fill <= percent_fill:
-                        dumpster_filter.exclude(pk=dumpster.pk)
+                        dumpster_filter = dumpster_filter.exclude(pk=dumpster.pk)
         table = DumpsterTable(dumpster_filter)
         RequestConfig(request, paginate={"per_page": 10}).configure(table)
-        return render(request, {'table': table})
+        return render(request, self.template_name, {'table': table})

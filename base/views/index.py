@@ -1,4 +1,4 @@
-from django.shortcust import render_to_response
+from django.shortcuts import render_to_response
 from django.views.generic import View
 
 

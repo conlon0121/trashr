@@ -121,9 +121,13 @@
               </div>
             </div>
           </form>
-      <div>
-          {% render_table table %}
-      </div>
+      <div id="table">
+        {% include 'table.html' %}
+        <div id="spinner" class="lds-css ng-scope hide">
+  	      <div style="width:100%;height:100%" class="lds-eclipse">
+    	      <div></div>
+          </div>
+        </div>
       </div>
     </div>
 </div>
@@ -132,7 +136,10 @@
 // Submit post on submit
 $('#table-form').on('submit', function(event){
   event.preventDefault();
-    console.log("form submitted!")  // sanity check
+    $('#table').addClass('hide');
+    $('#spinner').css('height', $('#table').css('height'));
+    $('#spinner').css('width', $('#table').css('width'));
+    $('#spinner').removeClass('hide');
     create_post();
 });
 // AJAX for posting
@@ -145,7 +152,8 @@ function create_post() {
     success : function(json) {
       console.log(json); // log the returned json to the console
       console.log("success"); // another sanity check
-      $('.table').html()
+      $('#table').html(json)
+      $('#spinner').removeClass('hide');
     },
     // handle a non-successful response
     error : function(xhr,errmsg,err) {
@@ -156,5 +164,59 @@ function create_post() {
 }
 
 </script>
+<style type="text/css">@keyframes lds-eclipse {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes lds-eclipse {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.lds-eclipse {
+  position: relative;
+}
+.lds-eclipse div {
+  position: absolute;
+  -webkit-animation: lds-eclipse 1s linear infinite;
+  animation: lds-eclipse 1s linear infinite;
+  width: 160px;
+  height: 160px;
+  top: 20px;
+  left: 20px;
+  border-radius: 50%;
+  box-shadow: 0 4px 0 0 #2f98bb;
+  -webkit-transform-origin: 80px 82px;
+  transform-origin: 80px 82px;
+}
+.lds-eclipse {
+  width: 200px !important;
+  height: 200px !important;
+  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}
+.hide {
+  display: none;
+}
+</style>
 {% endblock %}
 
