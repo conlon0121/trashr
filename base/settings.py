@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'sass_processor',
     'django_tables2',
+    'django_extensions',
 ]
 
 # TODO: Send csrf tokens to get request
