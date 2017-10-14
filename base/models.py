@@ -48,6 +48,7 @@ class Dumpster(models.Model):
                 return int(reading.percent_fill) - (int(reading.percent_fill) % 5)
             except IntervalReading.DoesNotExist:
                 continue
+        return 0
     
     @property
     def get_utility(self):

@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^create/', CreateReading.as_view(), name="create"),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
-    url(r'^home/$', HomePageView.as_view(), name='home'),
+    url(r'^dashboard/$', DashboardView.as_view(), name='dashboard'),
     url(r'^demo/$', DemoView.as_view(), name='demo'),
+    url(r'^dumpster_filter_table/', DumpsterFilterTable.as_view(), name='filter_table')
 ]
