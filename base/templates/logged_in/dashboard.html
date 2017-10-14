@@ -99,47 +99,46 @@
       <!-- /.panel-heading -->
       <div class="panel-body" style="padding-bottom:0px">
         <form id="table-form" method="post">
-            <div class="col-sm-5" style="padding-left:0px; padding-right:0px">
-                <div class="col-sm-6">
-                  {% bootstrap_field form.address %}
-                </div>
-                <div class="col-sm-6">
-                  {% bootstrap_field form.location %}
-                </div>
+          <div class="col-sm-5" style="padding-left:0px; padding-right:0px">
+            <div class="col-sm-6">
+              {% bootstrap_field form.address %}
               </div>
-              <div class="col-sm-7" style="padding-left:0px; padding-right:0px">
-                <div class="col-sm-3">
-                  {% bootstrap_field form.utility %}
-                </div>
-                <div class="col-sm-4">
-                  {% bootstrap_field form.operator %}
-                </div>
-                <div class="col-sm-3">
-                  {% bootstrap_field form.percent_fill %}
-                </div>
-                <input style="font-weight:bold; margin-top:25px" type="submit" class="btn btn-primary" value="filter"/>
+              <div class="col-sm-6">
+                {% bootstrap_field form.location %}
               </div>
             </div>
-          </form>
-      <div id="table">
-        {% include 'table.html' %}
-        <div id="spinner" class="lds-css ng-scope hide">
-  	      <div style="width:100%;height:100%" class="lds-eclipse">
-    	      <div></div>
+            <div class="col-sm-7" style="padding-left:0px; padding-right:0px">
+              <div class="col-sm-3">
+                {% bootstrap_field form.utility %}
+              </div>
+              <div class="col-sm-4">
+                {% bootstrap_field form.operator %}
+              </div>
+              <div class="col-sm-3">
+                {% bootstrap_field form.percent_fill %}
+              </div>
+              <input style="font-weight:bold; margin-top:25px" type="submit" class="btn btn-primary" value="filter"/>
+            </div>
           </div>
+        </form>
+        <div id="table">
+          {% include 'table.html' %}
+        </div>
+      <div style="margin:0 auto; width:100%" id="spinner" class="lds-css ng-scope">
+       <div style="width:100%;height:100%" class="lds-eclipse">
+         <div></div>
         </div>
       </div>
     </div>
-</div>
+   </div>
+  </div>
 </div>
 <script>
 // Submit post on submit
 $('#table-form').on('submit', function(event){
   event.preventDefault();
-    $('#table').addClass('hide');
-    $('#spinner').css('height', $('#table').css('height'));
-    $('#spinner').css('width', $('#table').css('width'));
-    $('#spinner').removeClass('hide');
+    $('#spinner').show();
+    $('#table').hide();
     create_post();
 });
 // AJAX for posting
@@ -152,8 +151,9 @@ function create_post() {
     success : function(json) {
       console.log(json); // log the returned json to the console
       console.log("success"); // another sanity check
-      $('#table').html(json)
-      $('#spinner').removeClass('hide');
+      $('#table').html(json);
+      $('#table').show();
+      $('#spinner').hide();
     },
     // handle a non-successful response
     error : function(xhr,errmsg,err) {
