@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.css' rel='stylesheet' />
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
+<div id='map' style='width: 400px; height: 300px;'></div>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1Ijoic2lja25pc2NvIiwiYSI6ImNqODB1b3gwajZvNTMzM3Jyb2o1YWEycG4ifQ.8EUFE7kgqEYq-hrj29DAAA';
+  var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/sicknisco/cj80vjyk8836f2sqpkl4mm6f0', // stylesheet location
+    zoom: 9
+  });
+  map.on('click', function(e) {
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: ['{chicago-parks}'] // replace this with the name of the layer
+    });
+
+    if (!features.length) {
+      return;
+    }
+
+    var feature = features[0];
+
+    var popup = new mapboxgl.Popup({ offset: [0, -15] })
+    .setLngLat(feature.geometry.coordinates)
+    .setHTML('<h3>' + feature.properties.title + '</h3><p>' + feature.properties.description + '</p>')
+    .setLngLat(feature.geometry.coordinates)
+    .addTo(map);
+    })
+</script>
+{% endblock %}

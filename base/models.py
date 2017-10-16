@@ -31,7 +31,32 @@ class Dumpster(models.Model):
 
     def __str__(self):
         return str(self.address)
+
+    @property
+    def last_updated(self):
+        try:
+            return self.intervalset_set.latest('timestamp').timestamp
+        except Exception as e:
+            print(e)
+            return None
+
+    @property
+    def percent_fill(self):
+        for int_set in self.intervalset_set.order_by('-timestamp'):
+            try:
+                reading = int_set.intervalreading_set.get(angle=18)
+                return int(reading.percent_fill) - (int(reading.percent_fill) % 5)
+            except IntervalReading.DoesNotExist:
+                continue
+        return 0
     
+    @property
+    def get_utility(self):
+        return {
+                '0': 'Trash',
+                '1': 'Recycling',
+                '2': 'Compost'
+                }[str(self.utility)]
 
 class IntervalSet(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)

@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'bootstrap3',
     'sass_processor',
+    'django_tables2',
+    'django_extensions',
 ]
 
 # TODO: Send csrf tokens to get request
@@ -96,7 +98,7 @@ WSGI_APPLICATION = 'base.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': os.environ.get('ENGINE', 'django.db.backends.sqlite3'),
         'NAME': 'trashr',
         'USER': os.environ.get('USER'),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
@@ -145,7 +147,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+
+SASS_PROCESSOR_AUTO_INCLUDE = False
 STATIC_URL = '/static/'
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+SASS_PROCESSOR_INCLUDE_DIRS = [
+    os.path.join(STATIC_ROOT, 'sass'),
+]
