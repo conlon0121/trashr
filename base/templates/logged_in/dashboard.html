@@ -124,8 +124,8 @@
         <div id="table">
           {% include 'table.html' %}
         </div>
-      <div style="margin:0 auto; width:100%" id="spinner" class="lds-css ng-scope">
-       <div style="width:100%;height:100%" class="lds-eclipse">
+      <div id="spinner-div" style="margin:0 auto; width:25%;" id="spinner" class="lds-css ng-scope hide">
+       <div id="spinner" style="width:100%;height:100%" class="lds-eclipse">
          <div></div>
         </div>
       </div>
@@ -137,7 +137,8 @@
 // Submit post on submit
 $('#table-form').on('submit', function(event){
   event.preventDefault();
-    $('#spinner').show();
+    $('#spinner-div').removeClass('hide');
+    $('#spinner-div').css('height', $('#table').css('height'));
     $('#table').hide();
     create_post();
 });
@@ -153,7 +154,7 @@ function create_post() {
       console.log("success"); // another sanity check
       $('#table').html(json);
       $('#table').show();
-      $('#spinner').hide();
+      $('#spinner-div').addClass('hide');
     },
     // handle a non-successful response
     error : function(xhr,errmsg,err) {

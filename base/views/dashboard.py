@@ -37,9 +37,10 @@ class DumpsterFilterTable(View):
                 for dumpster in dumpster_filter:
                     if dumpster.percent_fill >= percent_fill:
                         dumpster_filter = dumpster_filter.exclude(pk=dumpster.pk)
+            import pdb; pdb.set_trace()
             if operator == 0:
                 for dumpster in dumpster_filter:
-                    if dumpster.percent_fill == percent_fill:
+                    if dumpster.percent_fill != percent_fill:
                         dumpster_filter = dumpster_filter.exclude(pk=dumpster.pk)
             if operator == 1:
                 for dumpster in dumpster_filter:
