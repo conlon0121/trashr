@@ -17,6 +17,5 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^dashboard/$', DashboardView.as_view(), name='dashboard'),
     url(r'^demo/$', DemoView.as_view(), name='demo'),
-    url(r'^dumpster_filter_table/', DumpsterFilterTable.as_view(), name='filter_table'),
     url(r'^map/', MapView.as_view(), name='map'),
 ]

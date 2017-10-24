@@ -18,5 +18,4 @@ class DumpsterTable(Table):
         model = Dumpster
         sequence = ('address', 'util', 'date', 'fill_percentage')
         exclude = ('utility', 'container_type', 'id', 'org', 'location', 'rfid', 'capacity', 'capacity_units', 'latitude', 'longitude', 'functioning')
-        attrs = {"class": "table table-striped"}
         template = 'table.html'

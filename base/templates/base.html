@@ -26,6 +26,7 @@
     <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
     <!-- jQuery Version 1.11.0 -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
+     <link rel="stylesheet" href="{% static 'vendor/datatables/css/jquery.dataTables.min.css' %}">
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -50,7 +51,6 @@
 </head>
     <body>
       <div id="wrapper">
-	  {% include 'navbar.html' %}
 	  {% include 'navmenu.html' %}
 	  {% block body %}
 	  {% endblock %}

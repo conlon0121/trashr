@@ -8,7 +8,18 @@
 {% endif %}
 
   {% block table %}
-  <table class="table table-striped"{% if table.attrs %} {{ table.attrs.as_html }}{% endif %}>
+  <table border="0" cellspacing="5" cellpadding="5">
+    <tbody><tr>
+      <td>Minimum fill %</td>
+      <td><input type="text" id="min" name="min"></td>
+    </tr>
+    <tr>
+      <td>Maximum fill %</td>
+      <td><input type="text" id="max" name="max"></td>
+    </tr>
+    </tbody>
+  </table>
+  <table id="dumpster-table" class="display">
     {% block table.thead %}
     <thead>
       <tr>
@@ -28,7 +39,7 @@
       {% for row in table.page.object_list|default:table.rows %} {# support pagination #}
       {% block table.tbody.row %}
       <tr class="{% cycle 'odd' 'even' %}">
-        <td><input type="checkbox"></td>
+        <td><input value="{{row.record.id}}" form="form-select" class="check" type="checkbox"></td>
         {% for column, cell in row.items %}
         <td {{ column.attrs.td.as_html }}>{{ cell }}</td>
         {% endfor %}

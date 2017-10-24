@@ -7,3 +7,7 @@ class MapView(View):
 
     def get(self, request):
         return render_to_response(self.template_name)
+
+    def post(self, request):
+        dict(request.POST)
+        import pdb; pdb.set_trace()

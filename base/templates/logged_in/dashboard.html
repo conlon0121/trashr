@@ -5,6 +5,7 @@
 {% load render_table from django_tables2 %}
 
 
+
 {% block content %}
 <div id="page-wrapper">
 <div class="row">
@@ -14,155 +15,92 @@
 <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
-<div class="row">
-<div class="col-lg-3 col-md-6">
-  <a href="#">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <div class="row">
+  <div class="row">
+    <div class="col-lg-6 col-md-6">
+      <form id="form-select" method="post" action="{% url 'map' %}">
+        <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
+        <a id="map" href="#">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <div class="row">
                 <div class="col-xs-3">
-                    <i class="fa fa-tasks fa-5x"></i>
+                  <i class="fa fa-tasks fa-5x"></i>
                 </div>
                 <div class="col-xs-9 text-right">
-                    <div class="huge">Graph Selected Dumpsters</div>
+                  <div class="huge">Graph Selected Dumpsters</div>
                 </div>
+              </div>
             </div>
         </div>
-    </div>
-  </a>
-</div>
-<div class="col-lg-3 col-md-6">
-  <a href="#">
-    <div class="panel panel-green">
+      </a>
+    </form>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <a id="map" href="#">
+      <div class="panel panel-green">
         <div class="panel-heading">
-            <div class="row">
-                <div class="col-xs-3">
-                    <i class="fa fa-map-marker fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                    <div class="huge">Map Selected Dumpsters</div>
-                </div>
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-map-marker fa-5x"></i>
             </div>
-        </div>
-    </div>
-  </a>
-</div>
-<div class="col-lg-3 col-md-6">
-    <div class="panel panel-yellow">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-xs-3">
-                    <i class="fa fa-shopping-cart fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                    <div class="huge">124</div>
-                    <div>New Orders!</div>
-                </div>
-            </div>
-        </div>
-        <a href="#">
-            <div class="panel-footer">
-                <span class="pull-left">View Details</span>
-                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                <div class="clearfix"></div>
-            </div>
-        </a>
-    </div>
-</div>
-<div class="col-lg-3 col-md-6">
-    <div class="panel panel-red">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-xs-3">
-                    <i class="fa fa-support fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                    <div class="huge">13</div>
-                    <div>Support Tickets!</div>
-                </div>
-            </div>
-        </div>
-        <a href="#">
-            <div class="panel-footer">
-                <span class="pull-left">View Details</span>
-                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                <div class="clearfix"></div>
-            </div>
-        </a>
-    </div>
-</div>
-</div>
-<!-- /.row -->
-<div class="row">
-<div class="col-lg-12">
-  <div class="col-lg-12">
-      <!-- /.panel-heading -->
-      <div class="panel-body" style="padding-bottom:0px">
-        <form id="table-form" method="post">
-          <div class="col-sm-5" style="padding-left:0px; padding-right:0px">
-            <div class="col-sm-6">
-              {% bootstrap_field form.address %}
+            <div class="col-xs-9 text-right">
+              <div class="huge">Map Selected Dumpsters</div>
               </div>
-              <div class="col-sm-6">
-                {% bootstrap_field form.location %}
-              </div>
-            </div>
-            <div class="col-sm-7" style="padding-left:0px; padding-right:0px">
-              <div class="col-sm-3">
-                {% bootstrap_field form.utility %}
-              </div>
-              <div class="col-sm-4">
-                {% bootstrap_field form.operator %}
-              </div>
-              <div class="col-sm-3">
-                {% bootstrap_field form.percent_fill %}
-              </div>
-              <input style="font-weight:bold; margin-top:25px" type="submit" class="btn btn-primary" value="filter"/>
             </div>
           </div>
-        </form>
-        <div id="table">
-          {% include 'table.html' %}
-        </div>
-      <div id="spinner-div" style="margin:0 auto; width:25%;" id="spinner" class="lds-css ng-scope hide">
-       <div id="spinner" style="width:100%;height:100%" class="lds-eclipse">
-         <div></div>
-        </div>
       </div>
-    </div>
-   </div>
+    </a>
   </div>
-</div>
+  <div id="table">
+    {% include 'table.html' %}
+  </div>
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script>
-// Submit post on submit
-$('#table-form').on('submit', function(event){
-  event.preventDefault();
-    $('#spinner-div').removeClass('hide');
-    $('#spinner-div').css('height', $('#table').css('height'));
-    $('#table').hide();
-    create_post();
-});
-// AJAX for posting
-function create_post() {
-  $.ajax({
-    url : {% url 'filter_table' %}, // the endpoint
-    type : "POST", // http method
-    data : $('#table-form').serializeArray(), // data sent with the post request
-    // handle a successful response
-    success : function(json) {
-      console.log(json); // log the returned json to the console
-      console.log("success"); // another sanity check
-      $('#table').html(json);
-      $('#table').show();
-      $('#spinner-div').addClass('hide');
-    },
-    // handle a non-successful response
-    error : function(xhr,errmsg,err) {
-      $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-      console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+$.fn.dataTable.ext.search.push(
+  function( settings, data, dataIndex ) {
+    var min = parseInt( $('#min').val(), 0 );
+    var max = parseInt( $('#max').val(), 0 );
+    var percent_fill = parseFloat( data[4] ) || 0;
+  
+    if ( ( isNaN( min )          && isNaN( max ) ) ||
+         ( isNaN( min )          && age <= max ) ||
+         ( min <= percent_fill   && isNan( max ) ) ||
+         ( min <= percent_fill   && age <= max ) ) {
+      return true;
     }
+    return false;
+  }
+);
+$(document).ready(function() {
+  var table = $('#dumpster-table').DataTable( {
+    columnDefs: [ {
+      orderable: false,
+      className: 'select-checkbox',
+      targets: 0
+    } ],
+    select: {
+      style: 'multi',
+      selector: 'td:first-child'
+    },
+    order: [[ 1, 'asc' ]]
+  } );
+
+  $('#min, #max').keyup(function() {
+    table.draw();
   });
-}
+
+} );
+
+$('#map').click(function() {
+  var arr = new Array(10)
+  var count = 0;
+  $('.check:checkbox:checked').each(function(){
+    arr[count] = $(this).val();
+    count++;
+  });
+  $('[name=dumpsters]').val(arr);
+  $('#form-select').submit();
+});
 
 </script>
 <style type="text/css">@keyframes lds-eclipse {

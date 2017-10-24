@@ -4,7 +4,7 @@ from django import forms
 class DumpsterFilterForm(forms.Form):
     address = forms.CharField(max_length=50,
                               required=False,
-                              )
+                              ) 
     location = forms.CharField(max_length=50,
                               required=False,
                               )
@@ -24,3 +24,7 @@ class DumpsterFilterForm(forms.Form):
             percent_fill = self.data.get('percent_fill')
             if percent_fill > 100 or percent_fill < 0:
                 raise forms.ValidationError('Please enter a fill percentage between 0 and 100.')
+
+class DumpsterSelectForm(forms.Form):
+    dumpsters = forms.CharField(required=True)
+
