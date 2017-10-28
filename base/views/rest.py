@@ -4,7 +4,6 @@ import math
 
 from datetime import datetime
 from django.utils import timezone
-from django.utils.dateparse import parse_datetime
 
 from base.models import Dumpster, IntervalReading
 from rest_framework import status
@@ -20,13 +19,11 @@ class CreateReading(APIView):
         import pdb; pdb.set_trace()
         # Make the string that was sent into a dictionary
         data = ast.literal_eval(request.data['data'])
-        timestamp = datetime.strptime(data['published_at'], '%Y-%m-%dT%H:%M:%S.%fZ')\
+        timestamp = datetime.strptime(request.data['published_at'], '%Y-%m-%dT%H:%M:%S.%fZ')\
             .replace(tzinfo=timezone.get_current_timezone())
-        data = ast.literal_eval(data['data'])
-        dumpster = Dumpster.objects.filter(id=data['dumpster'])
-        if dumpster.exists():
-            dumpster = dumpster.get()
-        else:
+        try:
+            dumpster = Dumpster.objects.get(id=data['dumpster'])
+        except Dumpster.DoesNotExist:
             dumpster = Dumpster.objects.create(id=data['dumpster'])
         # Find how full the dumpster is based on the raw reading
         readings = data['readings']
@@ -40,8 +37,10 @@ class CreateReading(APIView):
             else:
                 percent_fill = -1
                 adjusted_reading = -1
+            dumpster.percent_fill = percent_fill
+            dumpster.last_updated = timestamp
+            dumpster.save()
             reading = IntervalReading.objects.create(raw_reading=adjusted_reading,
-                                                     percent_fill=percent_fill,
                                                      dumpster=dumpster,
                                                      timestamp=timestamp
                                                      )

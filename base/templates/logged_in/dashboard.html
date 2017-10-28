@@ -63,9 +63,9 @@ $.fn.dataTable.ext.search.push(
     var percent_fill = parseFloat( data[4] ) || 0;
   
     if ( ( isNaN( min )          && isNaN( max ) ) ||
-         ( isNaN( min )          && age <= max ) ||
-         ( min <= percent_fill   && isNan( max ) ) ||
-         ( min <= percent_fill   && age <= max ) ) {
+         ( isNaN( min )          && percent_fill <= max ) ||
+         ( min <= percent_fill   && isNaN( max ) ) ||
+         ( min <= percent_fill   && percent_fill <= max ) ) {
       return true;
     }
     return false;

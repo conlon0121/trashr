@@ -1,10 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from rest_framework.authtoken.models import Token
-from django.conf import settings
+from django.core.cache import cache
 
 
 class Organization(models.Model):
@@ -28,27 +25,11 @@ class Dumpster(models.Model):
     # Whether or not the sensor is sending readings
     functioning = models.BooleanField(default=True)
     utility = models.IntegerField(default=0)
+    percent_fill = models.IntegerField(default=0)
+    last_updated = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return str(self.address)
-
-    @property
-    def last_updated(self):
-        try:
-            return self.intervalreading_set.latest('timestamp').timestamp
-        except Exception as e:
-            print(e)
-            return None
-
-    @property
-    def percent_fill(self):
-        try:
-            reading = IntervalReading.objects.filter(raw_reading__gte=0,
-                                                     dumpster=self).latest('timestamp')
-            return reading.percent_fill
-        except IntervalReading.DoesNotExist:
-            print('no reading')
-            return 0
     
     @property
     def get_utility(self):
@@ -61,7 +42,6 @@ class Dumpster(models.Model):
 
 class IntervalReading(models.Model):
     raw_reading = models.IntegerField(default=0)
-    percent_fill = models.IntegerField()
     dumpster = models.ForeignKey(Dumpster)
     timestamp = models.DateTimeField(auto_now_add=True)
 

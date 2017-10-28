@@ -16,16 +16,10 @@ class TestRest(APITestCase):
         self.client.force_authenticate(user=self.adminuser)
 
     def test_create_reading(self):
-        test_data =  {'event': 'local_test',
-                      'data': '{"data":"{\'dumpster\': 1,'
-                              ' \'readings\': [1, 23, 157],'
-                              ' \'reading_attempts\': 1}",'
-                              '"ttl":60,'
-                              '"published_at":"2017-10-28T17:07:35.057Z",'
-                              '"coreid":"36005a000551353431383736",'
-                              '"name":"production"}',
-                      'published_at': '2017-10-28T18:22:29.751Z',
-                      'coreid': 'api'}
+        test_data = {'event': ['local_test'],
+                     'data': "{'dumpster': 1, 'readings': [-1, 154, 154]}",
+                     'published_at': '2017-10-28T20:02:43.525Z',
+                     'coreid': ['api']}
         self.client.post(reverse('create'), data=test_data, format='json')
         self.assertEqual(3, IntervalReading.objects.count())
         self.assertEqual(1, IntervalReading.objects.first().dumpster.id)
