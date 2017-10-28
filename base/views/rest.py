@@ -16,7 +16,6 @@ class CreateReading(APIView):
     queryset = IntervalReading.objects.all()
 
     def post(self, request, format=None):
-        import pdb; pdb.set_trace()
         # Make the string that was sent into a dictionary
         data = ast.literal_eval(request.data['data'])
         timestamp = datetime.strptime(request.data['published_at'], '%Y-%m-%dT%H:%M:%S.%fZ')\
