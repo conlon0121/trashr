@@ -9,13 +9,21 @@ class DumpsterTable(Table):
     util = Column(accessor='get_utility', verbose_name='Utility')
     container_type = Column(accessor='container_type', verbose_name='Type')
     fill_percentage = TemplateColumn(
-            '{% if not record.percent_fill %}<p style="color:green">0%</p>{% elif record.percent_fill < 30 %}<p style="color:green">{{record.percent_fill}}%</p>{% elif record.percent_fill > 50 %}<p style="color:yellow"></p>{% else %}<p style="color:red"></p>{% endif %}',
-            accessor='percent_fill',
+          '{% if not fill %}<p style="color:green">0%</p>'
+          '{% elif fill < 30 %}'
+            '<p style="color:green">{{fill}}%</p>'
+          '{% elif fill > 50 %}'
+            '<p style="color:red">{{fill}}%</p>'
+          '{% else %}'
+            '<p style="color:yellow">{{fill}}%</p>'
+          '{% endif %}',
+            accessor='fill',
             verbose_name='% Fill'
             )
 
     class Meta:
         model = Dumpster
         sequence = ('address', 'util', 'date', 'fill_percentage')
-        exclude = ('utility', 'container_type', 'id', 'org', 'location', 'rfid', 'capacity', 'capacity_units', 'latitude', 'longitude', 'functioning')
+        exclude = ('utility', 'container_type', 'id', 'org', 'location', 'rfid', 'capacity',
+                   'capacity_units', 'latitude', 'longitude', 'functioning')
         template = 'table.html'

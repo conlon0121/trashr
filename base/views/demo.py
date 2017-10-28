@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import View
-from base.models import Dumpster, IntervalReading, IntervalSet
+from base.models import Dumpster, IntervalReading
 
 
 class DemoView(View):
@@ -19,16 +19,11 @@ class DemoView(View):
         done = False
         # Try at most 5 times to get a good reading
         try:
-            for int_set in IntervalSet.objects.filter(dumpster__id=1).order_by('-timestamp'):
-                timestamp = timezone.localtime(int_set.timestamp)
-                try:
-                    reading = int_set.intervalreading_set.get(angle=18)
-                    percent_fill = int(reading.percent_fill) - (int(reading.percent_fill) % 5)
-                    break
-                except IntervalReading.DoesNotExist:
-                    continue
-        except IntervalSet.DoesNotExist:
+            reading = IntervalReading.objects.filter(raw_reading__gte=0).latest('timestamp')
+            percent_fill = reading.percent_fill
+            timestamp = reading.timestamp
+        except IntervalReading.DoesNotExist:
             percent_fill = 0
             timestamp = None
-        return render(request, self.template_name, {'percent_fill': percent_fill, 'greeting': greeting, 'timestamp': timestamp})
+        return render(request, self.template_name, {'percent_fill': fill, 'greeting': greeting, 'timestamp': timestamp})
 

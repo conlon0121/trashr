@@ -1,4 +1,5 @@
 from base.views import *
+from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
@@ -19,3 +20,7 @@ urlpatterns = [
     url(r'^demo/$', DemoView.as_view(), name='demo'),
     url(r'^map/', MapView.as_view(), name='map'),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]

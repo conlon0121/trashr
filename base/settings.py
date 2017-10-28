@@ -21,6 +21,7 @@ SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = ['*']
+INTERNAL_IPS = ('127.0.0.1', os.environ.get('EXTRA_INTERNAL_IP', '127.0.0.1'))
 
 LOGIN_REDIRECT_URL = 'logged_in/homepage.html'
 
@@ -32,7 +33,7 @@ LOGIN_REDIRECT_URL = 'logged_in/homepage.html'
 SECRET_KEY = '7$=2mr+@mdh_ry9y$h_*x79oh&3%p)(!-xx*5wmle)d-h(vzmy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', True)
 
 # Application definition
 
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'django_tables2',
     'django_extensions',
+    'debug_toolbar',
 ]
 
 # TODO: Send csrf tokens to get request
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 REST_FRAMEWORK = {

@@ -35,20 +35,20 @@ class Dumpster(models.Model):
     @property
     def last_updated(self):
         try:
-            return self.intervalset_set.latest('timestamp').timestamp
+            return self.intervalreading_set.latest('timestamp').timestamp
         except Exception as e:
             print(e)
             return None
 
     @property
     def percent_fill(self):
-        for int_set in self.intervalset_set.order_by('-timestamp'):
-            try:
-                reading = int_set.intervalreading_set.get(angle=18)
-                return int(reading.percent_fill) - (int(reading.percent_fill) % 5)
-            except IntervalReading.DoesNotExist:
-                continue
-        return 0
+        try:
+            reading = IntervalReading.objects.filter(raw_reading__gte=0,
+                                                     dumpster=self).latest('timestamp')
+            return reading.percent_fill
+        except IntervalReading.DoesNotExist:
+            print('no reading')
+            return 0
     
     @property
     def get_utility(self):
@@ -58,23 +58,15 @@ class Dumpster(models.Model):
                 '2': 'Compost'
                 }[str(self.utility)]
 
-class IntervalSet(models.Model):
-    timestamp = models.DateTimeField(default=timezone.now)
-    dumpster = models.ForeignKey(Dumpster)
-
-
-    def __str__(self):
-        return str(self.timestamp)
-
 
 class IntervalReading(models.Model):
-    angle = models.IntegerField(default=0)
     raw_reading = models.IntegerField(default=0)
-    percent_fill = models.DecimalField(default=0, max_digits=5, decimal_places=2)
-    interval_set = models.ForeignKey(IntervalSet)
+    percent_fill = models.IntegerField()
+    dumpster = models.ForeignKey(Dumpster)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.angle)
+        return str(self.timestamp) + ' ' + str(self.dumpster) + ' ' + str(self.percent_fill)
 
 
 class UniEvent(models.Model):

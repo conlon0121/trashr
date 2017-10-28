@@ -10,4 +10,3 @@ class MapView(View):
 
     def post(self, request):
         dict(request.POST)
-        import pdb; pdb.set_trace()

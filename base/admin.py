@@ -1,21 +1,11 @@
 from dal import autocomplete
 from django.contrib import admin
 from django_admin_bootstrapped.admin.models import SortableInline
-from base.models import IntervalReading, IntervalSet, Dumpster, Organization
+from base.models import IntervalReading, Dumpster, Organization
 
 
 class IntervalReadingAdmin(admin.ModelAdmin):
-    pass
-
-
-class IntervalReadingInline(admin.TabularInline):
-    model = IntervalReading
-    extra = 0
-
-
-class IntervalSetAdmin(admin.ModelAdmin):
-    list_display = ('timestamp',)
-    inlines = [IntervalReadingInline]
+    list_display = ('timestamp', 'raw_reading')
 
 
 class DumpsterAdmin(admin.ModelAdmin):
@@ -28,4 +18,3 @@ class OrganizationAdmin(admin.ModelAdmin):
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(IntervalReading, IntervalReadingAdmin)
 admin.site.register(Dumpster, DumpsterAdmin)
-admin.site.register(IntervalSet, IntervalSetAdmin)

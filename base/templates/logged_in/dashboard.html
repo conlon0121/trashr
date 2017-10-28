@@ -51,7 +51,7 @@
       </div>
     </a>
   </div>
-  <div id="table">
+  <div id="table" class="col-md-12" style="visibility:hidden">
     {% include 'table.html' %}
   </div>
 <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -89,6 +89,7 @@ $(document).ready(function() {
     table.draw();
   });
 
+  $('#table').css('visibility', 'visible');
 } );
 
 $('#map').click(function() {

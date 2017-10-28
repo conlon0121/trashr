@@ -1,14 +1,9 @@
-import requests
-import os
-
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.shortcuts import reverse
 
 from rest_framework.test import APITestCase
 
-from base.views import CreateReading
-from base.models import IntervalReading, Dumpster, Organization, IntervalSet
+from base.models import IntervalReading, Dumpster, Organization
 
 
 class TestRest(APITestCase):
@@ -21,13 +16,17 @@ class TestRest(APITestCase):
         self.client.force_authenticate(user=self.adminuser)
 
     def test_create_reading(self):
-        test_data = {'data' : "{'dumpster': 1,'readings': [(34, 50), (52, 60), (72, 70)]}",'ttl':60,
-        "published_at":"2017-09-16T17:56:11.458Z","coreid":"api","name":"local_test"}
+        test_data =  {'event': 'local_test',
+                      'data': '{"data":"{\'dumpster\': 1,'
+                              ' \'readings\': [1, 23, 157],'
+                              ' \'reading_attempts\': 1}",'
+                              '"ttl":60,'
+                              '"published_at":"2017-10-28T17:07:35.057Z",'
+                              '"coreid":"36005a000551353431383736",'
+                              '"name":"production"}',
+                      'published_at': '2017-10-28T18:22:29.751Z',
+                      'coreid': 'api'}
         self.client.post(reverse('create'), data=test_data, format='json')
         self.assertEqual(3, IntervalReading.objects.count())
-        self.assertEqual(1, IntervalSet.objects.count())
-        int_set = IntervalSet.objects.first()
-        reading = int_set.intervalreading_set.get(angle=18)
-        self.assertAlmostEqual(40, int(reading.percent_fill))
-        self.assertEqual(1, int_set.dumpster.id)
+        self.assertEqual(1, IntervalReading.objects.first().dumpster.id)
 
