@@ -4,58 +4,61 @@
 {{ form.media }}
 {% load render_table from django_tables2 %}
 
-
-
 {% block content %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/r-2.2.0/datatables.min.css"/>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/r-2.2.0/datatables.min.js"></script>
+
+
 <div id="page-wrapper">
-<div class="row">
-<div class="col-lg-12">
-    <h1 class="page-header">Dashboard</h1>
-</div>
-<!-- /.col-lg-12 -->
-</div>
-<!-- /.row -->
-  <div class="row">
-    <div class="col-lg-6 col-md-6">
-      <form id="form-select" method="post" action="{% url 'map' %}">
-        <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
-        <a id="map" href="#">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-xs-3">
-                  <i class="fa fa-tasks fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                  <div class="huge">Graph Selected Dumpsters</div>
-                </div>
-              </div>
-            </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Dashboard</h1>
         </div>
-      </a>
-    </form>
-  </div>
-  <div class="col-lg-6 col-md-6">
-    <a id="map" href="#">
-      <div class="panel panel-green">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-3">
-              <i class="fa fa-map-marker fa-5x"></i>
-            </div>
-            <div class="col-xs-9 text-right">
-              <div class="huge">Map Selected Dumpsters</div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </a>
-  </div>
-  <div id="table" class="col-md-12" style="visibility:hidden">
-    {% include 'table.html' %}
-  </div>
-<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <form id="form-select" method="post" action="{% url 'map' %}">
+                <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
+                <a id="graph" href="#">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Graph Selected Dumpsters</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </form>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <a id="map" href="#">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-map-marker fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">Map Selected Dumpsters</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div id="table" class="col-md-12" style="visibility:hidden">
+            {% include 'table.html' %}
+        </div>
+        <script>
 $.fn.dataTable.ext.search.push(
   function( settings, data, dataIndex ) {
     var min = parseInt( $('#min').val(), 0 );
@@ -73,6 +76,7 @@ $.fn.dataTable.ext.search.push(
 );
 $(document).ready(function() {
   var table = $('#dumpster-table').DataTable( {
+    responsive: true,
     columnDefs: [ {
       orderable: false,
       className: 'select-checkbox',
@@ -82,7 +86,7 @@ $(document).ready(function() {
       style: 'multi',
       selector: 'td:first-child'
     },
-    order: [[ 1, 'asc' ]]
+    order: [[ 4, 'desc' ]]
   } );
 
   $('#min, #max').keyup(function() {
@@ -104,7 +108,7 @@ $('#map').click(function() {
 });
 
 </script>
-<style type="text/css">@keyframes lds-eclipse {
+        <style type="text/css">@keyframes lds-eclipse {
   0% {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
@@ -158,5 +162,5 @@ $('#map').click(function() {
   display: none;
 }
 </style>
-{% endblock %}
+        {% endblock %}
 
