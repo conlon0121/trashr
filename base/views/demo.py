@@ -25,5 +25,5 @@ class DemoView(View):
         except IntervalReading.DoesNotExist:
             percent_fill = 0
             timestamp = None
-        return render(request, self.template_name, {'percent_fill': fill, 'greeting': greeting, 'timestamp': timestamp})
+        return render(request, self.template_name, {'percent_fill': percent_fill, 'greeting': greeting, 'timestamp': timestamp})
 

@@ -23,7 +23,6 @@
     {% block table.thead %}
     <thead>
       <tr>
-        <th width="9%"><button class="btn-default">Select All</button></th>
         {% for column in table.columns %}
         <th {{ column.attrs.th.as_html }}>{{ column.header }}</th>
         {% endfor %}
@@ -34,8 +33,7 @@
     <tbody>
       {% for row in table.rows %}
       {% block table.tbody.row %}
-      <tr class="{% cycle 'odd' 'even' %}">
-        <td><input value="{{row.record.id}}" form="form-select" class="check" type="checkbox"></td>
+      <tr value="{{row.record.id}}" class="{% cycle 'odd' 'even' %}">
         {% for column, cell in row.items %}
         <td {{ column.attrs.td.as_html }}>{{ cell }}</td>
         {% endfor %}

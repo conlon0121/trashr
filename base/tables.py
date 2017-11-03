@@ -16,7 +16,7 @@ class DumpsterTable(Table):
           '{% elif fill > 50 %}'
             '<p style="color:red">{{fill}}%</p>'
           '{% else %}'
-            '<p style="color:yellow">{{fill}}%</p>'
+            '<p style="color:#FFA500">{{fill}}%</p>'
           '{% endif %}'
         '{% endwith %}',
             accessor='percent_fill',
