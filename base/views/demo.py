@@ -19,11 +19,15 @@ class DemoView(View):
         done = False
         # Try at most 5 times to get a good reading
         try:
-            reading = IntervalReading.objects.filter(raw_reading__gte=0).latest('timestamp')
-            percent_fill = reading.percent_fill
-            timestamp = reading.timestamp
-        except IntervalReading.DoesNotExist:
+            dumpster = Dumpster.objects.get(id=1)
+            percent_fill = dumpster.percent_fill
+            timestamp = IntervalReading.objects.filter(dumpster=dumpster).latest('timestamp').timestamp
+
+        except Dumpster.DoesNotExist:
             percent_fill = 0
+        except IntervalReading.DoesNotExist:
+            timestamp = None
+
             timestamp = None
         return render(request, self.template_name, {'percent_fill': percent_fill, 'greeting': greeting, 'timestamp': timestamp})
 
