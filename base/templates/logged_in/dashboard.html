@@ -10,8 +10,8 @@
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/af-2.2.2/b-1.4.2/r-2.2.0/sc-1.4.3/sl-1.2.3/datatables.min.js"></script>
 
- <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
 
 
 <div id="page-wrapper">
@@ -69,53 +69,33 @@
     </div>
 </div>
 <script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoidHJhc2hyIiwiYSI6ImNqOHJ3MDBzZjAyZTgzNG1yNHpmZDl3Y2sifQ.q574EBc3GMSMHBH2sPGM6w';
-  var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/streets-v9',
-    zoom: 13.7,
-    center: [-78.681,35.781]
-});
+  L.mapbox.accessToken = 'pk.eyJ1IjoidHJhc2hyIiwiYSI6ImNqOHJ3MDBzZjAyZTgzNG1yNHpmZDl3Y2sifQ.q574EBc3GMSMHBH2sPGM6w';
+  var map = new L.mapbox.Map('map', 'mapbox.streets').setView([35.781,-78.681], 13.5)
+
+var myLayer = L.mapbox.featureLayer().addTo(map);
+
+myLayer.setGeoJSON({{layer|safe}});
 
 map.on('load', function () {
-    // Add a layer showing the places.
-    map.addLayer({{layer|safe}});
 
     // When a click event occurs on a feature in the places layer, open a popup at the
     // location of the feature, with description HTML from its properties.
-    map.on('click', 'places', function (e) {
+    map.on('click', 'dumpsters', function (e) {
         new mapboxgl.Popup()
             .setLngLat(e.features[0].geometry.coordinates)
             .setHTML(e.features[0].properties.description)
             .addTo(map);
     });
-});
     // Change the cursor to a pointer when the mouse is over the places layer.
-    map.on('mouseenter', 'places', function () {
+    map.on('mouseenter', 'dumpsters', function () {
         map.getCanvas().style.cursor = 'pointer';
     });
 
     // Change it back to a pointer when it leaves.
-    map.on('mouseleave', 'places', function () {
+    map.on('mouseleave', 'dumpsters', function () {
         map.getCanvas().style.cursor = '';
     });
-  <!--map.on('click', function(e) {-->
-    <!--var features = map.queryRenderedFeatures(e.point, {-->
-      <!--layers: ['{{layer|safe}}'] // replace this with the name of the layer-->
-    <!--});-->
-
-    <!--if (!features.length) {-->
-      <!--return;-->
-    <!--}-->
-
-    <!--var feature = features[0];-->
-
-    <!--var popup = new mapboxgl.Popup({ offset: [0, -15] })-->
-    <!--.setLngLat(feature.geometry.coordinates)-->
-    <!--.setHTML('<h3>' + feature.properties.title + '</h3><p>' + feature.properties.description + '</p>')-->
-    <!--.setLngLat(feature.geometry.coordinates)-->
-    <!--.addTo(map);-->
-    <!--})-->
+});
 </script>
 <script>
 $.fn.dataTable.ext.search.push(
@@ -241,6 +221,10 @@ $('#send-to-map').click(function() {
 }
 .hide {
   display: none;
+}
+.leaflet-marker-icon {
+  height: 40px; !important
+  width:15px; !important
 }
 #map {
 position: relative; !important

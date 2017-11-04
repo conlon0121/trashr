@@ -16,36 +16,29 @@ class DashboardView(View):
         dumpsters = Dumpster.objects.all()
         features = []
         for dumpster in dumpsters:
+            fill = dumpster.percent_fill
+            if fill < 30:
+                color = "#00a600"
+            elif fill > 50:
+                color = "#ec0000"
+            else:
+                color = "#eca01e"
             features.append({
-                "type": "Point",
+                "type": "Feature",
                 "properties": {
-                    "description": float(dumpster.percent_fill),
-                    "icon": "theatre"
+                    "description": str(dumpster.percent_fill),
+                    "marker-color": color,
+                    "marker-size": "small"
                 },
                 "geometry": {
-                    "type": "point",
+                    "type": "Point",
                     "coordinates": [float(dumpster.longitude), float(dumpster.latitude)]
                 }
             })
-        layer = {
-            "id": "dumpsters",
-            "type": "symbol",
-            "source": {
-                "type": "geojson",
-                "data": {
-                    "type": "FeatureCollection",
-                    "features": features
-                }
-            },
-            "layout": {
-                "icon-image": "{icon}-15",
-                "icon-allow-overlap": True
-            }
-        }
         table = DumpsterTable(dumpsters)
         form_filter = self.form_class_filter()
         form_select = self.form_class_select()
         return render(request, self.template_name, {'table': table,
                                                     'form_filter': form_filter,
                                                     'form_select': form_select,
-                                                    'layer': json.dumps(layer)})
+                                                    'layer': json.dumps(features)})
