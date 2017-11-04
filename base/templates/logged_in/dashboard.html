@@ -48,10 +48,10 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-map-marker fa-5x"></i>
+                                <i class="fa fa-road fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">Map Selected Dumpsters</div>
+                                <div class="huge">Route Selected Dumpsters</div>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
 </div>
 <script>
   L.mapbox.accessToken = 'pk.eyJ1IjoidHJhc2hyIiwiYSI6ImNqOHJ3MDBzZjAyZTgzNG1yNHpmZDl3Y2sifQ.q574EBc3GMSMHBH2sPGM6w';
-  var map = new L.mapbox.Map('map', 'mapbox.streets').setView([35.781,-78.681], 13.5)
+  var map = new L.mapbox.Map('map', 'mapbox.streets').setView([{{lat}},{{long}}], 14)
 
 var myLayer = L.mapbox.featureLayer().addTo(map);
 
@@ -78,13 +78,16 @@ myLayer.setGeoJSON({{layer|safe}});
 
 map.on('load', function () {
 
-    // When a click event occurs on a feature in the places layer, open a popup at the
+    // When a click event occurs on a feature in the dumpsters layer, open a popup at the
     // location of the feature, with description HTML from its properties.
     map.on('click', 'dumpsters', function (e) {
         new mapboxgl.Popup()
             .setLngLat(e.features[0].geometry.coordinates)
             .setHTML(e.features[0].properties.description)
             .addTo(map);
+    });
+    map.on("mousemove", "state-fills", function(e) {
+        map.setFilter("state-fills-hover", ["==", "name", e.features[0].properties.name]);
     });
     // Change the cursor to a pointer when the mouse is over the places layer.
     map.on('mouseenter', 'dumpsters', function () {
