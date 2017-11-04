@@ -46,7 +46,7 @@ class IntervalReading(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.timestamp) + ' ' + str(self.dumpster) + ' ' + str(self.percent_fill)
+        return str(self.timestamp) + ' ' + str(self.dumpster)
 
 
 class UniEvent(models.Model):

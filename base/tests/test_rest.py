@@ -20,6 +20,13 @@ class TestRest(APITestCase):
                      'data': "{'dumpster': 1, 'readings': [-1, 154, 154]}",
                      'published_at': '2017-10-28T20:02:43.525Z',
                      'coreid': ['api']}
+        test_data = {
+            "name": "production",
+            "data": "{'dumpster': 1, 'readings': [177, 178, 178], 'reading_attempts': 4}",
+            "ttl": 60,
+            "published_at": "2017-11-04T03:58:40.379Z",
+            "coreid": "36005a000551353431383736"
+        }
         self.client.post(reverse('create'), data=test_data, format='json')
         self.assertEqual(3, IntervalReading.objects.count())
         self.assertEqual(1, IntervalReading.objects.first().dumpster.id)

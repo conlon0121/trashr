@@ -26,6 +26,7 @@ class CreateReading(APIView):
             dumpster = Dumpster.objects.create(id=data['dumpster'])
         # Find how full the dumpster is based on the raw reading
         readings = data['readings']
+        import pdb; pdb.set_trace()
         for reading in readings:
             if reading > 0:
                 adjusted_reading = reading * math.cos(math.radians(30))

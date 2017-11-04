@@ -24,7 +24,7 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-6 col-md-6">
-            <form id="form-select" method="post" action="{% url 'map' %}">
+            <form id="form-select" method="post" action="{% url 'graph' %}">
                 <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
                 <a id="graph" href="#">
                     <div class="panel panel-primary">
@@ -43,7 +43,7 @@
             </form>
         </div>
         <div class="col-lg-6 col-md-6">
-            <a id="send-to-map" href="#">
+            <a id="make-route" href="#">
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         <div class="row">
@@ -103,6 +103,8 @@ map.on('load', function () {
 <script>
 $.fn.dataTable.ext.search.push(
   function( settings, data, dataIndex ) {
+    $('#min').css('margin-bottom', '10px')
+    $('#max').css('margin-bottom', '10px')
     var min = parseInt( $('#min').val(), 0 );
     var max = parseInt( $('#max').val(), 0 );
     var percent_fill = parseFloat( data[3] ) || 0;
@@ -155,20 +157,36 @@ $(document).ready(function() {
     table.draw();
   });
 
+  $('#graph').click(function() {
+    var arr = new Array(1000)
+    var count = 0;
+    $.map(table.rows('.selected').data(), function (item) {
+      arr[count] = $(this).val();
+      count++;
+    });
+    $('[name=dumpsters]').val(arr);
+    $('#form-select').submit();
+  });
+
+  $('#make-route').click(function () {
+    var arr = '['
+    var count = 0;
+    $.map(table.rows('.selected').data(), function (item) {
+      arr += $(this).val() + ','
+      count++;
+    });
+    arr += ']'
+    $.ajax({
+      url: "get_route_data",
+      data: arr,
+      success: function(result){
+        $("#map").html(result);
+    }});
+  });
+
   $('#table').css('visibility', 'visible');
   $('#map').css('height', $('#table').css('height'));
 } );
-
-$('#send-to-map').click(function() {
-  var arr = new Array(10)
-  var count = 0;
-  $('.check:checkbox:checked').each(function(){
-    arr[count] = $(this).val();
-    count++;
-  });
-  $('[name=dumpsters]').val(arr);
-  $('#form-select').submit();
-});
 
 </script>
 <style type="text/css">

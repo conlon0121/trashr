@@ -3,10 +3,6 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.models import User
-from django.shortcuts import reverse
-from django.views.generic.base import RedirectView
-from rest_framework import routers, serializers, viewsets
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -18,7 +14,8 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^dashboard/$', DashboardView.as_view(), name='dashboard'),
     url(r'^demo/$', DemoView.as_view(), name='demo'),
-    url(r'^map/', MapView.as_view(), name='map'),
+    url(r'^graph/', GraphView.as_view(), name='graph'),
+    url(r'^route/', RouteMaker.as_view(), name='route'),
 ]
 
 if settings.DEBUG:
