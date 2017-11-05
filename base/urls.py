@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^dashboard/$', DashboardView.as_view(), name='dashboard'),
     url(r'^demo/$', DemoView.as_view(), name='demo'),
     url(r'^graph/', GraphView.as_view(), name='graph'),
-    url(r'^route/', RouteMaker.as_view(), name='route'),
+    url(r'^route/', RouteView.as_view(), name='route'),
 ]
 
 if settings.DEBUG:

@@ -2,14 +2,13 @@ import json
 
 from django.shortcuts import render
 from django.views.generic import View
-from base.forms import DumpsterFilterForm, DumpsterSelectForm
+from base.forms import DumpsterSelectForm
 from base.tables import DumpsterTable
 from base.models import Dumpster
 
 
 class DashboardView(View):
     template_name = "logged_in/dashboard.html"
-    form_class_filter = DumpsterFilterForm
     form_class_select = DumpsterSelectForm
 
     def get(self, request):
@@ -33,8 +32,7 @@ class DashboardView(View):
                 "type": "Feature",
                 "properties": {
                     "description": f'{dumpster.address}<br/>'
-                                   f'<center>{str(dumpster.percent_fill)}% full</center>'
-                                   f'<button id={str(dumpster.id)}>select in table</button>',
+                                   f'<center>{str(dumpster.percent_fill)}% full</center>',
                     "marker-color": color,
                     "marker-size": "small",
                     "marker-symbol": f'{str(dumpster.percent_fill)}'
@@ -50,17 +48,9 @@ class DashboardView(View):
         except ZeroDivisionError:
             pass
         table = DumpsterTable(dumpsters)
-        form_filter = self.form_class_filter()
         form_select = self.form_class_select()
         return render(request, self.template_name, {'table': table,
-                                                    'form_filter': form_filter,
                                                     'form_select': form_select,
                                                     'lat': lat,
                                                     'long': long,
                                                     'layer': json.dumps(features)})
-
-class RouteMaker(View):
-
-    def post(self, request):
-        import pdb; pdb.set_trace()
-        data = request.POST

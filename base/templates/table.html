@@ -23,9 +23,11 @@
     {% block table.thead %}
     <thead>
       <tr>
+        <th style="width:1%"></th>
         {% for column in table.columns %}
         <th {{ column.attrs.th.as_html }}>{{ column.header }}</th>
         {% endfor %}
+
       </tr>
     </thead>
     {% endblock table.thead %}
@@ -33,7 +35,8 @@
     <tbody>
       {% for row in table.rows %}
       {% block table.tbody.row %}
-      <tr value="{{row.record.id}}" class="{% cycle 'odd' 'even' %}">
+      <tr class="{% cycle 'odd' 'even' %}">
+                <td style="display:none">{{row.record.id}}</td>
         {% for column, cell in row.items %}
         <td {{ column.attrs.td.as_html }}>{{ cell }}</td>
         {% endfor %}

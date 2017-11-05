@@ -24,8 +24,8 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-6 col-md-6">
-            <form id="form-graph" method="post" action="{% url 'graph' %}">
-                <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
+            <!--<form id="form-graph" method="post" action="{% url 'graph' %}">-->
+                <!--<div class="hide">{% bootstrap_field form_select.dumpsters %}</div>-->
                 <a id="graph" href="#">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -40,11 +40,11 @@
                         </div>
                     </div>
                 </a>
-            </form>
+            <!--</form>-->
         </div>
         <div class="col-lg-6 col-md-6">
-            <form id="form-route" method="post" action="{% url 'route' %}">
-                <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
+            <!--<form id="form-route" method="post" action="{% url 'route' %}">-->
+                <!--<div class="hide">{% bootstrap_field form_select.dumpsters %}</div>-->
                 <a id="make-route" href="#">
                     <div class="panel panel-green">
                         <div class="panel-heading">
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </a>
-            </form>
+            <!--</form>-->
         </div>
     </div>
     <div class="row">
@@ -157,32 +157,6 @@ $(document).ready(function() {
         }
     },
   } );
-  $('#min, #max').keyup(function() {
-    table.draw();
-  });
-
-  $('#graph').click(function() {
-    $('[name=dumpsters]').val(makeArray());
-    $('#form-graph').submit();
-  });
-
-  $('#make-route').click(function() {
-    $('[name=dumpsters]').val(makeArray());
-    $('#form-route').submit();
-  });
-
-  function makeArray() {
-    var arr = '['
-    var rows = table.rows('.selected')
-    var count = rows.count()
-    var data = rows.data()
-    for (i = 0; i < count; i++) {
-        var row = data[i][0]
-        arr += row + ','
-    }
-    arr += ']'
-    return arr
-  }
 
   $('#table').css('visibility', 'visible');
   $('#map').css('height', $('#table').css('height'));
