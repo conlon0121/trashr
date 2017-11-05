@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^demo/$', DemoView.as_view(), name='demo'),
     url(r'^graph/', GraphView.as_view(), name='graph'),
     url(r'^route/', RouteView.as_view(), name='route'),
+    url(r'^preferences/', PreferencesView.as_view(), name='preferences'),
 ]
 
 if settings.DEBUG:
