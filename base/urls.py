@@ -19,6 +19,8 @@ urlpatterns = [
     url(r'^dashboard/$', DashboardView.as_view(), name='dashboard'),
     url(r'^demo/$', DemoView.as_view(), name='demo'),
     url(r'^map/', MapView.as_view(), name='map'),
+    url(r'^preferences/', PreferencesView.as_view(), name='preferences'),
+    
 ]
 
 if settings.DEBUG:
