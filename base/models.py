@@ -59,3 +59,10 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=100, default='')
     user = models.ForeignKey(User)
     org = models.ForeignKey(Organization)
+
+
+class Route(models.Model):
+    driver = models.ForeignKey(User, null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    time_estimate = models.IntegerField()
+    number_of_dumpsters = models.IntegerField()

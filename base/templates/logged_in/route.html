@@ -21,50 +21,9 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    <!-- /.row -->
-    <div class="row">
-        <div class="col-lg-6 col-md-6">
-            <!--<form id="form-graph" method="post" action="{% url 'graph' %}">-->
-                <!--<div class="hide">{% bootstrap_field form_select.dumpsters %}</div>-->
-                <a id="graph" href="#">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-area-chart fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">Graph Selected Dumpsters</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            <!--</form>-->
-        </div>
-        <div class="col-lg-6 col-md-6">
-            <!--<form id="form-route" method="post" action="{% url 'route' %}">-->
-                <!--<div class="hide">{% bootstrap_field form_select.dumpsters %}</div>-->
-                <a id="make-route" href="#">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-road fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">Route Selected Dumpsters</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            <!--</form>-->
-        </div>
-    </div>
     <div class="row">
         <div id="table" class="col-md-6" style="visibility:hidden">
-            {% include 'table.html' %}
+            {% include 'route_table.html' %}
         </div>
         <div class="col-md-6">
             <div id='map' style='width: 100%; height: 100%;'></div>
@@ -104,58 +63,18 @@ map.on('load', function () {
 });
 </script>
 <script>
-$.fn.dataTable.ext.search.push(
-  function( settings, data, dataIndex ) {
-    $('#min').css('margin-bottom', '10px')
-    $('#max').css('margin-bottom', '10px')
-    var min = parseInt( $('#min').val(), 0 );
-    var max = parseInt( $('#max').val(), 0 );
-    var percent_fill = parseFloat( data[3] ) || 0;
-  
-    if ( ( isNaN( min )          && isNaN( max ) ) ||
-         ( isNaN( min )          && percent_fill <= max ) ||
-         ( min <= percent_fill   && isNaN( max ) ) ||
-         ( min <= percent_fill   && percent_fill <= max ) ) {
-      return true;
-    }
-    return false;
-  }
-);
 $(document).ready(function() {
   var table = $('#dumpster-table').DataTable( {
     responsive:     true,
     columnDefs: [
+     { targets: 4, sortable: false },
      { targets: 0, visible: false, searchable: false },
-     { responsivePriority: 1, targets: 1 },
+     { responsivePriority: 2, targets: 1 },
      { responsivePriority: 1, targets: -1 },
      { responsivePriority: 3, targets: 3 },
      {
     } ],
-    select: {
-      style: 'multi',
-    },
-    order: [[ 4, 'desc' ]],
-    dom: 'Bfrtip',
-    buttons: [
-        {
-            extend: 'selectAll',
-            className: 'selectall',
-            action : function(e) {
-                e.preventDefault();
-                table.rows({ page: 'all'}).nodes().each(function() {
-                    $(this).removeClass('selected')
-                })
-                table.rows({ search: 'applied'}).select();
-            }
-        },
-        'selectNone',
-    ],
-    language: {
-        buttons: {
-            selectAll: "Select all",
-            selectNone: "Select none"
-        }
-    },
+    select: true,
   } );
 
   $('#table').css('visibility', 'visible');
@@ -165,62 +84,8 @@ $(document).ready(function() {
 
 </script>
 <style type="text/css">
-@keyframes lds-eclipse {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes lds-eclipse {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-.lds-eclipse {
-  position: relative;
-}
-.lds-eclipse div {
-  position: absolute;
-  -webkit-animation: lds-eclipse 1s linear infinite;
-  animation: lds-eclipse 1s linear infinite;
-  width: 160px;
-  height: 160px;
-  top: 20px;
-  left: 20px;
-  border-radius: 50%;
-  box-shadow: 0 4px 0 0 #2f98bb;
-  -webkit-transform-origin: 80px 82px;
-  transform-origin: 80px 82px;
-}
-.lds-eclipse {
-  width: 200px !important;
-  height: 200px !important;
-  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
-  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
-}
 .hide {
   display: none;
-}
-.leaflet-marker-icon {
-  height: 40px; !important
-  width:15px; !important
 }
 #map {
 position: relative; !important
