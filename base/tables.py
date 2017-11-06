@@ -1,5 +1,7 @@
-from django_tables2 import Table, Column, DateTimeColumn, TemplateColumn, CheckBoxColumn
-from base.models import Dumpster
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django_tables2 import Table, Column, DateTimeColumn, TemplateColumn
+from base.models import Dumpster, Route
 
 
 class DumpsterTable(Table):
@@ -29,3 +31,18 @@ class DumpsterTable(Table):
         exclude = ('utility', 'container_type', 'id', 'org', 'location', 'rfid', 'capacity',
                    'capacity_units', 'latitude', 'longitude', 'functioning', 'percent_fill', 'last_updated')
         template = 'table.html'
+
+class DeleteColumn(Column):
+    empty_values = list()
+    def render(self, value, record):
+        return mark_safe('<button id="%s" class="btn btn-danger">Delete Route</button>' % escape(record.id))
+
+
+class RouteTable(Table):
+    delete = DeleteColumn()
+
+    class Meta:
+        model = Route
+        sequence = ('number_of_dumpsters', 'time_estimate', 'driver', 'delete')
+        exclude = ('date', 'id',)
+        template = 'route_table.html'
