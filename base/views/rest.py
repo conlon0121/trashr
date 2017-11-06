@@ -18,7 +18,7 @@ class CreateReading(APIView):
     def post(self, request, format=None):
         # Make the string that was sent into a dictionary
         data = ast.literal_eval(request.data['data'])
-        timestamp = datetime.strptime(request.data['published_at'], '%Y-%m-%dT%H:%M:%S.%fZ')\
+        timestamp = datetime.strptime(request.data['published_at'], '%Y-%m-%dT%H:%M:%S.%fZ') \
             .replace(tzinfo=timezone.get_current_timezone())
         try:
             dumpster = Dumpster.objects.get(id=data['dumpster'])
@@ -39,9 +39,9 @@ class CreateReading(APIView):
             dumpster.percent_fill = percent_fill
             dumpster.last_updated = timestamp
             dumpster.save()
-            reading = IntervalReading.objects.create(raw_reading=adjusted_reading,
-                                                     dumpster=dumpster,
-                                                     timestamp=timestamp
-                                                     )
+            IntervalReading.objects.create(raw_reading=adjusted_reading,
+                                           dumpster=dumpster,
+                                           timestamp=timestamp
+                                           )
             logging.getLogger().info('reading created')
         return Response(data, status=status.HTTP_201_CREATED)

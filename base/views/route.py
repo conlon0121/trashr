@@ -17,7 +17,6 @@ class RouteView(View):
         return render(request, self.template_name)
 
     def post(self, request):
-        import pdb; pdb.set_trace()
         dumpster_ids = ast.literal_eval(dict(request.POST)['dumpsters'][0])
         dumpsters = Dumpster.objects.filter(id__in=dumpster_ids)
         features = []
