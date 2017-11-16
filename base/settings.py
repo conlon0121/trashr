@@ -23,7 +23,9 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ('127.0.0.1', os.environ.get('EXTRA_INTERNAL_IP', '127.0.0.1'))
 
-LOGIN_REDIRECT_URL = 'logged_in/homepage.html'
+LOGIN_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Quick-start development settings - unsuitable for production
@@ -56,10 +58,10 @@ INSTALLED_APPS = [
 
 # TODO: Send csrf tokens to get request
 MIDDLEWARE = [
-    #'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -80,7 +82,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(SETTINGS_PATH, 'templates'),
+            './templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

@@ -7,7 +7,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    #url(r'^$', IndexView.as_view(), name="index"),
     url(r'^$', IndexView.as_view(), name="index"),
     url(r'^create/', CreateReading.as_view(), name="create"),
     url(r'^login/$', auth_views.login, name='login'),
@@ -17,6 +16,12 @@ urlpatterns = [
     url(r'^graph/', GraphView.as_view(), name='graph'),
     url(r'^route/', RouteView.as_view(), name='route'),
     url(r'^preferences/', PreferencesView.as_view(), name='preferences'),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
+    
+    #Create an account form
+    url(r'^signup/$', AccountView.as_view(), name='signup'),
+    url(r'^accounts/success', SuccessView.as_view(), name='success'),
+    
 ]
 
 if settings.DEBUG:

@@ -1,5 +1,8 @@
 from django.shortcuts import render_to_response
 from django.views.generic import View
+import json
+
+from django.shortcuts import render
 
 
 class PreferencesView(View):
