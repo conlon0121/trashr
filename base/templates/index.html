@@ -82,7 +82,7 @@
 					<a href="#" class="js-fh5co-mobile-toggle fh5co-nav-toggle"><i></i></a>
 					<a href="#">TRASHR</a>
 				</div>
-				<div class="col-lg-6 col-md-5 col-sm-5 text-right fh5co-link-wrap">
+				<div class="col-lg-6 col-md-5 col-sm-5 text-left fh5co-link-wrap">
 					<ul data-offcanvass="yes">
 						<li><a href="#team">Team</a></li>
 						<li><a href="#contact">Contact</a></li>
@@ -91,18 +91,15 @@
 						<li><a href="#pricing">Pricing</a></li>
 					</ul>
 				</div>
-				<div class="col-lg-3 col-md-4 col-sm-4 text-right fh5co-link-wrap">
+				<div class="col-lg-3 col-md-4 col-sm-4 fh5co-link-wrap">
 					<ul class="fh5co-special" data-offcanvass="yes">
-
-						USER:
-						{{request.user}}
 						{% if request.user.is_authenticated %}
-				    <li>{{ request.user}}</li>
-				    <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+				    <li><a class="text-left" href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+						<li><a href="{% url 'preferences'%}?next={{request.path}}" class="call-to-action text-left">{{request.user}}</a></li>
 				    {% else %}
-				    <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-				    {% endif %}
+				    <li><a class="text-right" href="{% url 'login'%}?next={{request.path}}">Login</a></li>
 						<li><a href="{% url 'signup'%}?next={{request.path}}" class="call-to-action">Create Account</a></li>
+						{% endif %}
 						<!--<li><a href="mapTutorial.html" class="call-to-action">Dashboard</a></li> -->
 					</ul>
 				</div>
@@ -236,7 +233,7 @@
 					<div class="fh5co-icon"><i class="icon-umbrella"></i></div>
 					<div class="fh5co-desc">
 						<h3>Eco Friendly</h3>
-						<p>Our heuristics will efficiently allocate resources reduce emissions, all the while saving you time.</p>
+						<p>Our heuristics will efficiently allocate resources to reduce emissions, all the while saving you time.</p>
 					</div>
 				</div>
 				<div class="col-md-4 col-sm-6 col-xs-6 col-xxs-12 fh5co-feature wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.4s">
@@ -488,7 +485,7 @@
 					<div class="col-md-3 col-sm-6 fh5co-footer-widget wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.4s">
 						<h3>Access your dashboard.</h3>
 						<p></p>
-						<p><a href="#" class="btn btn-success btn-sm btn-outline">Dashboard</a></p>
+						<p><a href="{% url 'dashboard'%}?next={{request.path}}" class="btn btn-success btn-sm btn-outline">Dashboard</a></p>
 					</div>
 					<div class="clearfix visible-sm-block"></div>
 				</div>

@@ -59,12 +59,11 @@
 </head>
     <body>
       <div id="wrapper">
-	  {% include 'navmenu.html' %}
-    {{request.user}}
-	  {% block body %}
-	  {% endblock %}
-	  {% block content %}{% endblock %}
-    {%block user %}{% endblock %}
+	       {% include 'navmenu.html' %}
+	       {% block body %}
+	       {% endblock %}
+	       {% block content %}{% endblock %}
+         {%block user %}{% endblock %}
       </div>
     </body>
     <footer id="footer">
