@@ -5,114 +5,85 @@
 {% load render_table from django_tables2 %}
 
 {% block content %}
-
+<title>Plan your routes</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/af-2.2.2/b-1.4.2/r-2.2.0/sc-1.4.3/sl-1.2.3/datatables.min.css"/>
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/af-2.2.2/b-1.4.2/r-2.2.0/sc-1.4.3/sl-1.2.3/datatables.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-<script src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
-<link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
+
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
 
 
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Plot Routes</h1>
+            <h1 class="page-header">View Routes for Date {{date}}</h1>
+            <form id="date-form" method="post" action="{% url 'route_update' %}"> {% csrf_token %}
+                <input id="datepicker" name="date" value="{{date}}">
+                <button type="submit" class="btn btn-primary">Load routes for date</button>
+            </form>
         </div>
         <!-- /.col-lg-12 -->
     </div>
+    <div id="messages">
+    </div>
+    <p>Select rows to view routes</p>
     <div class="row">
-        <div id="table" class="col-md-6" style="visibility:hidden">
-            {% include 'route_table.html' %}
+        <!--<form id="form" action="{% url 'dashboard' %}", method="post">-->
+        <div class="hide"><input></div>
+        <div id="table-and-map">
+            {% include 'route_view.html' %}
         </div>
-        <div class="col-md-6">
-            <div id='map' style='width: 100%; height: 100%;'></div>
-        </div>
+        <!--</form>-->
     </div>
 </div>
 <script>
-  L.mapbox.accessToken = 'pk.eyJ1IjoidHJhc2hyIiwiYSI6ImNqOHJ3MDBzZjAyZTgzNG1yNHpmZDl3Y2sifQ.q574EBc3GMSMHBH2sPGM6w';
-  var map = new L.mapbox.Map('map', 'mapbox.streets').setView([{{lat}},{{long}}], 14)
+bootstrap_alert = function() {}
+bootstrap_alert.warning = function(message) {
+  $('#messages').html('<div class="alert alert-danger alert-dismissable">\
+                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">\
+                       &times;</button><span style="font-size:18px">'+message+'</span></div>')
+}
 
-var myLayer = L.mapbox.featureLayer().addTo(map);
-
-myLayer.setGeoJSON({{layer|safe}});
-
-map.on('load', function () {
-
-    // When a click event occurs on a feature in the dumpsters layer, open a popup at the
-    // location of the feature, with description HTML from its properties.
-    map.on('click', 'dumpsters', function (e) {
-        new mapboxgl.Popup()
-            .setLngLat(e.features[0].geometry.coordinates)
-            .setHTML(e.features[0].properties.description)
-            .addTo(map);
-    });
-    map.on("mousemove", "state-fills", function(e) {
-        map.setFilter("state-fills-hover", ["==", "name", e.features[0].properties.name]);
-    });
-    // Change the cursor to a pointer when the mouse is over the places layer.
-    map.on('mouseenter', 'dumpsters', function () {
-        map.getCanvas().style.cursor = 'pointer';
-    });
-
-    // Change it back to a pointer when it leaves.
-    map.on('mouseleave', 'dumpsters', function () {
-        map.getCanvas().style.cursor = '';
-    });
-  var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' +
-    '{{lat_longs}}' + '?geometries=geojson&access_token=' + L.mapbox.accessToken;
+$("#date-form").submit(function(event) {
+  event.preventDefault();
+  var $form = $( this ),
+      url = $form.attr( 'action' );
+  $('#table-and-map').css('visibility', 'invisible');
+  $('#spinner').removeClass('hide')
   $.ajax({
-    method: 'GET',
-    url: directionsRequest,
-  }).done(function(data) {
-    var route = data.routes[0].geometry;
-    map.addLayer({
-      id: 'route',
-      type: 'line',
-      source: {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: route
-        }
-      },
-      paint: {
-        'line-width': 2
-      }
-    });
+    type: "POST",
+    dataType: "html",
+    url: url,
+    data: $form.serialize(),
+    success: function(data) {
+      $('#table-and-map').html(data);
+      $('#table-and-map').css('visibility', 'visible');
+      $('.page-header').html('View Routes for Date ' + $form[0][1].value);
+      $('.alert').alert('close');
+    },
+    error: function(data) {
+      bootstrap_alert.warning('There was an error retrieving routes for date ' + $form[0][1].value + '.');
+    }
   });
 });
-</script>
-<script>
+
 $(document).ready(function() {
-  var table = $('#dumpster-table').DataTable( {
-    responsive:     true,
-    columnDefs: [
-     { targets: 4, sortable: false },
-     { targets: 0, visible: false, searchable: false },
-     { responsivePriority: 2, targets: 1 },
-     { responsivePriority: 1, targets: -1 },
-     { responsivePriority: 3, targets: 3 },
-     {
-    } ],
-    select: true,
-  } );
+  $('#datepicker').datepicker({
+    changeMonth: true,
+    changeYear: true});
 
-  $('#table').css('visibility', 'visible');
-
-} );
-
+  if ('{{ errors }}') {
+    bootstrap_alert.warning('{{errors}}')
+  }
+});
 </script>
 <style type="text/css">
 .hide {
   display: none;
-}
-#map {
-position: relative; !important
-top: 0;
-bottom: 0;
-width: 100%;
 }
 </style>
 {% endblock %}

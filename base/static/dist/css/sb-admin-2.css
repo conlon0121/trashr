@@ -71,8 +71,8 @@ body {
   padding-left: 0;
   padding-right: 0;
 }
-.sidebar .sidebar-search {
-  padding: 15px;
+.sidebar {
+  position: fixed;
 }
 .sidebar ul li {
   border-bottom: 1px solid #e7e7e7;
@@ -102,9 +102,9 @@ body {
 @media (min-width: 768px) {
   .sidebar {
     z-index: 1;
-    position: absolute;
     width: 250px;
     margin-top: 51px;
+    position: fixed;
   }
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
