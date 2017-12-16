@@ -2,7 +2,6 @@
 image: python:3.6
 
 services:
-  - postgres:latest
   - mdillon/postgis:latest
 
 
@@ -10,9 +9,12 @@ variables:
   POSTGRES_DB: trashr
   POSTGRES_USER: nick
   POSTGRES_PASSWORD: "$DATABASE_PASSWORD"
+  DEPENDENCIES: "python-dev python-pip python-virtualenv git libpq-dev postgresql-server-dev-9.4 postgresql-client-9.4 libgdal1-dev libgeos-dev libproj-dev sqlite3 libsqlite3-dev libspatialite-dev"
+
 
 # Install reqs before every stage
 before_script:
+  - apt-get update -qq && apt-get install -y -qq $DEPENDENCIES
   - pip3 install -r requirements.txt
 
 # Run all tests with coverage
