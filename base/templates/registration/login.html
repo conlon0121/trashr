@@ -1,6 +1,41 @@
-{% extends "base_generic.html" %}
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap3 %}
+{{ form.media }}
+{% load render_table from django_tables2 %}
 
 {% block content %}
+
+
+
+<link rel="stylesheet" href="{% static 'css/preference_page.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<style>
+  /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+  .row.content {height: 550px}
+
+
+  /* On small screens, set height to 'auto' for the grid */
+  @media screen and (max-width: 767px) {
+    .row.content {height: auto;}
+  }
+
+  .parent {
+      text-align: center;
+  }
+  .parent > ul {
+    display: inline-block;
+ }
+  .choiceprice{
+    font-size: 3em;
+    font-weight: 800;
+    color: #58ca7e;
+    position: relative;
+    z-index: 100;
+  }
+
+</style>
+<div id="page-wrapper">
 <p>Currently Authenticated as : {{request.user}} </p>
 
 {% if form.errors %}
@@ -16,9 +51,11 @@
     {% endif %}
 {% endif %}
 
+
+
+
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
-
 <div>
   <td>{{ form.username.label_tag }}</td>
   <td>{{ form.username }}</td>
@@ -36,5 +73,5 @@
 
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-
-{% endblock %}
+</div>
+{% endblock content %}

@@ -1,4 +1,5 @@
 from base.views import *
+from base.views import CompanycodeView as ccView
 from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
@@ -22,6 +23,7 @@ urlpatterns = [
     #Create an account form
     url(r'^signup/$', AccountView.as_view(), name='signup'),
     url(r'^accounts/success', SuccessView.as_view(), name='success'),
+    url(r'^companyCode/', ccView.as_view(), name='companyCode'),
     
 ]
 

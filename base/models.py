@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 class Organization(models.Model):
     name = models.CharField(max_length=100, default='')
+    #companyKey = models.CharField(max_length=5, default='')
 
 
 class Dumpster(models.Model):

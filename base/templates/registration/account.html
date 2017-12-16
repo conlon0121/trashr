@@ -4,39 +4,76 @@
 {% load bootstrap3 %}
 
 {% block content %}
-<body style= "display: inline-block; text-align: center;">
-    <div style= "display: inline-block; text-align: center;" id="content-container" class="container p-none">
-        <div style= "display: inline-block; text-align: center;" class="side-p">
-            <form id="user-reg-form" action="." method="post">
+
+
+<link rel="stylesheet" href="{% static 'css/preference_page.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<style>
+  /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+  .row.content {height: 550px}
+
+
+  /* On small screens, set height to 'auto' for the grid */
+  @media screen and (max-width: 767px) {
+    .row.content {height: auto;}
+  }
+
+  .parent {
+      text-align: center;
+  }
+  .parent > ul {
+    display: inline-block;
+ }
+  .choiceprice{
+    font-size: 3em;
+    font-weight: 800;
+    color: #58ca7e;
+    position: relative;
+    z-index: 100;
+  }
+
+</style>
+
+
+
+<body>
+    <div  id="page-wrapper">
+        <div>
+            <form id="user-reg-form" action="{% url 'signup' %}" method="post">
                 {% csrf_token %}
                 {# Username & Password Section #}
-                <h3>Create an Account</h3>
-                <h5 class="sn-sh">CREATE A USERNAME AND PASSWORD</h5>
+                <h3>Create Account</h3>
                 <table class="table">
                     <tbody>
                         <tr>
-                            <th>{{ form.username.label }}</th>
+                            <th>Email Address</th>
 
                         </tr>
                         <tr>
-                            <td>{{ form.username }}</td>
+                            <td>{{ form_signup.username }}</td>
 
                         </tr>
                         <tr>
-                            <td>{{ form.username.errors }}</td>
+                            <td>{{ form_signup.username.errors }}</td>
 
                         </tr>
                         <tr>
                             <th>Password</th>
+                        </tr>
+                        <tr>
+                            <td>{{ form_signup.password1 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_signup.password1.errors }}</td>
+                        </tr>
+                        <tr>
                             <th>Confirm Password</th>
                         </tr>
                         <tr>
-                            <td>{{ form.password1 }}</td>
-                            <td>{{ form.password2 }}</td>
+                            <td>{{ form_signup.password2 }}</td>
                         </tr>
                         <tr>
-                            <td>{{ form.password1.errors }}</td>
-                            <td>{{ form.password2.errors }}</td>
+                            <td>{{ form_signup.password2.errors }}</td>
                         </tr>
                     </tbody>
                 </table>
