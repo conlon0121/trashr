@@ -3,6 +3,8 @@ image: python:3.6
 
 services:
   - postgres:latest
+  - mdillon/postgis:latest
+
 
 variables:
   POSTGRES_DB: trashr
