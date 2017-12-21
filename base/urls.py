@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^route/', RouteView.as_view(), name='route'),
     url(r'^preferences/', PreferencesView.as_view(), name='preferences'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^route_update/', RouteUpdateView.as_view(), name='route_update'),
     
     #Create an account form
     url(r'^signup/$', AccountView.as_view(), name='signup'),

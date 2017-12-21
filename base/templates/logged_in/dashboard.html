@@ -5,26 +5,33 @@
 {% load render_table from django_tables2 %}
 
 {% block content %}
+<title>Dashboard</title>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/af-2.2.2/b-1.4.2/r-2.2.0/sc-1.4.3/sl-1.2.3/datatables.min.css"/>
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/af-2.2.2/b-1.4.2/r-2.2.0/sc-1.4.3/sl-1.2.3/datatables.min.js"></script>
 
-<script src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
-<link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
 
 
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
+<<<<<<< HEAD
             <h1 class="page-header">Dashboard {{request.user.first_name}}</h1>
+=======
+            <h1 class="page-header">Dashboard</h1>
+>>>>>>> 46cc6393178aef68c61606c7e4d25c362dcdb201
         </div>
         <!-- /.col-lg-12 -->
+    </div>
+    <div id="messages">
     </div>
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-6 col-md-6">
-            <form id="form-graph" method="post" action="{% url 'graph' %}">
+            <form id="form-graph" method="post" action="{% url 'graph' %}"> {% csrf_token %}
                 <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
                 <a id="graph" href="#">
                     <div class="panel panel-primary">
@@ -43,7 +50,7 @@
             </form>
         </div>
         <div class="col-lg-6 col-md-6">
-            <form id="form-route" method="post" action="{% url 'route' %}">
+            <form id="form-route" method="post" action="{% url 'route' %}"> {% csrf_token %}
                 <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
                 <a id="make-route" href="#">
                     <div class="panel panel-green">
@@ -66,43 +73,24 @@
         <div id="table" class="col-md-6" style="visibility:hidden">
             {% include 'table.html' %}
         </div>
-        <div class="col-md-6">
-            <div id='map' style='width: 100%; height: 100%;'></div>
+        <div class="map col-md-6">
+            <div id='map' style='width: 100%; height: 100%;'>
+                <select class="driver-btn btn btn-default" name="drivers" form="form-route">
+                    <option>1 Driver</option>
+                    <option>2 Drivers</option>
+                    <option>3 Drivers</option>
+                    <option>4 Drivers</option>
+                    <option>5 Drivers</option>
+                    <option>6 Drivers</option>
+                    <option>7 Drivers</option>
+                    <option>8 Drivers</option>
+                    <option>9 Drivers</option>
+                    <option>10 Drivers</option>
+                </select>
+            </div>
         </div>
     </div>
 </div>
-<script>
-  L.mapbox.accessToken = 'pk.eyJ1IjoidHJhc2hyIiwiYSI6ImNqOHJ3MDBzZjAyZTgzNG1yNHpmZDl3Y2sifQ.q574EBc3GMSMHBH2sPGM6w';
-  var map = new L.mapbox.Map('map', 'mapbox.streets').setView([{{lat}},{{long}}], 14)
-
-var myLayer = L.mapbox.featureLayer().addTo(map);
-
-myLayer.setGeoJSON({{layer|safe}});
-
-map.on('load', function () {
-
-    // When a click event occurs on a feature in the dumpsters layer, open a popup at the
-    // location of the feature, with description HTML from its properties.
-    map.on('click', 'dumpsters', function (e) {
-        new mapboxgl.Popup()
-            .setLngLat(e.features[0].geometry.coordinates)
-            .setHTML(e.features[0].properties.description)
-            .addTo(map);
-    });
-    map.on("mousemove", "state-fills", function(e) {
-        map.setFilter("state-fills-hover", ["==", "name", e.features[0].properties.name]);
-    });
-    // Change the cursor to a pointer when the mouse is over the places layer.
-    map.on('mouseenter', 'dumpsters', function () {
-        map.getCanvas().style.cursor = 'pointer';
-    });
-
-    // Change it back to a pointer when it leaves.
-    map.on('mouseleave', 'dumpsters', function () {
-        map.getCanvas().style.cursor = '';
-    });
-});
-</script>
 <script>
 $.fn.dataTable.ext.search.push(
   function( settings, data, dataIndex ) {
@@ -110,7 +98,7 @@ $.fn.dataTable.ext.search.push(
     $('#max').css('margin-bottom', '10px')
     var min = parseInt( $('#min').val(), 0 );
     var max = parseInt( $('#max').val(), 0 );
-    var percent_fill = parseFloat( data[3] ) || 0;
+    var percent_fill = parseFloat( data[4] ) || 0;
 
     if ( ( isNaN( min )          && isNaN( max ) ) ||
          ( isNaN( min )          && percent_fill <= max ) ||
@@ -122,6 +110,48 @@ $.fn.dataTable.ext.search.push(
   }
 );
 $(document).ready(function() {
+$('.fa-dashboard').addClass('active')
+bootstrap_alert = function() {}
+bootstrap_alert.warning = function(message) {
+  $('#messages').html('<div class="alert alert-danger alert-dismissable">\
+                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">\
+                       &times;</button><span style="font-size:18px">'+message+'</span></div>')
+}
+if ('{{ errors }}') {
+  bootstrap_alert.warning('{{errors}}')
+}
+
+  mapboxgl.accessToken = 'pk.eyJ1IjoidHJhc2hyIiwiYSI6ImNqOHJ3MDBzZjAyZTgzNG1yNHpmZDl3Y2sifQ.q574EBc3GMSMHBH2sPGM6w';
+    var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v10',
+    center: [{{long}}, {{lat}}],
+    zoom: 12.5
+  });
+  map.addControl(new mapboxgl.NavigationControl());
+
+  var geojson = {{layer|safe}}
+
+  red = "url('{% static 'images' %}/red-waste-basket-15.svg')"
+  green = "url('{% static 'images' %}/green-waste-basket-15.svg')"
+  yellow = "url('{% static 'images' %}/yellow-waste-basket-15.svg')"
+
+  geojson.features.forEach(function(marker) {
+    // create a DOM element for the marker
+    var el = document.createElement('div');
+    el.className = 'marker';
+    if (marker.properties.color === 'red')
+      el.style.backgroundImage = red
+    else if (marker.properties.color === 'green')
+      el.style.backgroundImage = green
+    else el.style.backgroundImage = yellow
+
+    // add marker to map
+    new mapboxgl.Marker(el)
+      .setLngLat(marker.geometry.coordinates)
+      .setPopup(new mapboxgl.Popup().setHTML(marker.properties.description))
+      .addTo(map);
+  });
   var table = $('#dumpster-table').DataTable( {
     responsive:     true,
     columnDefs: [
@@ -167,6 +197,10 @@ $(document).ready(function() {
   });
 
   $('#make-route').click(function() {
+    arr = makeArray();
+    if (!arr) {
+      return
+    }
     $('[name=dumpsters]').val(makeArray());
     $('#form-route').submit();
   });
@@ -175,6 +209,10 @@ $(document).ready(function() {
     var arr = '['
     var rows = table.rows('.selected')
     var count = rows.count()
+    if (count === 0) {
+      bootstrap_alert.warning('Please select one or more dumpsters to route');
+      return;
+    }
     var data = rows.data()
     for (i = 0; i < count; i++) {
         var row = data[i][0]
@@ -191,68 +229,29 @@ $(document).ready(function() {
 
 </script>
 <style type="text/css">
-@keyframes lds-eclipse {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes lds-eclipse {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-.lds-eclipse {
-  position: relative;
-}
-.lds-eclipse div {
-  position: absolute;
-  -webkit-animation: lds-eclipse 1s linear infinite;
-  animation: lds-eclipse 1s linear infinite;
-  width: 160px;
-  height: 160px;
-  top: 20px;
-  left: 20px;
-  border-radius: 50%;
-  box-shadow: 0 4px 0 0 #2f98bb;
-  -webkit-transform-origin: 80px 82px;
-  transform-origin: 80px 82px;
-}
-.lds-eclipse {
-  width: 200px !important;
-  height: 200px !important;
-  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
-  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
-}
 .hide {
   display: none;
 }
-.leaflet-marker-icon {
-  height: 40px; !important
-  width:15px; !important
+.marker {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 #map {
-position: relative; !important
-top: 0;
-bottom: 0;
-width: 100%;
+  position: relative; !important
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+.driver-btn {
+  position:absolute;
+  z-index: 2;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.map {
+    height:75vh;
 }
 </style>
 {% endblock %}
+

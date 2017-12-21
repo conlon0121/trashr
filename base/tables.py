@@ -29,20 +29,17 @@ class DumpsterTable(Table):
         model = Dumpster
         sequence = ('address', 'util', 'date', 'fill_percentage')
         exclude = ('utility', 'container_type', 'id', 'org', 'location', 'rfid', 'capacity',
-                   'capacity_units', 'latitude', 'longitude', 'functioning', 'percent_fill', 'last_updated')
+                   'capacity_units', 'coordinates', 'functioning', 'percent_fill', 'last_updated')
         template = 'table.html'
-
-class DeleteColumn(Column):
-    empty_values = list()
-    def render(self, value, record):
-        return mark_safe('<button id="%s" class="btn btn-danger">Delete Route</button>' % escape(record.id))
 
 
 class RouteTable(Table):
-    delete = DeleteColumn()
-
+    time = TemplateColumn(
+        '<p>{{record.time_estimate}} minutes</p>'
+    )
+    num_dumpsters = Column(accessor='number_of_dumpsters', verbose_name='# of Dumpsters')
     class Meta:
         model = Route
-        sequence = ('number_of_dumpsters', 'time_estimate', 'driver', 'delete')
-        exclude = ('date', 'id',)
-        template = 'route_table.html'
+        sequence = ('num_dumpsters', 'time', 'driver')
+        exclude = ('number_of_dumpsters', 'date', 'id', 'time_estimate', 'coordinates')
+        template = 'route_view.html'

@@ -1,7 +1,7 @@
+from django.contrib.gis.db.models import MultiPointField, PointField
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.core.cache import cache
 
 
 class Organization(models.Model):
@@ -21,8 +21,7 @@ class Dumpster(models.Model):
     capacity = models.IntegerField(default=0, null=True, blank=True)
     capacity_units = models.CharField(max_length=20, default='', null=True, blank=True)
     container_type = models.CharField(max_length=50, default='', null=True, blank=True)
-    latitude = models.DecimalField(default=0, max_digits=7, decimal_places=3, null=True, blank=True)
-    longitude = models.DecimalField(default=0, max_digits=7, decimal_places=3, null=True, blank=True)
+    coordinates = PointField()
     # Whether or not the sensor is sending readings
     functioning = models.BooleanField(default=True)
     utility = models.IntegerField(default=0)
@@ -55,15 +54,26 @@ class UniEvent(models.Model):
     date = models.DateTimeField(default=timezone.now)
     affected_dumpsters = models.ManyToManyField(Dumpster)
 
+    def __str__(self):
+        return str(self.date) + ' ' + self.name
+
 
 class UserProfile(models.Model):
     name = models.CharField(max_length=100, default='')
     user = models.ForeignKey(User)
     org = models.ForeignKey(Organization)
 
+    def __str__(self):
+        return self.name
+
 
 class Route(models.Model):
-    driver = models.ForeignKey(User, null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
+    driver = models.CharField(max_length=100)
+    date = models.DateField(auto_now_add=True)
     time_estimate = models.IntegerField()
     number_of_dumpsters = models.IntegerField()
+    coordinates = MultiPointField()
+    dumpsters = models.ManyToManyField(Dumpster)
+
+    def __str__(self):
+        return str(self.date) + ' ' + self.driver
