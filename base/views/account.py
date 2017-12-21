@@ -55,7 +55,7 @@ class AccountView(View):
                 if user is not None:
                     # A backend authenticated the credentials
                     login(request, user)
-                    return HttpResponseRedirect('/preferences/')
+                    return HttpResponseRedirect('/accounts/accountSuccess')
                 else:    
                     return HttpResponseRedirect('/')
         else:

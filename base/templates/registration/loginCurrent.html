@@ -1,0 +1,82 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% load bootstrap3 %}
+{{ form.media }}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<!--
+<div id="page-wrapper">
+  <p>Currently Authenticated as : {{request.user}} </p>
+
+  {% if form.errors %}
+  <p class = "message">Your username and password didn't match. Please try again.</p>
+  {% endif %}
+
+  {% if next %}
+      {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+      {% else %}
+      <p>Please login to see this page.</p>
+      {% endif %}
+  {% endif %}
+-->
+
+
+<!--
+  <form method="post" action="{% url 'login' %}">
+  {% csrf_token %}
+  <div>
+    <td>{{ form.username.label_tag }}</td>
+    <td>{{ form.username }}</td>
+  </div>
+  <div>
+    <td>{{ form.password.label_tag }}</td>
+    <td>{{ form.password }}</td>
+  </div>
+
+  <div>
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </div>
+  </form>
+
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+</div>
+-->
+<!-- Content {% endblock content %} -->
+{% block form %}
+<div id="page-wrapper" class="login-page">
+  <div class="form">
+    <form class="register-form">
+      <input type="text" placeholder="name"/>
+      <input type="password" placeholder="password"/>
+      <input type="text" placeholder="email address"/>
+      <button>create</button>
+      <p class="message">Already registered? <a href="#">Sign In</a></p>
+    </form>
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+      <div>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </div>
+      <div>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </div>
+
+      <div>
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock form %}

@@ -1,77 +1,109 @@
-{% extends 'base.html' %}
+{% extends 'base_generic.html' %}
+{{ form.media }}
 {% load static %}
 {% load bootstrap3 %}
-{{ form.media }}
-{% load render_table from django_tables2 %}
-
 {% block content %}
 
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+<!-- Google Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700'z rel='stylesheet' type='text/css'>
+
+<!-- Icomoon Icon Fonts-->
+<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+<!-- Owl Carousel -->
+<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+<!-- Bootstrap  -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+
+<!-- Cards -->
+<link rel="stylesheet" href="{% static 'css/cards.css' %}">
+<script src="{% static 'js/login.js' %}"></script>
 
 
-<link rel="stylesheet" href="{% static 'css/preference_page.css' %}">
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-<style>
-  /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-  .row.content {height: 550px}
+<title>Log in</title>
+<body>
 
+<!--
+  <nav class="fh5co-nav-style-2" role="navigation" data-offcanvass-position="fh5co-offcanvass-left">
+    <div class="container">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 fh5co-logo icon">
+        <span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://www.facebook.com/trashr.waste.1"><i class="icon-facebook"></i></span>
+        <span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://twitter.com/TrashrWaste"><i class="icon-twitter"></i></span>
+        <span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://www.instagram.com/trashrwaste"><i class="icon-instagram"></i></span>
+        <span style="margin-left: 1.5%; margin-right: 1.5%;"></span>
+        <a href="#" class="js-fh5co-mobile-toggle fh5co-nav-toggle"><i></i></a>
+        <a href="#">TRASHR</a>
+      </div>
+      <div class="col-lg-6 col-md-5 col-sm-5 text-right fh5co-link-wrap">
+        <ul data-offcanvass="yes">
+          <li><a href="#team">Team</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#whyChoose">Why Choose Us</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-4 text-right fh5co-link-wrap">
+        <ul class="fh5co-special" data-offcanvass="yes">
 
-  /* On small screens, set height to 'auto' for the grid */
-  @media screen and (max-width: 767px) {
-    .row.content {height: auto;}
-  }
-
-  .parent {
-      text-align: center;
-  }
-  .parent > ul {
-    display: inline-block;
- }
-  .choiceprice{
-    font-size: 3em;
-    font-weight: 800;
-    color: #58ca7e;
-    position: relative;
-    z-index: 100;
-  }
-
-</style>
-<div id="page-wrapper">
-<p>Currently Authenticated as : {{request.user}} </p>
-
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
-
+          USER:
+          {{request.user}}
+          {% if request.user.is_authenticated %}
+          <li>{{ request.user}}</li>
+          <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+          {% endif %}
+          <li><a href="{% url 'signup'%}?next={{request.path}}" class="call-to-action">Create Account</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+-->
 
 
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<div>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</div>
-<div>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</div>
 
-<div>
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</div>
-</form>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-</div>
+  <div class="login-page">
+    <div class="form">
+    <!--  <form class="register-form">
+        <input type="text" placeholder="name" />
+        <input type="password" placeholder="password" />
+        <input type="text" placeholder="email address" />
+        <button>create</button>
+        <p class="message">Already registered? <a href="#">Sign In</a></p>
+      </form> -->
+      <form class="login-form" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div>
+          <td>{{ form.username.label_tag }}</td>
+          <td>{{ form.username }}</td>
+          <td>{{ form.username.errors }}</td>
+        </div>
+        <div>
+          <td>{{ form.password.label_tag }}</td>
+          <td>{{ form.password }}</td>
+          <td>{{ form.password.errors }}</td>
+        </div>
+        <div>
+          <input type="submit" value="login" />
+          <input type="hidden" name="next" value="{{ next }}" />
+        </div>
+        <p class="message"><a href="{% url 'signup' %}"> Not registered? Create an account</a></p>
+        </form>
+    </div>
+  </div>
+
+</body>
+
+</html>
 {% endblock content %}
