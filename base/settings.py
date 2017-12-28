@@ -23,7 +23,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ('127.0.0.1', os.environ.get('EXTRA_INTERNAL_IP', '127.0.0.1'))
 
-LOGIN_REDIRECT_URL = '/dashboard'
+LOGIN_REDIRECT_URL = '/accounts/loginSuccess/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

@@ -91,8 +91,8 @@
 						<li><a href="#pricing">Pricing</a></li>
 					</ul>
 				</div>
-				<div class="col-lg-3 col-md-4 col-sm-4 text-right fh5co-link-wrap">
-					<ul class="fh5co-special" data-offcanvass="yes">
+				<div class="col-lg-3 col-md-4 col-sm-4 text-left fh5co-link-wrap">
+					<ul class="fh5co-special text-left" data-offcanvass="yes">
 
 						USER:
 						{{request.user}}
@@ -103,7 +103,6 @@
 				    <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
 				    {% endif %}
 						<li><a href="{% url 'signup'%}?next={{request.path}}" class="call-to-action">Create Account</a></li>
-						<!--<li><a href="mapTutorial.html" class="call-to-action">Dashboard</a></li> -->
 					</ul>
 				</div>
 			</div>

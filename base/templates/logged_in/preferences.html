@@ -6,6 +6,8 @@
 
 {% block content %}
 
+<!DOCTYPE html>
+
  <link rel="stylesheet" href="{% static 'css/preference_page.css' %}">
   <title>Preferences Page</title>
   <style>
@@ -41,7 +43,11 @@
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
+<<<<<<< HEAD
+      <h2 style="text-align: center;" class="page-header">Preferences {{request.user}}</h2>
+=======
       <h2 class="page-header">Preferences</h2>
+>>>>>>> 46cc6393178aef68c61606c7e4d25c362dcdb201
     </div>
   </div>
  <div class = "row">
@@ -56,7 +62,11 @@
            <h4>Email Address</h4>
             <p><input type="email" class="form-control" id="inputEmail4" placeholder="Email">
             <br>
+<<<<<<< HEAD
+             <a href="http://www.yahoo.com">Reset Username</a><a href="{% url 'password_reset' %}">Reset Password</a>
+=======
              <a href="http://www.yahoo.com">Reset Password</a>
+>>>>>>> 46cc6393178aef68c61606c7e4d25c362dcdb201
             </p>
           </div>
           <div class="col-sm-5">

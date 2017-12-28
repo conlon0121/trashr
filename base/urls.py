@@ -21,8 +21,14 @@ urlpatterns = [
     
     #Create an account form
     url(r'^signup/$', AccountView.as_view(), name='signup'),
-    url(r'^accounts/success', SuccessView.as_view(), name='success'),
+    url(r'^accounts/success/', SuccessView.as_view(), name='success'),
+    url(r'^accounts/accountSuccess/', AccountSuccessView.as_view(), name='accountSuccess'),
     url(r'^companyCode/', ccView.as_view(), name='companyCode'),
+    url(r'^accounts/loginSuccess/', LoginSuccessView.as_view(), name='loginSuccess'),
+    # Sale cards
+    url(r'^tierOne/$', TierOneView.as_view(), name="tierOne"),
+    url(r'^tierTwo/$', TierTwoView.as_view(), name="tierTwo"),
+    url(r'^tierThree/$', TierThreeView.as_view(), name="tierThree"),
     
 ]
 
