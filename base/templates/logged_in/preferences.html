@@ -5,9 +5,6 @@
 {% load render_table from django_tables2 %}
 
 {% block content %}
-
-<!DOCTYPE html>
-
  <link rel="stylesheet" href="{% static 'css/preference_page.css' %}">
   <title>Preferences Page</title>
   <style>
@@ -43,35 +40,27 @@
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-<<<<<<< HEAD
-      <h2 style="text-align: center;" class="page-header">Preferences {{request.user}}</h2>
-=======
-      <h2 class="page-header">Preferences</h2>
->>>>>>> 46cc6393178aef68c61606c7e4d25c362dcdb201
+      <h2 style="text-align: center;" class="page-header">Preferences</h2>
     </div>
   </div>
  <div class = "row">
   <div class = "col-sm-12">
     <div class="well">
-      <center><h2>NC State Waste Management</h2></center>
+      <center><h2>{{name}}</h2></center>
     </div>
     <div class="row">
       <div class="col-sm-12">
         <div class="well">
           <div class="col-sm-5">
            <h4>Email Address</h4>
-            <p><input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+            <p>{{email}}
             <br>
-<<<<<<< HEAD
-             <a href="http://www.yahoo.com">Reset Username</a><a href="{% url 'password_reset' %}">Reset Password</a>
-=======
-             <a href="http://www.yahoo.com">Reset Password</a>
->>>>>>> 46cc6393178aef68c61606c7e4d25c362dcdb201
+             <a href="{% url 'password_reset' %}">Reset Password</a>
             </p>
           </div>
           <div class="col-sm-5">
             <h4>Company Code</h4>
-             <p><input type="email" class="form-control" id="inputEmail4" placeholder="Company Code"></p>
+             <p>{{code}}</p>
           </div>
             <div class = "col-sm-1 col-sm-offset-1 text-align:right">
            </div>
@@ -90,127 +79,10 @@
    <div class="col-sm-12">
      <div class="well">
            <div class="row">
-               <div id="pricing" class="col-md-6 col-md-offset-3 text-center">
-               <h2> Pricing Plans </h2>
-                 <p >Basic quote for our tiered services. All prices subject to change.</p>
-                 <br />
-               </div>
-               <div class = "col-sm-1 col-sm-offset-2">
-                 <a href="http://www.yahoo.com">Edit</a>
-              </div>
-           </div>
-          <div class = "col-sm-4">
-           <div class = "well-sm">
-             <h3>Basic</h3>
-               <p>Basic sensor, data package </p>
-               <p> <span class="choiceprice">$10</span> /month </p>
-               <div class = "parent">
-                 <ul>
-                   <li>Dashboard Access</li>
-                   <li>Route Management</li>
-                   <li>Algorithmic Optimization</li>
-                 </ul>
-               </div>
-                 <button class="btn btn-success btn-outline text-center">Choose plan</button>
-             </div>
-         </div>
-         <div class = "col-sm-4">
-          <div class = "well-sm">
-            <h3>Standard</h3>
-              <p>Premium sensor, data, analytics </p>
-              <p> <span class="choiceprice">$25</span> /month </p>
-              <div class = "parent">
-                <ul>
-                  <li>Dashboard Access</li>
-                  <li>Data Collection</li>
-                  <li>Machine Learning</li>
-                </ul>
-              </div>
-                <button class="btn btn-success btn-outline text-center">Choose plan</button>
-            </div>
-        </div>
-           <div class = "col-sm-4">
-            <div class = "well-sm">
-              <h3>Enterprise</h3>
-                <p>Enterprise sensor, data, analytics </p>
-                <p> <span class="choiceprice">$100</span> /month </p>
-                <div class = "parent">
-                  <ul>
-                    <li>Dashboard Access</li>
-                    <li>Active monitoring</li>
-                    <li>Heuristic routing</li>
-                  </ul>
-                </div>
-                  <button class="btn btn-success btn-outline text-center">Choose plan</button>
-              </div>
-          </div>
-       <div class="col-sm-12">
-           <div class="col-sm-4">
-             <br /> <br />
-             <h4>Payment Information </h4>
-              <p><input type="email" class="form-control" id="inputEmail4" placeholder="****-****-****-1234"> </p>
-           </div>
-           <div class="col-sm-4">
-           </div>
-           <div class="col-sm-4">
-           </div>
       </div>
       <br /><br /><br /> <br /><br /> <br /> <br /> <br /> <br /> <br /> <br /><br /><br /> <br /><br /><br /><br />
       <br />
     </div>
   </div>
-</div>
-
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="well">
-            <div id="pricing" class="col-md-6 col-md-offset-3 text-center">
-              <h2> Alerts </h2>
-              <br />
-            </div>
-            <div class = "col-sm-1 col-sm-offset-2">
-              <a href="http://www.yahoo.com">Edit</a>
-           </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Email</th>
-                  <th>Dumpsters</th>
-                  <th>Alert
-                    <a href="#" data-toggle="tooltip" title="Alert will be sent when dumpster(s) exceed fill percentage below"><span class="glyphicon glyphicon-info-sign"></span></a>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>gouthamrocks@gmail.com</td>
-                  <td>Bragaw</td>
-                  <td> 20% </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>gsubram5@ncsu.edu</td>
-                  <td>EB1, Sullivan</td>
-                  <td> 5% </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>gouthamiscool@hotmail.com</td>
-                  <td>EB2, Sullivan</td>
-                  <td> 80% </td>
-                </tr>
-              </tbody>
-            </table>
-           <br />
-           <button class="btn btn-success btn-outline">New Alert</button>
-           <br />
-
-          </div>
-        </div>
-      </div>
-   </div>
- </div>
 </div>
 {% endblock %}

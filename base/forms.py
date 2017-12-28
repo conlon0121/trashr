@@ -32,3 +32,6 @@ class CompanyCodeForm(forms.Form):
     companyCode = forms.CharField(
        required=False, widget=forms.TextInput(attrs={'class':'form-control'})
     )
+
+class PrefsForm(forms.Form):
+    pass

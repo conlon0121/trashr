@@ -93,14 +93,13 @@
 			</div>
 			<div class="col-lg-3 col-md-4 col-sm-4 fh5co-link-wrap">
 				<ul class="fh5co-special" data-offcanvass="yes">
-					<!--{% if request.user.is_authenticated %}-->
-					<!--<li><a class="text-left" href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>-->
-					<!--<li><a href="{% url 'preferences'%}?next={{request.path}}" class="call-to-action text-left">{{request.user}}</a></li>-->
-					<!--{% else %}-->
-					<!--<li><a class="text-right" href="{% url 'login'%}?next={{request.path}}">Login</a></li>-->
-					<!--<li><a href="{% url 'signup'%}?next={{request.path}}" class="call-to-action">Create Account</a></li>-->
-					<!--{% endif %}-->
-					<!--<li><a href="mapTutorial.html" class="call-to-action">Dashboard</a></li> -->
+					{% if request.user.is_authenticated %}
+					<li><a class="text-left" href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+					<li><a href="{% url 'preferences'%}?next={{request.path}}" class="call-to-action text-left">{{request.user}}</a></li>
+					{% else %}
+					<li><a class="text-right" href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+					<li><a href="{% url 'signup'%}?next={{request.path}}" class="call-to-action">Create Account</a></li>
+					{% endif %}
 				</ul>
 			</div>
 		</div>
@@ -133,18 +132,18 @@
 	<!-- End Div, end splash -->
 
 
-	<!--&lt;!&ndash; Dashboard Div &ndash;&gt;-->
-	<!--<div class="fh5co-project-style-2">-->
-		<!--<div class="container">-->
-			<!--<div class="row p-b">-->
-				<!--<div class="col-md-6 col-md-offset-3 text-center">-->
-					<!--<h2 class="fh5co-heading wow fadeInUp" data-wow-duration="1s" data-wow-delay=".5s">Dashboard</h2>-->
-					<!--<p class="wow fadeInUp" data-wow-duration="1s" data-wow-delay=".8s">Click here to access your dashboard. Don't have a dashboard? Open an account today!</p>-->
-					<!--<p class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.1s"><a href="{% url 'dashboard'%}?next={{request.path}}" class="btn btn-success btn-outline btn-lg">Dashboard</a></p>-->
-				<!--</div>-->
-			<!--</div>-->
-		<!--</div>-->
-	<!--</div>-->
+	<!-- Dashboard Div -->
+	<div class="fh5co-project-style-2">
+		<div class="container">
+			<div class="row p-b">
+				<div class="col-md-6 col-md-offset-3 text-center">
+					<h2 class="fh5co-heading wow fadeInUp" data-wow-duration="1s" data-wow-delay=".5s">Dashboard</h2>
+					<p class="wow fadeInUp" data-wow-duration="1s" data-wow-delay=".8s">Click here to access your dashboard. Don't have a dashboard? Open an account today!</p>
+					<p class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.1s"><a href="{% url 'dashboard'%}?next={{request.path}}" class="btn btn-success btn-outline btn-lg">Dashboard</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- End Dashboard / Button Divi -->
 
