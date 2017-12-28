@@ -3,9 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 
 
-class DumpsterSelectForm(forms.Form):
-    dumpsters = forms.CharField(required=True)
-    drivers = forms.CharField(required=True)
+class DumpsterUpdateForm(forms.Form):
+    dumpster = forms.IntegerField(required=True)
+    percentage = forms.IntegerField(required=True)
 
 
 class AccountForm(UserCreationForm):
@@ -32,7 +32,3 @@ class CompanyCodeForm(forms.Form):
     companyCode = forms.CharField(
        required=False, widget=forms.TextInput(attrs={'class':'form-control'})
     )
-
-
-class RouteDateForm(forms.Form):
-    date = forms.DateField(initial=timezone.localtime().date())

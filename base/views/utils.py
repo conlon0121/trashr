@@ -19,7 +19,8 @@ def get_layer(dumpsters):
             "properties": {
                 "description": f'{dumpster.address}<br/>'
                                f'<center>{str(fill)}% full</center>',
-                "color": color
+                "color": color,
+                "id": dumpster.id
             },
             "geometry": {
                 "type": "Point",
@@ -27,8 +28,19 @@ def get_layer(dumpsters):
             }
         })
     layer = {
-        "type": "FeatureCollection",
-        "features": features
+        "id": "dumpsters",
+        "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": features
+            }
+        },
+        "layout": {
+            "icon-image": "{color}-waste-basket-15",
+            "icon-allow-overlap": True
+        }
     }
     try:
         lat = lat / len(features)

@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 class Organization(models.Model):
     name = models.CharField(max_length=100, default='')
+    email = models.EmailField()
     #companyKey = models.CharField(max_length=5, default='')
 
 
@@ -14,19 +15,21 @@ class Dumpster(models.Model):
     TRASH = 0
     RECYCLING = 1
     COMPOST = 2
-    org = models.ForeignKey(Organization, default=1, null=True, blank=True)
-    location = models.CharField(max_length=100, default='', null=True, blank=True)
-    address = models.CharField(max_length=100, default='', null=True, blank=True)
-    rfid = models.CharField(max_length=50, default='', null=True, blank=True)
-    capacity = models.IntegerField(default=0, null=True, blank=True)
-    capacity_units = models.CharField(max_length=20, default='', null=True, blank=True)
-    container_type = models.CharField(max_length=50, default='', null=True, blank=True)
+    org = models.ForeignKey(Organization, default=1)
+    location = models.CharField(max_length=100, default='')
+    address = models.CharField(max_length=100, default='')
+    rfid = models.CharField(max_length=50, default='')
+    capacity = models.IntegerField(default=0)
+    capacity_units = models.CharField(max_length=20, default='')
+    container_type = models.CharField(max_length=50, default='')
     coordinates = PointField()
     # Whether or not the sensor is sending readings
     functioning = models.BooleanField(default=True)
-    utility = models.IntegerField(default=0)
-    percent_fill = models.IntegerField(default=0)
+    utility = models.PositiveSmallIntegerField(default=0)
+    percent_fill = models.SmallIntegerField(default=0)
+    alert_percentage = models.SmallIntegerField(default=70)
     last_updated = models.DateTimeField(null=True, blank=True)
+    alert_sent = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.address)
@@ -41,12 +44,16 @@ class Dumpster(models.Model):
 
 
 class IntervalReading(models.Model):
-    raw_reading = models.IntegerField(default=0)
+    raw_reading = models.SmallIntegerField(default=0)
     dumpster = models.ForeignKey(Dumpster)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.timestamp) + ' ' + str(self.dumpster)
+
+class Pickup(models.Model):
+    dumpster = models.ForeignKey(Dumpster)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 
 class UniEvent(models.Model):
@@ -70,7 +77,7 @@ class UserProfile(models.Model):
 class Route(models.Model):
     driver = models.CharField(max_length=100)
     date = models.DateField(auto_now_add=True)
-    time_estimate = models.IntegerField()
+    time_estimate = models.PositiveSmallIntegerField()
     number_of_dumpsters = models.IntegerField()
     coordinates = MultiPointField()
     dumpsters = models.ManyToManyField(Dumpster)

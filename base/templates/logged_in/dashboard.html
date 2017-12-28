@@ -24,65 +24,16 @@
     </div>
     <div id="messages">
     </div>
-    <!-- /.row -->
     <div class="row">
-        <div class="col-lg-6 col-md-6">
-            <form id="form-graph" method="post" action="{% url 'graph' %}"> {% csrf_token %}
-                <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
-                <a id="graph" href="#">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-area-chart fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">Graph Selected Dumpsters</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </form>
-        </div>
-        <div class="col-lg-6 col-md-6">
-            <form id="form-route" method="post" action="{% url 'route' %}"> {% csrf_token %}
-                <div class="hide">{% bootstrap_field form_select.dumpsters %}</div>
-                <a id="make-route" href="#">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-road fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">Route Selected Dumpsters</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </form>
-        </div>
-    </div>
-    <div class="row">
-        <div id="table" class="col-md-6" style="visibility:hidden">
-            {% include 'table.html' %}
-        </div>
+        <form id="form-update" method="post" action="{% url 'alert_update' %}">
+            <div class="hide"> {{ form_update.as_p }} {% csrf_token %} </div>
+            <div id="table" class="col-md-6" style="visibility:hidden">
+                {% include 'table.html' %}
+            </div>
+        </form>
+
         <div class="map col-md-6">
             <div id='map' style='width: 100%; height: 100%;'>
-                <select class="driver-btn btn btn-default" name="drivers" form="form-route">
-                    <option>1 Driver</option>
-                    <option>2 Drivers</option>
-                    <option>3 Drivers</option>
-                    <option>4 Drivers</option>
-                    <option>5 Drivers</option>
-                    <option>6 Drivers</option>
-                    <option>7 Drivers</option>
-                    <option>8 Drivers</option>
-                    <option>9 Drivers</option>
-                    <option>10 Drivers</option>
-                </select>
             </div>
         </div>
     </div>
@@ -90,8 +41,8 @@
 <script>
 $.fn.dataTable.ext.search.push(
   function( settings, data, dataIndex ) {
-    $('#min').css('margin-bottom', '10px')
-    $('#max').css('margin-bottom', '10px')
+    $('#min').css('margin-bottom', '10px');
+    $('#max').css('margin-bottom', '10px');
     var min = parseInt( $('#min').val(), 0 );
     var max = parseInt( $('#max').val(), 0 );
     var percent_fill = parseFloat( data[4] ) || 0;
@@ -105,124 +56,150 @@ $.fn.dataTable.ext.search.push(
     return false;
   }
 );
+
+function updateInput(inputField, successful) {
+  console.log(inputField)
+  if (successful)
+    cssClass = 'success-glow';
+  else
+    cssClass = 'fail-glow';
+  inputField.addClass(cssClass)
+  setTimeout(function () {
+    inputField.removeClass(cssClass);
+  }, 1500);
+}
+
 $(document).ready(function() {
-$('.fa-dashboard').addClass('active')
-bootstrap_alert = function() {}
+$('.fa-dashboard').addClass('active');
+bootstrap_alert = function() {};
 bootstrap_alert.warning = function(message) {
   $('#messages').html('<div class="alert alert-danger alert-dismissable">\
                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">\
-                       &times;</button><span style="font-size:18px">'+message+'</span></div>')
+                       &times;</button><span style="font-size:18px">'+message+'</span></div>');
 }
 if ('{{ errors }}') {
-  bootstrap_alert.warning('{{errors}}')
+  bootstrap_alert.warning('{{errors}}');
 }
 
   mapboxgl.accessToken = 'pk.eyJ1IjoidHJhc2hyIiwiYSI6ImNqOHJ3MDBzZjAyZTgzNG1yNHpmZDl3Y2sifQ.q574EBc3GMSMHBH2sPGM6w';
-    var map = new mapboxgl.Map({
+  var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v10',
+    style: 'mapbox://styles/trashr/cjbfu0nyla7fi2stdtkajkfia',
     center: [{{long}}, {{lat}}],
     zoom: 12.5
   });
   map.addControl(new mapboxgl.NavigationControl());
 
-  var geojson = {{layer|safe}}
+  var geojson = {{layer|safe}};
 
-  red = "url('{% static 'images' %}/red-waste-basket-15.svg')"
-  green = "url('{% static 'images' %}/green-waste-basket-15.svg')"
-  yellow = "url('{% static 'images' %}/yellow-waste-basket-15.svg')"
+  map.on('load', function() {
+    map.addLayer(geojson);
+    map.on('click', 'dumpsters', function (e) {
+      feature = e.features[0]
+      new mapboxgl.Popup()
+       .setLngLat(feature.geometry.coordinates)
+       .setHTML(feature.properties.description)
+       .addTo(map);
+      row = table.row('#' + feature.properties.id);
+      row.scrollTo();
+      row.select();
+    });
 
-  geojson.features.forEach(function(marker) {
-    // create a DOM element for the marker
-    var el = document.createElement('div');
-    el.className = 'marker';
-    if (marker.properties.color === 'red')
-      el.style.backgroundImage = red
-    else if (marker.properties.color === 'green')
-      el.style.backgroundImage = green
-    else el.style.backgroundImage = yellow
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'dumpsters', function () {
+      map.getCanvas().style.cursor = 'pointer';
+    });
 
-    // add marker to map
-    new mapboxgl.Marker(el)
-      .setLngLat(marker.geometry.coordinates)
-      .setPopup(new mapboxgl.Popup().setHTML(marker.properties.description))
-      .addTo(map);
-  });
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'dumpsters', function () {
+      map.getCanvas().style.cursor = '';
+    });
+  })
+
   var table = $('#dumpster-table').DataTable( {
     responsive:     true,
+    select: {style: 'single'},
+    deferRender:    false,
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    scroller:       true,
     columnDefs: [
      { targets: 0, visible: false, searchable: false },
-     { responsivePriority: 1, targets: 1 },
-     { responsivePriority: 1, targets: -1 },
+     { targets: 1, visible: false, searchable: false },
+     { responsivePriority: 1, targets: 2 },
+     { responsivePriority: 1, targets: 4 },
+     { responsivePriority: 2, targets: 5 },
      { responsivePriority: 3, targets: 3 },
-     {
-    } ],
-    select: {
-      style: 'multi',
-    },
-    order: [[ 4, 'desc' ]],
-    dom: 'Bfrtip',
-    buttons: [
-        {
-            extend: 'selectAll',
-            className: 'selectall',
-            action : function(e) {
-                e.preventDefault();
-                table.rows({ page: 'all'}).nodes().each(function() {
-                    $(this).removeClass('selected')
-                })
-                table.rows({ search: 'applied'}).select();
-            }
-        },
-        'selectNone',
     ],
-    language: {
-        buttons: {
-            selectAll: "Select all",
-            selectNone: "Select none"
-        }
-    },
+    order: [[ 4, 'desc' ]],
   } );
   $('#min, #max').keyup(function() {
     table.draw();
   });
 
-  $('#graph').click(function() {
-    $('[name=dumpsters]').val(makeArray());
-    $('#form-graph').submit();
-  });
-
-  $('#make-route').click(function() {
-    arr = makeArray();
-    if (!arr) {
-      return
-    }
-    $('[name=dumpsters]').val(makeArray());
-    $('#form-route').submit();
-  });
-
-  function makeArray() {
-    var arr = '['
-    var rows = table.rows('.selected')
-    var count = rows.count()
-    if (count === 0) {
-      bootstrap_alert.warning('Please select one or more dumpsters to route');
-      return;
-    }
-    var data = rows.data()
-    for (i = 0; i < count; i++) {
-        var row = data[i][0]
-        arr += row + ','
-    }
-    arr += ']'
-    return arr
-  }
-
   $('#table').css('visibility', 'visible');
   $('#map').css('height', $('#table').css('height'));
 
-} );
+  $(".update-input").change(function(e) {
+    percentage = e.currentTarget.value;
+    if (percentage > 100 || percentage < -1) {
+      updateInput($(e.currentTarget), false);
+      return
+    }
+    $('input[name="dumpster"]').val($(this).closest('tr')[0].id);
+    $('input[name="percentage"]').val(e.currentTarget.value);
+    $.ajax({
+      type: "POST",
+      url: {% url 'alert_update' %},
+      data: $("#form-update").serialize(),
+      success: function(data)
+      {
+        if (data['success'] === 1)
+          updateInput($(e.currentTarget), true);
+        else
+          updateInput($(e.currentTarget), false);
+      },
+      error: function(data)
+      {
+        updateInput($(e.currentTarget), false);
+      }
+    });
+  });
 
+  table
+    .on( 'select', function ( e, dt, type, indexes ) {
+      popup = $(".mapboxgl-popup-close-button")
+      if (map.loaded() && popup) {
+        for (i = 0; i < popup.length; i++) {
+          popup[i].click();
+        }
+      }
+      data = table.rows( indexes ).data().toArray()[0];
+      coords = data[1];
+      coords = coords.substring(coords.indexOf('('));
+      separator = coords.indexOf(' ');
+      latitude = coords.substring(1, separator);
+      longitude = coords.substring(separator + 1, coords.indexOf(')'));
+      longLat = [longitude, latitude];
+      point = map.project(longLat);
+      lngLat = new mapboxgl.LngLat(longitude, latitude);
+      html = data[2] +
+                     '<br/>' +
+                     '<center>' +
+                     data[4] +
+                     'full</center>';
+      new mapboxgl.Popup()
+        .setLngLat(lngLat)
+        .setHTML(data[2] +
+                 '<br/>' +
+                 '<center>' +
+                 data[4].substring(data[4].indexOf('>') + 1,
+                                   data[4].indexOf('%')) +
+                 '% full</center>')
+        .addTo(map);
+      map.flyTo({center: longLat});
+    } )
+} );
 </script>
 <style type="text/css">
 .hide {
@@ -248,6 +225,70 @@ if ('{{ errors }}') {
 .map {
     height:75vh;
 }
+
+@-webkit-keyframes green-glowing {
+  0% { webkit-box-shadow: 0 0 0px #58ca7e; }
+  50% { -webkit-box-shadow: 0 0 40px #58ca7e; }
+  100% { -webkit-box-shadow: 0 0 0px #58ca7e; }
+}
+
+@-moz-keyframes green-glowing {
+  0% { -moz-box-shadow: 0 0 0px #58ca7e; }
+  50% { -moz-box-shadow: 0 0 40px #58ca7e; }
+  100% { -moz-box-shadow: 0 0 0px #58ca7e; }
+}
+
+@-o-keyframes green-glowing {
+  0% { box-shadow: 0 0 0px #58ca7e; }
+  50% { box-shadow: 0 0 40px #58ca7e; }
+  100% { box-shadow: 0 0 0px #58ca7e; }
+}
+
+@keyframes green-glowing {
+  0% { box-shadow: 0 0 0px #58ca7e; }
+  50% { box-shadow: 0 0 40px #58ca7e; }
+  100% { box-shadow: 0 0 0px #58ca7e; }
+}
+
+@-webkit-keyframes red-glowing {
+  0% { webkit-box-shadow: 0 0 1px #B20000; }
+  50% { -webkit-box-shadow: 0 0 40px #FF0000; }
+  100% { -webkit-box-shadow: 0 0 1px #B20000; }
+}
+
+@-moz-keyframes red-glowing {
+  0% { -moz-box-shadow: 0 0 1px #B20000; }
+  50% { -moz-box-shadow: 0 0 40px #FF0000; }
+  100% { -moz-box-shadow: 0 0 1px #B20000; }
+}
+
+@-o-keyframes red-glowing {
+  0% { box-shadow: 0 0 1px #B20000; }
+  50% { box-shadow: 0 0 40px #FF0000; }
+  100% { box-shadow: 0 0 1px #B20000; }
+}
+
+@keyframes red-glowing {
+  0% { box-shadow: 0 0 1px #B20000; }
+  50% { box-shadow: 0 0 40px #FF0000; }
+  100% { box-shadow: 0 0 1px #B20000; }
+}
+
+.success-glow {
+  -webkit-animation: green-glowing 1500ms;
+  -moz-animation: green-glowing 1500ms;
+  -o-animation: green-glowing 1500ms;
+  animation: green-glowing 1500ms;
+}
+
+.fail-glow {
+  -webkit-animation: red-glowing 1500ms;
+  -moz-animation: red-glowing 1500ms;
+  -o-animation: red-glowing 1500ms;
+  animation: red-glowing 1500ms;
+}
+
+
 </style>
 {% endblock %}
 
