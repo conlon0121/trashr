@@ -75,3 +75,8 @@ ENV/
 # Rope project settings
 .ropeprojectgitignore
 *.swp
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
