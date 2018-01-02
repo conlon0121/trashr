@@ -1,5 +1,6 @@
+from _decimal import Decimal
+
 from django.contrib.auth.models import User
-from django.contrib.gis.geos import Point
 from django.shortcuts import reverse
 
 from rest_framework.test import APITestCase
@@ -9,7 +10,7 @@ from base.models import IntervalReading, Dumpster, Organization
 class TestRest(APITestCase):
     def setUp(self):
         Organization.objects.create(name="1", email='conlon0121@gmail.com')
-        coords = Point(1,1)
+        coords = [Decimal(1), Decimal(1)]
         Dumpster.objects.create(id=1, capacity=100, coordinates=coords)
         self.adminuser = User.objects.create(username='adminuser', password='adminpass',
                                              email='email@test.com',
