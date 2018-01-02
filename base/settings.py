@@ -114,7 +114,7 @@ WSGI_APPLICATION = 'base.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'trashr',
         'USER': os.environ.get('USER'),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),

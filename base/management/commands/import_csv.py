@@ -1,8 +1,8 @@
 import csv
 import os
+from _decimal import Decimal
 
 from django.conf import settings
-from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 
 from base.models import Organization, Dumpster
@@ -35,7 +35,7 @@ class Command(BaseCommand):
                     org=ncsu,
                     location=row[0],
                     address=row[3] + ' ' + row[4],
-                    lat_long=Point(float(row[5]), float(row[6])),
+                    coordinates=[Decimal(row[5]), Decimal(row[6])],
                     rfid=row[7],
                     capacity=row[8],
                     capacity_units=row[9],

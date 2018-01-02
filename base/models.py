@@ -1,4 +1,4 @@
-from django.contrib.gis.db.models import MultiPointField, PointField
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -22,7 +22,9 @@ class Dumpster(models.Model):
     capacity = models.IntegerField(default=0)
     capacity_units = models.CharField(max_length=20, default='')
     container_type = models.CharField(max_length=50, default='')
-    coordinates = PointField()
+    coordinates = ArrayField(
+        models.DecimalField(max_digits=12, decimal_places=8)
+    )
     # Whether or not the sensor is sending readings
     functioning = models.BooleanField(default=True)
     utility = models.PositiveSmallIntegerField(default=0)
@@ -79,7 +81,11 @@ class Route(models.Model):
     date = models.DateField(auto_now_add=True)
     time_estimate = models.PositiveSmallIntegerField()
     number_of_dumpsters = models.IntegerField()
-    coordinates = MultiPointField()
+    coordinates = ArrayField(
+        ArrayField(
+            models.DecimalField(max_digits=12, decimal_places=8)
+        )
+    )
     dumpsters = models.ManyToManyField(Dumpster)
 
     def __str__(self):
