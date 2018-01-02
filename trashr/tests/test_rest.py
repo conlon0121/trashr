@@ -5,7 +5,7 @@ from django.shortcuts import reverse
 
 from rest_framework.test import APITestCase
 
-from base.models import IntervalReading, Dumpster, Organization
+from trashr.models import IntervalReading, Dumpster, Organization
 
 class TestRest(APITestCase):
     def setUp(self):

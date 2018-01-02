@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 
-from base.forms import AccountForm
+from trashr.forms import AccountForm
 
 
 class AccountView(View):

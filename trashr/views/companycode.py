@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 
-from base.forms import CompanyCodeForm
+from trashr.forms import CompanyCodeForm
 
 
 class CompanycodeView(View):

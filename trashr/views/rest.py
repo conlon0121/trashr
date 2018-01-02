@@ -6,7 +6,7 @@ from datetime import datetime
 from django.core.mail import send_mail
 from django.utils import timezone
 
-from base.models import Dumpster, IntervalReading, Pickup
+from trashr.models import Dumpster, IntervalReading, Pickup
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView

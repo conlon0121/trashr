@@ -1,5 +1,5 @@
 from django_tables2 import Table, Column, DateTimeColumn, TemplateColumn
-from base.models import Dumpster
+from trashr.models import Dumpster
 
 
 class DumpsterTable(Table):

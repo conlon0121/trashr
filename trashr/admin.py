@@ -1,7 +1,7 @@
 from dal import autocomplete
 from django.contrib import admin
 from django_admin_bootstrapped.admin.models import SortableInline
-from base.models import IntervalReading, Dumpster, Organization
+from trashr.models import IntervalReading, Dumpster, Organization
 from django.contrib.auth.decorators import login_required
 
 

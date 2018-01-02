@@ -5,7 +5,7 @@ import json
 
 from django.shortcuts import render
 
-from base.models import Organization, UserProfile
+from trashr.models import Organization, UserProfile
 
 
 @method_decorator(login_required, name='dispatch')

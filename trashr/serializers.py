@@ -1,8 +1,8 @@
 # Currently unused class because I fucked up
 # May be used in the future, however
 # TODO: Delete or use
-from base.models import Dumpster
-from base.models import IntervalReading
+from trashr.models import Dumpster
+from trashr.models import IntervalReading
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 

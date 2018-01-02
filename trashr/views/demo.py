@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import View
-from base.models import Dumpster, IntervalReading
+from trashr.models import Dumpster, IntervalReading
 
 
 class DemoView(View):

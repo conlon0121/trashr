@@ -51,7 +51,7 @@ DEBUG = os.environ.get('DEBUG', True)
 # Application definition
 
 INSTALLED_APPS = [
-    'base',
+    'trashr',
     'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -87,7 +87,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-ROOT_URLCONF = 'base.urls'
+ROOT_URLCONF = 'trashr.urls'
 
 TEMPLATES = [
     {
@@ -107,7 +107,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'base.wsgi.application'
+WSGI_APPLICATION = 'trashr.wsgi.application'
 
 
 # Database

@@ -5,10 +5,10 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic import View
-from base.forms import DumpsterUpdateForm
-from base.tables import DumpsterTable
-from base.models import Dumpster
-from base.views.utils import get_layer
+from trashr.forms import DumpsterUpdateForm
+from trashr.tables import DumpsterTable
+from trashr.models import Dumpster
+from trashr.views.utils import get_layer
 
 
 @method_decorator(login_required, name='dispatch')

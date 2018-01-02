@@ -1,5 +1,5 @@
-from base.views import *
-from base.views import CompanycodeView as ccView
+from trashr.views import *
+from trashr.views import CompanycodeView as ccView
 from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
