@@ -25,7 +25,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ('127.0.0.1', os.environ.get('EXTRA_INTERNAL_IP', '127.0.0.1'))
 
-if os.path.exists('/opt/python/current/env'):
+if os.environ.get('PRODUCTION', False):
     patch_environment()
 
 LOGIN_REDIRECT_URL = '/accounts/loginSuccess/'
@@ -43,12 +43,18 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = True
 
+if os.environ.get('PRODUCTION', False):
+    AWS_STORAGE_BUCKET_NAME = 'trashr-eb'
+    AWS_S3_REGION_NAME = 'us-east-1'
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
+    # Tell django-storages the domain to use to refer to static files.
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7$=2mr+@mdh_ry9y$h_*x79oh&3%p)(!-xx*5wmle)d-h(vzmy'
+    # Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when
+    # you run `collectstatic`).
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', True)
@@ -70,6 +76,7 @@ INSTALLED_APPS = [
     'django_tables2',
     'django_extensions',
     'debug_toolbar',
+    'storages',
 ]
 
 # TODO: Send csrf tokens to get request

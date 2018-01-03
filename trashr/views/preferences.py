@@ -13,9 +13,10 @@ class PreferencesView(View):
     template_name = "logged_in/preferences.html"
 
     def get(self, request):
-        company = UserProfile.objects.get(user=request.user).org
-        return render(request, self.template_name, {'name': company.name,
-                                                    'code': company.code,
+        # TODO: Make sure users have userprofiles and companies
+        # company = UserProfile.objects.get(user=request.user).org
+        return render(request, self.template_name, {'name': 'NCSU',
+                                                    'code': 'ABCDEFGHIJKL',
                                                     'email': request.user.email})
 
     def post(self, request):
