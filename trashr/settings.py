@@ -15,6 +15,8 @@ import sys
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from trashr.get_eb_env import patch_environment
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -22,6 +24,9 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ('127.0.0.1', os.environ.get('EXTRA_INTERNAL_IP', '127.0.0.1'))
+
+if os.path.exists('/opt/python/current/env'):
+    patch_environment()
 
 LOGIN_REDIRECT_URL = '/accounts/loginSuccess/'
 
