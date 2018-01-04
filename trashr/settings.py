@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 import sys
+from datetime import timedelta
+
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -28,7 +30,7 @@ INTERNAL_IPS = ('127.0.0.1', os.environ.get('EXTRA_INTERNAL_IP', '127.0.0.1'))
 if os.environ.get('PRODUCTION', False):
     patch_environment()
 
-LOGIN_REDIRECT_URL = '/accounts/loginSuccess/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -42,6 +44,9 @@ EMAIL_PORT = 2587
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = True
+
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = timedelta(minutes=10)
 
 if os.environ.get('PRODUCTION', False):
     AWS_STORAGE_BUCKET_NAME = 'trashr-eb'
@@ -83,6 +88,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'debug_toolbar',
     'storages',
+    'axes',
 ]
 
 # TODO: Send csrf tokens to get request

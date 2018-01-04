@@ -5,84 +5,39 @@
 
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
 <link rel="stylesheet" href="{% static 'css/account.css' %}">
 <script src="{% static 'js/login.js' %}"></script>
 
 
 <div class="login-page">
+  <h3>Create Account</h3>
   <div class="form">
     <form class="login-form" action="{% url 'signup' %}" method="post">
       {% csrf_token %}
-      <div>
-        <td>Email Address</td>
-        <td>{{ form_signup.username }}</td>
-        <td>{{ form_signup.username.errors }}</td>
+      {% if messages %}
+      <div class="alert alert-danger">
+          {% for message in messages %}
+          <p>{{ message }}</p>
+          {% endfor %}
       </div>
+      {% endif %}
+        <td>Email Address</td>
+        <td>{{ form.username }}</td>
       <div>
         <td>Password</td>
-        <td>{{ form_signup.password1}}</td>
-        <td>{{ form_signup.password1.errors }}</td>
+        <td>{{ form.password1}}</td>
       </div>
       <div>
         <td>Re-enter Password</td>
-        <td>{{ form_signup.password2 }}</td>
-        <td>{{ form_signup.password2.errors }}</td>
+        <td>{{ form.password2 }}</td>
+      </div>
+      <div>
+        <td>Company Code</td>
+        <td>{{ form.company_code }}</td>
       </div>
       <input class="btn btn-primary" type="submit" value="create">
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
   </div>
 </div>
-<!--
-<body>
-    <div  id="page-wrapper">
-        <div>
-            <form id="user-reg-form" action="{% url 'signup' %}" method="post">
-                {% csrf_token %}
-                {# Username & Password Section #}
-                <h3>Create Account</h3>
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <th>Email Address</th>
-
-                        </tr>
-                        <tr>
-                            <td>{{ form_signup.username }}</td>
-
-                        </tr>
-                        <tr>
-                            <td>{{ form_signup.username.errors }}</td>
-
-                        </tr>
-                        <tr>
-                            <th>Password</th>
-                        </tr>
-                        <tr>
-                            <td>{{ form_signup.password1 }}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ form_signup.password1.errors }}</td>
-                        </tr>
-                        <tr>
-                            <th>Confirm Password</th>
-                        </tr>
-                        <tr>
-                            <td>{{ form_signup.password2 }}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ form_signup.password2.errors }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                {# Billing Address Section #}
-                <input class="btn btn-primary" type="submit" value="submit">
-            </form>
-            {# Credit Card Section #}
-        </div>
-    </div>
-  </body>
--->
 {% endblock content %}

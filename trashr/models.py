@@ -7,7 +7,10 @@ from django.contrib.auth.models import User
 class Organization(models.Model):
     name = models.CharField(max_length=100, default='')
     email = models.EmailField()
-    code = models.CharField(max_length=5, default='')
+    code = models.CharField(max_length=10, default='')
+
+    def __str__(self):
+        return self.name
 
 
 class Dumpster(models.Model):
@@ -58,35 +61,9 @@ class Pickup(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 
-class UniEvent(models.Model):
-    name = models.CharField(max_length=100, default='')
-    date = models.DateTimeField(default=timezone.now)
-    affected_dumpsters = models.ManyToManyField(Dumpster)
-
-    def __str__(self):
-        return str(self.date) + ' ' + self.name
-
-
 class UserProfile(models.Model):
-    name = models.CharField(max_length=100, default='')
     user = models.ForeignKey(User)
     org = models.ForeignKey(Organization)
 
     def __str__(self):
         return self.name
-
-
-class Route(models.Model):
-    driver = models.CharField(max_length=100)
-    date = models.DateField(auto_now_add=True)
-    time_estimate = models.PositiveSmallIntegerField()
-    number_of_dumpsters = models.IntegerField()
-    coordinates = ArrayField(
-        ArrayField(
-            models.DecimalField(max_digits=12, decimal_places=8)
-        )
-    )
-    dumpsters = models.ManyToManyField(Dumpster)
-
-    def __str__(self):
-        return str(self.date) + ' ' + self.driver
