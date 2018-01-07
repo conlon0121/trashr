@@ -15,3 +15,12 @@ class AccountForm(UserCreationForm):
 
 class PrefsForm(forms.Form):
     pass
+
+
+class ResetForm(forms.Form):
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput())
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput())
+
+
+class ResetRequestForm(forms.Form):
+    email = forms.EmailField(required=True)

@@ -1,0 +1,29 @@
+{% extends 'base_generic.html' %}
+{% block title %}{% endblock title %}
+{% load static %}
+{% load bootstrap3 %}
+
+{% block content %}
+{% csrf_token %}
+<html lang="en">
+<meta http-equiv="refresh" content="3;url={% url 'dashboard' %}" />
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<body >
+  <div class="login-page">
+    <div class="form">
+      <p>Email successfully validated. </p>
+      <p>Redirecting to dashboard</p>
+    </div>
+  </div>
+</body>
+
+
+
+
+
+
+
+
+
+{% endblock content %}

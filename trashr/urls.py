@@ -17,10 +17,13 @@ urlpatterns = [
     url(r'^preferences/', PreferencesView.as_view(), name='preferences'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^alert_update/', AlertUpdateView.as_view(), name='alert_update'),
-    
+
     url(r'^signup/$', AccountView.as_view(), name='signup'),
     url(r'^accounts/success/', SuccessView.as_view(), name='success'),
-    url(r'^accounts/accountSuccess/', AccountSuccessView.as_view(), name='accountSuccess'),
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        ActivateAccount.as_view(), name='activate'),
+    url(r'^reset_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        ResetConfirm.as_view(), name='password_reset_confirm'),
 ]
 
 if settings.DEBUG:
