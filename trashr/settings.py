@@ -27,7 +27,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ('127.0.0.1', os.environ.get('EXTRA_INTERNAL_IP', '127.0.0.1'))
 
-if os.environ.get('PRODUCTION', False):
+if os.environ.get('PRODUCTION', True):
     patch_environment()
 
 LOGIN_REDIRECT_URL = '/dashboard/'
@@ -48,7 +48,7 @@ EMAIL_USE_TLS = True
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = timedelta(minutes=10)
 
-if os.environ.get('PRODUCTION', False):
+if os.environ.get('PRODUCTION', True):
     AWS_STORAGE_BUCKET_NAME = 'trashr-eb'
     AWS_S3_REGION_NAME = 'us-east-1'
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -65,7 +65,7 @@ if os.environ.get('PRODUCTION', False):
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7$=2mr+@mdh_ry9y$h_*x79oh&3%p)(!-xx*5wmle)d-h(vzmy'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', True)
