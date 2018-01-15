@@ -14,9 +14,9 @@ class PreferencesView(View):
 
     def get(self, request):
         # TODO: Make sure users have userprofiles and companies
-        # company = UserProfile.objects.get(user=request.user).org
-        return render(request, self.template_name, {'name': 'NCSU',
-                                                    'code': 'ABCDEFGHIJKL',
+        company = UserProfile.objects.get(user=request.user).org
+        return render(request, self.template_name, {'name': company.name,
+                                                    'code': company.code,
                                                     'email': request.user.email})
 
     def post(self, request):

@@ -68,7 +68,7 @@ class AccountView(View):
                 [email]
             )
             return render(request, 'registration/account_info.html',
-                          {'info': 'Thanks for signing up!'
+                          {'info': 'Thanks for signing up! '
                                    'Please confirm your email address to complete the registration'})
         for field, err_list in form.errors.items():
             for err in err_list:
