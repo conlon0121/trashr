@@ -48,6 +48,13 @@
 
 	<!-- Icomoon Icon Fonts-->
 	<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+
+	<!-- Magnific Popup-->
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+
 	<!-- Owl Carousel -->
 	<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
@@ -79,10 +86,11 @@
 				<span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://twitter.com/TrashrWaste"><i class="icon-twitter"></i></span>
 				<span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://www.instagram.com/trashrwaste"><i class="icon-instagram"></i></span>
 				<span style="margin-left: 1.5%; margin-right: 1.5%;"></span>
+				<!-- NAV TOGGLE -->
 				<a href="#" class="js-fh5co-mobile-toggle fh5co-nav-toggle"><i></i></a>
-				<a href="#">TRASHR</a>
+				<a href="www.trashr.io">TRASHR</a>
 			</div>
-			<div class="col-lg-6 col-md-5 col-sm-5 text-left fh5co-link-wrap">
+			<div class="col-lg-5 col-md-4 col-sm-5 text-left fh5co-link-wrap">
 				<ul data-offcanvass="yes">
 					<li><a href="#team">Team</a></li>
 					<li><a href="#contact">Contact</a></li>
@@ -91,13 +99,13 @@
 					<!--<li><a href="#pricing">Pricing</a></li>-->
 				</ul>
 			</div>
-			<div class="col-lg-3 col-md-4 col-sm-4 fh5co-link-wrap">
+			<div class="col-lg-3 col-md-2 col-sm-1 fh5co-link-wrap">
 				<ul class="fh5co-special" data-offcanvass="yes">
 					{% if request.user.is_authenticated %}
 					<li><a class="text-left" href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
 					<li><a href="{% url 'preferences'%}?next={{request.path}}" class="call-to-action text-left">{{request.user}}</a></li>
 					{% else %}
-					<li><a class="text-right" href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+					<li><a class="text-left" href="{% url 'login'%}?next={{request.path}}">Login</a></li>
 					<li><a href="{% url 'signup'%}?next={{request.path}}" class="call-to-action">Create Account</a></li>
 					{% endif %}
 				</ul>
@@ -115,7 +123,7 @@
 					<div class="col-md-push-6 col-md-6 full-height js-full-height">
 						<div class="fh5co-cover-intro">
 							<!-- <h1 class="cover-text-lead wow fadeInUp" data-wow-duration="1s" data-wow-delay=".5s"><img style="width:10em;" src="{% static 'images/logo.png' %}"></h1> -->
-							<img style="width:25em;" src="{% static 'images/logo.png' %}">
+							<img style="width:75%;" src="{% static 'images/logo.png' %}" >
 							<h2 class="cover-text-sublead">Finding solutions, analyzing data, saving resources.</h2>
 							<p><a href="{% url 'dashboard' %}" class="btn btn-successs btn-outline btn-lg">Dashboard</a></p>
 						</div>
@@ -436,15 +444,7 @@
 
 
 <!-- Begin Contact Form -->
-<hr>
-<div><br></div>
-<!-- www.123contactform.com script begins here -->
-<div id="contact" class="text-center"><h3>Contact Us </h3>
-	<iframe allowTransparency="true" style="min-height:460px; height:inherit; overflow-x:hidden;" width="100%" id="contactform123" name="contactform123" marginwidth="0" marginheight="0" frameborder="0" src="https://www.123contactform.com/my-contact-form-3059199.html">
-		<p>Your browser does not support iframes. The contact form cannot be displayed. Please use another contact method (phone, fax etc)</p>
-	</iframe></div>
-<hr>
-<div style="text-align:center;">Other ways to contact : Please email <a href="mailto:trashrWaste@gmail.com?Subject=Website%20contact" target="_top">trashrWaste@gmail.com</a> or call (315)552-4009</div>
+<div style="text-align:center;">Please Email us at  <a href="mailto:contact@trashr.io?Subject=Website%20contact" target="_top">contact@trashr.io</a></div>
 <div></div>
 </div>
 <!-- End Contact Form -->
@@ -454,12 +454,7 @@
 <div class="fh5co-footer-style-3">
 	<div class="container">
 		<div class="row p-b">
-			<div class="col-md-3 col-sm-6 fh5co-footer-widget">
-				<div class="fh5co-logo"><span class="logo">V</span> Voltage</div>
-				<p class="fh5co-copyright">&copy; 2016 Voltage. <br>All Rights Reserved. <br>Designed by <a target="_blank" href="http://freehtml5.co">FREEHTML5.co</a> <br>Created with <a target="_blank" href="http://freehtml5.co/cards">Cards</a> <br>
-					Images: <a target="_blank" href="http://unsplash.com/">Unsplash</a>, <a target="_blank" href="http://pexels.com/">Pexels</a></p>
-			</div>
-			<div class="col-md-3 col-sm-6 fh5co-footer-widget">
+			<div class="col-md-4 col-sm-2 fh5co-footer-widget">
 				<h3>TRASHR</h3>
 				<ul class="fh5co-links">
 					<li><a href="#services">Services</a></li>
@@ -469,15 +464,16 @@
 				</ul>
 			</div>
 			<div class="clearfix visible-sm-block"></div>
-			<div class="col-md-3 col-sm-6 fh5co-footer-widget">
+			<div class="col-md-4 col-sm-2 fh5co-footer-widget">
 				<h3>Connect</h3>
 				<ul class="fh5co-links fh5co-social">
 					<li><a href="https://www.facebook.com/trashr.waste.1"><i class="icon icon-facebook2"></i> Facebook</a></li>
 					<li><a href="https://twitter.com/TrashrWaste"><i class="icon icon-twitter"></i> Twitter</a></li>
 					<li><a href="https://www.instagram.com/trashrwaste/"><i class="icon icon-instagram"></i> Instagram</a></li>
+					<li><a href="mailto:contact@trashr.io?Subject=Website%20contact" target="_top"><i class="icon icon-mail2"></i>contact@trashr.io</a></li>
 				</ul>
 			</div>
-			<div class="col-md-3 col-sm-6 fh5co-footer-widget">
+			<div class="col-md-4 col-sm-2 fh5co-footer-widget">
 				<h3>Access your dashboard.</h3>
 				<p></p>
 				<p><a href="{% url 'dashboard'%}?next={{request.path}}" class="btn btn-success btn-sm btn-outline">Dashboard</a></p>
@@ -485,7 +481,6 @@
 			<div class="clearfix visible-sm-block"></div>
 		</div>
 	</div>
-</div>
 </div>
 <!-- END footer -->
 
@@ -503,15 +498,29 @@
 		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 		crossorigin="anonymous"></script>	<!-- Waypoints -->
 
-<!-- Owl Carousel -->
-<script src="{% static 'js/owl.carousel.min.js' %}"></script>
-<!-- WOW -->
-<script src="{% static 'js/wow.min.js' %}"></script>
-<script>
-		new WOW().init();
-	</script>
-<!-- Main -->
-<script src="{% static 'js/main.js' %}"></script>
+		<!-- jQuery -->
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<!-- jQuery Easing -->
+		<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+		<!-- Bootstrap -->
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<!-- Waypoints -->
+		 <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+		<!-- Owl Carousel -->
+		<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+		<!-- Magnific Popup -->
+		<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+		<!-- Stellar -->
+		<script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+		<!-- countTo -->
+		<script src="{% static 'js/jquery.countTo.js' %}"></script>
+		<!-- WOW -->
+		<script src="{% static 'js/wow.min.js' %}"></script>
+		<script>
+			new WOW().init();
+		</script>
+		<!-- Main -->
+		<script src="{% static 'js/main.js' %}"></script>
 
 </body>
 </html>

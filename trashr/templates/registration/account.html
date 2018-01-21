@@ -9,7 +9,7 @@
 <script src="{% static 'js/login.js' %}"></script>
 
 
-<div class="login-page">
+<div class="login-page text-center">
   <h3>Create Account</h3>
   <div class="form">
     <form class="login-form" action="{% url 'signup' %}" method="post">
@@ -36,7 +36,7 @@
         <td>{{ form.company_code }}</td>
       </div>
       <input class="btn btn-primary" type="submit" value="create">
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
+      <p class="message">Already registered? <a href="{% url 'login' %}">Sign In</a></p>
     </form>
   </div>
 </div>
