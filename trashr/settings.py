@@ -48,7 +48,7 @@ EMAIL_USE_TLS = True
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = timedelta(minutes=10)
 
-if os.environ.get('PRODUCTION', True):
+if int(os.environ.get('PRODUCTION', True)):
     AWS_STORAGE_BUCKET_NAME = 'trashr-eb'
     AWS_S3_REGION_NAME = 'us-east-1'
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
