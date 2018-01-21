@@ -193,11 +193,14 @@ if ('{{ errors }}') {
       }
       data = table.rows( indexes ).data().toArray()[0];
       coords = data[1];
-      coords = coords.substring(coords.indexOf('('));
       separator = coords.indexOf(' ');
-      latitude = coords.substring(1, separator);
-      longitude = coords.substring(separator + 1, coords.indexOf(')'));
+      latitude = coords.substring(0, separator + 1);
+      latitude = latitude.replace(/[^0-9.-]/g, "")
+      longitude = coords.substring(separator);
+      longitude = longitude.replace(/[^0-9.-]/g, "")
       longLat = [longitude, latitude];
+      console.log(coords)
+      console.log(longLat);
       point = map.project(longLat);
       lngLat = new mapboxgl.LngLat(longitude, latitude);
       html = data[2] +
