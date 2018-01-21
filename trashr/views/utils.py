@@ -2,7 +2,6 @@ def get_layer(dumpsters):
     features = []
     lat = 0
     long = 0
-    import pdb; pdb.set_trace()
     for dumpster in dumpsters:
         fill = dumpster.percent_fill
         d_lat = float(dumpster.coordinates[0])
