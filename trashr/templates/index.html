@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
+<!--DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -44,7 +44,7 @@
 	<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
 
 	<!-- Google Fonts -->
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700'z rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700' rel='stylesheet' type='text/css'>
 
 	<!-- Icomoon Icon Fonts-->
 	<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
@@ -82,13 +82,13 @@
 	<nav class="fh5co-nav-style-2" role="navigation" data-offcanvass-position="fh5co-offcanvass-left">
 		<div class="container">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 fh5co-logo icon">
-				<span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://www.facebook.com/trashr.waste.1"><i class="icon-facebook"></i></span>
-				<span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://twitter.com/TrashrWaste"><i class="icon-twitter"></i></span>
-				<span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://www.instagram.com/trashrwaste"><i class="icon-instagram"></i></span>
+                <span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://www.facebook.com/trashr.waste.1"><i class="icon-facebook"></i></a></span>
+                <span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://twitter.com/TrashrWaste"><i class="icon-twitter"></i></a></span>
+                <span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://www.instagram.com/trashrwaste"><i class="icon-instagram"></i></a></span>
 				<span style="margin-left: 1.5%; margin-right: 1.5%;"></span>
 				<!-- NAV TOGGLE -->
 				<a href="#" class="js-fh5co-mobile-toggle fh5co-nav-toggle"><i></i></a>
-				<a href="www.trashr.io">TRASHR</a>
+				<a href="www.trashr.io"><img style="width:50%;" src="{% static 'images/logo.png' %}" ></a>
 			</div>
 			<div class="col-lg-5 col-md-4 col-sm-5 text-left fh5co-link-wrap">
 				<ul data-offcanvass="yes">
@@ -249,7 +249,7 @@
         </div>
         <div class="row">
 
-            <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12 text-center">
                 <div class="fh5co-testimonial-item">
                     <div class="fh5co-name">
                         <img src="{% static 'images/hartley.jpg' %}" alt=""><!-- Hartley Picture -->
@@ -263,7 +263,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12 text-center">
                 <div class="fh5co-testimonial-item">
                     <div class="fh5co-name">
                         <img src="{% static 'images/gouth.jpg' %}" alt="">
@@ -280,7 +280,7 @@
 
             <div class="clearfix visible-sm-block"></div>
 
-            <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12 text-center">
                 <div class="fh5co-testimonial-item">
                     <div class="fh5co-name">
                         <img src="{% static 'images/nickC.jpg' %}" alt="">
@@ -295,15 +295,15 @@
                 </div>
             </div>
 
-            <div class="clearfix visible-lg-block visible-md-block text-center"></div>
+            <div class="clearfix visible-lg-block visible-md-block"></div>
 
             <div class="clearfix visible-sm-block"></div>
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4 col-md-offset-4 col-xs-12 text-center">
                 <div class="fh5co-testimonial-item">
                     <div class="fh5co-name">
                         <img src="{% static 'images/nicks.jpg' %}" alt="">
                         <div class="fh5co-meta">
-                            <h3>Nick Sischo</h3>
+                            <h3>Nickolas Sischo</h3>
                             <span class="fh5co-company">Developer</span>
                         </div>
                     </div>
@@ -318,19 +318,19 @@
     <div class="clearfix visible-sm-block"></div>
 
 </div>
-</div>
+
 <!-- End Team Section -->
 
 
 <!-- Begin Contact Form -->
 <div style="text-align:center;">Please Email us at  <a href="mailto:contact@trashr.io?Subject=Website%20contact" target="_top">contact@trashr.io</a></div>
 <div></div>
-</div>
+
 <!-- End Contact Form -->
 
 
 <!-- Begin Footer -->
-<div class="fh5co-footer-style-3">
+<div class="fh5co-footer-style-3 text-center">
 	<div class="container">
 		<div class="row p-b">
 			<div class="col-md-4 col-sm-2 fh5co-footer-widget">
@@ -356,6 +356,8 @@
 				<h3>Access your dashboard.</h3>
 				<p></p>
 				<p><a href="{% url 'dashboard'%}?next={{request.path}}" class="btn btn-success btn-sm btn-outline">Dashboard</a></p>
+				<div></div>
+				<p><a href="{% url 'preferences'%}?next={{request.path}}" class="btn btn-success btn-sm btn-outline">Preferences</a></p>
 			</div>
 			<div class="clearfix visible-sm-block"></div>
 		</div>
@@ -363,7 +365,6 @@
 </div>
 <!-- END footer -->
 
-</div>
 <!-- END page-->
 
 <!-- jQuery -->
