@@ -27,7 +27,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ('127.0.0.1', os.environ.get('EXTRA_INTERNAL_IP', '127.0.0.1'))
 
-if os.environ.get('PRODUCTION', True):
+if int(os.environ.get('PRODUCTION', True)):
     patch_environment()
 
 LOGIN_REDIRECT_URL = '/dashboard/'
