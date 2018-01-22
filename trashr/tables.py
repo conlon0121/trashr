@@ -5,7 +5,10 @@ from trashr.models import Dumpster
 class DumpsterTable(Table):
     # pylint: disable=no-init
     date = DateTimeColumn(orderable=False, accessor='last_updated', verbose_name='Last Updated')
-    address = Column(accessor='address', orderable=False, verbose_name='Dumpster')
+    address = Column(accessor='address', orderable=False, verbose_name='Dumpster',
+                     attrs={"th": {'style': "width:8%"},
+                            "td": {'style': "width:35%"}}
+    )
     container_type = Column(accessor='container_type', verbose_name='Type')
     fill_percentage = TemplateColumn(
         '{% with fill=record.percent_fill %}'
@@ -19,7 +22,9 @@ class DumpsterTable(Table):
         '{% endif %}'
         '{% endwith %}',
         accessor='percent_fill',
-        verbose_name='% Fill'
+        verbose_name='% Fill',
+        attrs={"th": {'style': "width:12%"},
+               "td": {'style': "width:12%"}}
     )
     alert_percentage = TemplateColumn(
         '<input class="update-input"'
@@ -30,8 +35,8 @@ class DumpsterTable(Table):
         '</input>',
         accessor='alert_percentage',
         verbose_name='Alert %',
-        attrs={"th": {'style': "width:13%"},
-               "td": {'style': "width:13%"}})
+        attrs={"th": {'style': "width:14%"},
+               "td": {'style': "width:14%"}})
 
     class Meta:
         model = Dumpster

@@ -41,7 +41,7 @@
 	<meta name="twitter:card" content="" />
 
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="{% static 'static/favicon.ico' %}">
+	<link rel="shortcut icon" href="{% static 'static/favicon.png' %}">
 
 	<!-- Google Fonts -->
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700' rel='stylesheet' type='text/css'>
@@ -85,14 +85,13 @@
                 <a href="https://www.facebook.com/trashr.waste.1"><i class="icon-facebook"></i></a>
                 <a href="https://twitter.com/TrashrWaste"><i class="icon-twitter"></i></a>
                 <a href="https://www.instagram.com/trashrwaste"><i class="icon-instagram"></i></a>
-                <a class="text-center" href="#"><img style="width:50%;" src="{% static 'images/logo.png' %}"></a>
             </div>
             <div class="col-lg-6 col-md-1 col-sm-1 col-xs-1 ">
                 <a href="#" class="js-fh5co-mobile-toggle fh5co-nav-toggle"><i></i></a>
             </div>
             <div class="col-lg-6 col-md-5 col-sm-5 text-center fh5co-link-wrap">
                 <ul class="text-center" data-offcanvass="yes">
-                    <li><a href="#sensor"><strong>Sensors</strong></a></li>
+                    <li><a href="#sensor"><strong>Sensor</strong></a></li>
                     <li><a href="#whyChoose"><strong>Why Us?</strong></a></li>
                     <li><a href="#team"><strong>Team</strong></a></li>
                     <li><a href="#contact"><strong>Contact</strong></a></li>
@@ -154,13 +153,13 @@
             <div style="display:inline" class="col-md-4">
                 <ul>
 
-                    <li>Modular design fits any environment, any dumpster</li>
+                    <li style="font-size:24px">Modular design fits any environment, any dumpster</li>
                     <br/>
-                    <li>Calculates container fill, accurate to 1 cm</li>
+                    <li style="font-size:24px">Calculates container fill, accurate to 1 cm</li>
                     <br/>
-                    <li>Weatherproof with lifetime warranty</li>
+                    <li style="font-size:24px">Weatherproof with lifetime warranty</li>
                     <br/>
-                    <li>Cellular connectivity for 99.9% up time</li>
+                    <li style="font-size:24px">Cellular connectivity for 99.9% up time</li>
                 </ul>
             </div>
         </div>
@@ -175,18 +174,21 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6" style="float:left">
+            <div class="col-md-12" style="float:left; padding-bottom: 50px">
                 <img style="width:100%;" src="{% static 'images/dashboard.png' %}">
             </div>
-            <div style="display:inline" class="col-md-4">
+            <div class="col-md-6">
                 <ul>
-                    <li style="font-size:20px, color: white;">Real time fill % reporting</li>
+                    <li style="font-size:24px; color: white;">Real time fill % reporting</li>
                     <br/>
-                    <li style="font-size:20px, color:white;">Customizable alerts</li>
+                    <li style="font-size:24px; color:white;">Customizable alerts</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul>
+                    <li style="font-size:24px; color:white;">Optimized pickup routes</li>
                     <br/>
-                    <li style="font-size:20px, color:white;">Optimized pickup routes</li>
-                    <br/>
-                    <li style="font-size:20px, color:white;">Analytics and metrics geared for effective initiatives</li>
+                    <li style="font-size:24px; color:white;">Analytics and metrics geared for effective initiatives</li>
                 </ul>
             </div>
         </div>
@@ -209,14 +211,14 @@
                 <div class="fh5co-icon"><i class="icon-command"></i></div>
                 <div class="fh5co-desc">
                     <h3>Intelligent</h3>
-                    <p>Using advanced algorithms and machine learning, TRASHR optomizes your waste management operations.</p>
+                    <p>TRASHR optimizes your waste management operations by using advanced data analytics. </p>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6 col-xs-6 col-xxs-12 fh5co-feature">
                 <div class="fh5co-icon"><i class="icon-eye22"></i></div>
                 <div class="fh5co-desc">
                     <h3>Lightweight</h3>
-                    <p>TRASHR is non invasive and requires minimal setup; you will be saving money in no time.</p>
+                    <p>You will be saving money in no time with TRASHR sensors that are non invasive and require minimal setup. </p>
                 </div>
             </div>
             <!-- <div class="clearfix visible-sm-block visible-xs-block"></div> -->
@@ -232,7 +234,7 @@
                 <div class="fh5co-icon"><i class="icon-umbrella"></i></div>
                 <div class="fh5co-desc">
                     <h3>Eco Friendly</h3>
-                    <p>Our heuristics will efficiently allocate resources to reduce emissions, all the while saving you time.</p>
+                    <p>TRASHR saves you time and reduces emissions by using heuristics to efficiently allocate resources.</p>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6 col-xs-6 col-xxs-12 fh5co-feature">
@@ -247,7 +249,7 @@
                 <div class="fh5co-icon"><i class="icon-heart22"></i></div>
                 <div class="fh5co-desc">
                     <h3>Humans in mind</h3>
-                    <p>We've built our product with workers in mind, to make waste collection and routing as easy on workers as possible.</p>
+                    <p>We've built our product with people in mind by making waste collection and routing as easy on employees as possible.</p>
                 </div>
             </div>
         </div>
@@ -341,15 +343,8 @@
 <!-- End Team Section -->
 
 
-<!-- Begin Contact Form -->
-<div id="contact" style="text-align:center;">Please Email us at  <a href="mailto:contact@trashr.io?Subject=Website%20contact" target="_top">contact@trashr.io</a></div>
-<div></div>
-
-<!-- End Contact Form -->
-
-
 <!-- Begin Footer -->
-<div class="fh5co-footer-style-3 text-center">
+<div id="contact" class="fh5co-footer-style-3 text-center">
 	<div class="container">
 		<div class="row p-b">
 			<div class="col-md-4 col-sm-2 fh5co-footer-widget">
