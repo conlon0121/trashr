@@ -41,7 +41,7 @@
 	<meta name="twitter:card" content="" />
 
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+	<link rel="shortcut icon" href="{% static 'static/favicon.ico' %}">
 
 	<!-- Google Fonts -->
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700' rel='stylesheet' type='text/css'>
@@ -81,32 +81,35 @@
 
     <nav class="fh5co-nav-style-2" role="navigation" data-offcanvass-position="fh5co-offcanvass-left">
         <div class="container">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 fh5co-logo icon">
-                <span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://www.facebook.com/trashr.waste.1"><i class="icon-facebook"></i></span>
-                <span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://twitter.com/TrashrWaste"><i class="icon-twitter"></i></span>
-                <span style="margin-left: 1.5%; margin-right: 1.5%; color:white;"><a href="https://www.instagram.com/trashrwaste"><i class="icon-instagram"></i></span>
-                <span style="margin-left: 1.5%; margin-right: 1.5%;"></span>
-                <a href="#" class="js-fh5co-mobile-toggle fh5co-nav-toggle"><i></i></a>
-                <a href="#">TRASHR</a>
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 fh5co-logo icon fh5co-link-wrap">
+                <a href="https://www.facebook.com/trashr.waste.1"><i class="icon-facebook"></i></a>
+                <a href="https://twitter.com/TrashrWaste"><i class="icon-twitter"></i></a>
+                <a href="https://www.instagram.com/trashrwaste"><i class="icon-instagram"></i></a>
+                <a class="text-center" href="#"><img style="width:50%;" src="{% static 'images/logo.png' %}"></a>
             </div>
-            <div class="col-lg-6 col-md-5 col-sm-5 text-left fh5co-link-wrap">
-                <ul data-offcanvass="yes">
-                    <li><a href="#team">Team</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#whyChoose">Why Choose Us</a></li>
+            <div class="col-lg-6 col-md-1 col-sm-1 col-xs-1 ">
+                <a href="#" class="js-fh5co-mobile-toggle fh5co-nav-toggle"><i></i></a>
+            </div>
+            <div class="col-lg-6 col-md-5 col-sm-5 text-center fh5co-link-wrap">
+                <ul class="text-center" data-offcanvass="yes">
+                    <li><a href="#sensor"><strong>Sensors</strong></a></li>
+                    <li><a href="#whyChoose"><strong>Why Us?</strong></a></li>
+                    <li><a href="#team"><strong>Team</strong></a></li>
+                    <li><a href="#contact"><strong>Contact</strong></a></li>
                     <!--<li><a href="#pricing">Pricing</a></li>-->
                 </ul>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-4 fh5co-link-wrap">
-                <ul class="fh5co-special" data-offcanvass="yes">
+            <div class="col-lg-4 col-md-3 col-sm-3 fh5co-link-wrap">
+                <ul class="fh5co-special text-center" data-offcanvass="yes">
+                    <strong>
                     {% if request.user.is_authenticated %}
-                    <li><a class="text-left" href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-                    <li><a href="{% url 'preferences'%}?next={{request.path}}" class="call-to-action text-left">{{request.user}}</a></li>
+                    <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+                    <li><a href="{% url 'preferences'%}?next={{request.path}}" class="call-to-action">{{request.user}}</a></li>
                     {% else %}
-                    <li><a class="text-right" href="{% url 'login'%}">Login</a></li>
-                    <li><a href="{% url 'signup'%}" class="call-to-action">Create Account</a></li>
+                    <li><a href="{% url 'login'%}">Login</a></li>
+                    <li><a href="{% url 'signup'%}" class="call-to-action text-center">Create Account</a></li>
                     {% endif %}
+                    </strong>
                 </ul>
             </div>
         </div>
@@ -122,7 +125,7 @@
                     <div class="col-md-push-6 col-md-6 full-height js-full-height">
                         <div class="fh5co-cover-intro">
                             <!-- <h1 class="cover-text-lead wow fadeInUp" data-wow-duration="1s" data-wow-delay=".5s"><img style="width:10em;" src="{% static 'images/logo.png' %}"></h1> -->
-                            <img style="width:25em;" src="{% static 'images/logo.png' %}">
+                            <img style="width:75%;" src="{% static 'images/logo.png' %}">
                             <h2 class="cover-text-sublead">Finding solutions, analyzing data, saving resources.</h2>
                             <p><a href="{% url 'dashboard' %}" class="btn btn-successs btn-outline btn-lg">Dashboard</a></p>
                         </div>
@@ -131,36 +134,38 @@
             </div>
         </div>
     </div>
+</div>
     <!-- End Div, end splash -->
 
 
-    <div class="fh5co-project-style-2">
-        <div class="container">
-            <div class="row p-b">
-                <div id="services" class="col-md-6 col-md-offset-3 text-center">
-                    <h2 class="fh5co-heading">The Sensor</h2>
-                </div>
-                <div class="col-md-6" style="float:left">
-                    <img style="max-width:100%;" src="{% static 'images/case_blowout.png' %}">
-                </div>
-                <div class="col-md-4">
-                    <ul>
-                        <br/>
-                        <li style="font-size:20px">Noninvasive and customizable design</li>
-                        <br/>
-                        <li style="font-size:20px">Calculates container fill, accurate to 1 cm</li>
-                        <br/>
-                        <li style="font-size:20px">Weatherproof with lifetime warranty</li>
-                        <br/>
-                        <li style="font-size:20px">Cellular connectivity for a more reliable connection</li>
-                    </ul>
-                </div>
+<!-- Begin Services section -->
+<div class="fh5co-features-style-2" style="background-image: url({% static 'images/img_same_dimension4.jpg' %});" data-stellar-background-ratio="0.5">
+    <div class="fh5co-overlay"></div>
+    <div class="container" style="z-index: 3; position: relative;">
+        <div class="row p-b">
+            <div id="sensor" class="col-md-6 col-md-offset-3 text-center">
+                <h2 class="fh5co-heading">Sensor</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" style="float:left">
+                <img style="width:100%;" src="{% static 'images/case_blowout.png' %}">
+            </div>
+            <div style="display:inline" class="col-md-4">
+                <ul>
+
+                    <li>Modular design fits any environment, any dumpster</li>
+                    <br/>
+                    <li>Calculates container fill, accurate to 1 cm</li>
+                    <br/>
+                    <li>Weatherproof with lifetime warranty</li>
+                    <br/>
+                    <li>Cellular connectivity for 99.9% up time</li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Begin Services section -->
 <div class="fh5co-features-style-1" style="background-image: url({% static 'images/full_4.jpg' %});" data-stellar-background-ratio="0.5">
     <div class="fh5co-overlay"></div>
     <div class="container" style="z-index: 3; position: relative;">
@@ -171,17 +176,17 @@
         </div>
         <div class="row">
             <div class="col-md-6" style="float:left">
-                <img style="max-width:100%;" src="{% static 'images/dashboard.png' %}">
+                <img style="width:100%;" src="{% static 'images/dashboard.png' %}">
             </div>
             <div style="display:inline" class="col-md-4">
                 <ul>
-                    <li style="font-size:20px">Real time fill % reporting</li>
+                    <li style="font-size:20px, color: white;">Real time fill % reporting</li>
                     <br/>
-                    <li style="font-size:20px">Customizable alerts</li>
+                    <li style="font-size:20px, color:white;">Customizable alerts</li>
                     <br/>
-                    <li style="font-size:20px">Optimized pickup routes</li>
+                    <li style="font-size:20px, color:white;">Optimized pickup routes</li>
                     <br/>
-                    <li style="font-size:20px">Analytics and metrics geared for effective initiatives</li>
+                    <li style="font-size:20px, color:white;">Analytics and metrics geared for effective initiatives</li>
                 </ul>
             </div>
         </div>
@@ -195,7 +200,7 @@
     <div class="container">
         <div class="row p-b">
             <div id="whyChoose" class="col-md-6 col-md-offset-3 text-center">
-                <h2 class="fh5co-heading">Why Choose Us</h2>
+                <h2 class="fh5co-heading">Why Us?</h2>
                 <p>Differences that put us on a tier above our competitors.</p>
             </div>
         </div>
@@ -337,7 +342,7 @@
 
 
 <!-- Begin Contact Form -->
-<div style="text-align:center;">Please Email us at  <a href="mailto:contact@trashr.io?Subject=Website%20contact" target="_top">contact@trashr.io</a></div>
+<div id="contact" style="text-align:center;">Please Email us at  <a href="mailto:contact@trashr.io?Subject=Website%20contact" target="_top">contact@trashr.io</a></div>
 <div></div>
 
 <!-- End Contact Form -->
@@ -350,9 +355,10 @@
 			<div class="col-md-4 col-sm-2 fh5co-footer-widget">
 				<h3>TRASHR</h3>
 				<ul class="fh5co-links">
-					<li><a href="#services">Services</a></li>
-					<li><a href="#pricing">Prices</a></li>
-					<li><a href="#whyChoose">Why Choose Us</a></li>
+					<li><a href="#services">Sensor</a></li>
+
+					<li><a href="#whyChoose">Why Us?</a></li>
+                    <li><a href="#pricing">Team</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
 			</div>
@@ -376,7 +382,6 @@
 			<div class="clearfix visible-sm-block"></div>
 		</div>
 	</div>
-</div>
 </div>
 <!-- END footer -->
 
