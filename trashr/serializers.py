@@ -11,9 +11,7 @@ from rest_framework.exceptions import ValidationError
 
 
 class ParticleSerializer(serializers.Serializer):
-    name = serializers.CharField()
     data = serializers.JSONField()
-    ttl = serializers.CharField()
     published_at = serializers.DateTimeField(format='%Y-%m-%dT%H:%M:%S.%fZ')
     coreid = serializers.CharField(max_length=25)
 
