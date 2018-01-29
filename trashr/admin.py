@@ -1,12 +1,9 @@
-from dal import autocomplete
 from django.contrib import admin
-from django_admin_bootstrapped.admin.models import SortableInline
 from trashr.models import IntervalReading, Dumpster, Organization
-from django.contrib.auth.decorators import login_required
 
 
 class IntervalReadingAdmin(admin.ModelAdmin):
-    list_display = ('timestamp', 'raw_reading')
+    list_display = ('timestamp', 'raw_readings')
 
 
 class DumpsterAdmin(admin.ModelAdmin):

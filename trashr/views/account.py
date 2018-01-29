@@ -131,3 +131,11 @@ class ResetConfirm(View):
             request.user.set_password(form['password1'])
             return render(request, 'registration/password_reset_complete.html')
         return render(request, self.template_name, {'form': form})
+
+
+class SuccessView(View):
+    template_name = 'registration/success.html'
+    url = '/accounts/success/'
+
+    def get(self, request):
+        return render_to_response(self.template_name)

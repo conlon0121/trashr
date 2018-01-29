@@ -28,6 +28,7 @@ class Dumpster(models.Model):
     coordinates = ArrayField(
         models.DecimalField(max_digits=12, decimal_places=8)
     )
+    core_id = models.CharField(max_length=25, default='')
     # Whether or not the sensor is sending readings
     functioning = models.BooleanField(default=True)
     utility = models.PositiveSmallIntegerField(default=0)
@@ -49,7 +50,7 @@ class Dumpster(models.Model):
 
 
 class IntervalReading(models.Model):
-    raw_reading = models.SmallIntegerField(default=0)
+    raw_readings = ArrayField(models.SmallIntegerField(default=0))
     dumpster = models.ForeignKey(Dumpster)
     timestamp = models.DateTimeField(auto_now_add=True)
 
