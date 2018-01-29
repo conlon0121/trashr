@@ -1,6 +1,3 @@
-# Currently unused class because I fucked up
-# May be used in the future, however
-# TODO: Delete or use
 import json
 import logging
 import math
@@ -14,8 +11,9 @@ from rest_framework.exceptions import ValidationError
 
 
 class ParticleSerializer(serializers.Serializer):
+    name = serializers.CharField()
     data = serializers.JSONField()
-    ttl = serializers.IntegerField()
+    ttl = serializers.CharField()
     published_at = serializers.DateTimeField(format='%Y-%m-%dT%H:%M:%S.%fZ')
     coreid = serializers.CharField(max_length=25)
 

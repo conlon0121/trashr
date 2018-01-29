@@ -47,7 +47,7 @@ class AccountView(View):
                 messages.error(request, 'Invalid email address')
                 return render(request, self.template_name, {'form': form})
             try:
-                org = Organization.objects.get(code=company_code)
+                org = Organization.objects.get(code__iexact=company_code)
             except Organization.DoesNotExist:
                 messages.error(request, 'Invalid company code')
                 return render(request, self.template_name, {'form': form})

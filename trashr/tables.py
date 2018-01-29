@@ -41,6 +41,7 @@ class DumpsterTable(Table):
     class Meta:
         model = Dumpster
         sequence = ('address', 'date', 'fill_percentage', 'alert_percentage')
-        exclude = ('alert_sent', 'utility', 'container_type', 'id', 'org', 'location', 'rfid', 'capacity',
-                   'capacity_units', 'coordinates', 'functioning', 'percent_fill', 'last_updated')
+        exclude = ('core_id', 'alert_sent', 'utility', 'container_type',
+                   'id', 'org', 'location', 'rfid', 'capacity', 'capacity_units',
+                   'coordinates', 'functioning', 'percent_fill', 'last_updated')
         template = 'table.html'
