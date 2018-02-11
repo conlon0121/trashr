@@ -4,7 +4,7 @@ import math
 
 from django.core.mail import send_mail
 
-from trashr.models import Dumpster, Pickup
+from trashr.models import Dumpster, Pickup, Alert, UserProfile, Email
 from trashr.models import IntervalReading
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -26,18 +26,25 @@ class ParticleSerializer(serializers.Serializer):
         for reading in readings:
             if reading > 0:
                 agg_reading = agg_reading + reading * math.cos(math.radians(10))
+        if agg_reading < 0:
+            return IntervalReading.objects.create(raw_readings=readings,
+                                                  dumpster=dumpster,
+                                                  timestamp=timestamp
+                                                  )
         try:
-            percent_fill =  100 * (dumpster.capacity - int(agg_reading)) / dumpster.capacity
+            percent_fill = 100 * (dumpster.capacity - int(agg_reading)) / dumpster.capacity
             if percent_fill >= dumpster.alert_percentage and not dumpster.alert_sent:
                 dumpster.alert_sent = True
                 rounded_fill = str(round(percent_fill))
+                Alert.objects.create(dumpster=dumpster, fill_percent=rounded_fill)
                 send_mail(
-                    'Dumpster at ' + dumpster.address + 'is ' + rounded_fill + 'full.',
+                    'Dumpster at ' + dumpster.address + ' is ' + rounded_fill + ' full.',
                     'Dumpster at ' + dumpster.address
                     + 'is at or above your alert percentage of '
-                    + str(dumpster.alert_percentage) + ' as of ' + str(timestamp) + '.',
+                    + str(dumpster.alert_percentage) + '% as of ' + timestamp.strftime('%D') + '.',
                     'trashrwaste@gmail.com',
-                    [dumpster.org.email],
+                    [list(Email.objects.filter(org=dumpster.org,
+                                               receives_alerts=True).values_list('email', flat=True))],
                     fail_silently=False,
                     )
             elif dumpster.percent_fill < percent_fill - 30:

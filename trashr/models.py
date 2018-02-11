@@ -1,16 +1,23 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 
 
 class Organization(models.Model):
     name = models.CharField(max_length=100, default='')
-    email = models.EmailField()
     code = models.CharField(max_length=10, default='')
 
     def __str__(self):
         return self.name
+
+
+class Email(models.Model):
+    email = models.EmailField()
+    receives_alerts = models.BooleanField(default=True)
+    org = models.ForeignKey(Organization)
+
+    def __str__(self):
+        return self.email
 
 
 class Dumpster(models.Model):
@@ -57,14 +64,29 @@ class IntervalReading(models.Model):
     def __str__(self):
         return str(self.timestamp) + ' ' + str(self.dumpster)
 
+
 class Pickup(models.Model):
     dumpster = models.ForeignKey(Dumpster)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.timestamp)
 
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User)
     org = models.ForeignKey(Organization)
+    email = models.ForeignKey(Email, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
+
+
+class Alert(models.Model):
+    fill_percent = models.PositiveSmallIntegerField(default=70)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    dumpster = models.ForeignKey(Dumpster)
+    org = models.ForeignKey(Organization)
+
+    def __str__(self):
+        return str(self.timestamp)

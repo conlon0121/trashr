@@ -27,6 +27,7 @@ class DashboardView(View):
                                                     'layer': json.dumps(layer),
                                                     })
 
+
 class AlertUpdateView(View):
     form_class = DumpsterUpdateForm
 

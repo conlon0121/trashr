@@ -1,4 +1,4 @@
-from _decimal import Decimal
+from decimal import Decimal
 
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
@@ -6,6 +6,7 @@ from django.shortcuts import reverse
 from rest_framework.test import APITestCase
 
 from trashr.models import IntervalReading, Dumpster, Organization
+
 
 class TestRest(APITestCase):
     def setUp(self):

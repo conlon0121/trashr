@@ -2,7 +2,7 @@ from trashr.views import *
 from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import views as auth_views, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -19,11 +19,15 @@ urlpatterns = [
     url(r'^alert_update/', AlertUpdateView.as_view(), name='alert_update'),
 
     url(r'^signup/$', AccountView.as_view(), name='signup'),
+    url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
     url(r'^accounts/success/', SuccessView.as_view(), name='success'),
-    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/(?P<email>[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/$',
         ActivateAccount.as_view(), name='activate'),
     url(r'^reset_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         ResetConfirm.as_view(), name='password_reset_confirm'),
+    url(r'^email-autocomplete/$', EmailAutoComplete.as_view(), name='email-autocomplete'),
+    url(r'^email-delete/$', EmailDelete.as_view(), name='email-delete'),
+    url(r'^email-verify/$', EmailVerify.as_view(), name='email-verify'),
 ]
 
 if settings.DEBUG:

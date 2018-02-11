@@ -1,89 +1,201 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load bootstrap3 %}
-{{ form.media }}
-{% load render_table from django_tables2 %}
 
 {% block content %}
- <link rel="stylesheet" href="{% static 'css/preference_page.css' %}">
-  <title>Preferences Page</title>
-  <style>
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 550px}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/af-2.2.2/b-1.4.2/r-2.2.0/sc-1.4.3/sl-1.2.3/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/af-2.2.2/b-1.4.2/r-2.2.0/sc-1.4.3/sl-1.2.3/datatables.min.js"></script>
 
+    {{ form.media }}
 
-    /* On small screens, set height to 'auto' for the grid */
-    @media screen and (max-width: 767px) {
-      .row.content {height: auto;}
-    }
-
-    .parent {
-        text-align: center;
-    }
-    .parent > ul {
-      display: inline-block;
-   }
-    .choiceprice{
-      font-size: 3em;
-      font-weight: 800;
-      color: #58ca7e;
-      position: relative;
-      z-index: 100;
-    }
-
-  </style>
-<script>
-  $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-  });
-</script>
-<div id="page-wrapper">
-  <div class="row">
-    <div class="col-lg-12">
-      <h2 style="text-align: center;" class="page-header">Preferences</h2>
-    </div>
-  </div>
- <div class = "row">
-  <div class = "col-sm-12">
-    <div class="well">
-      <center><h2>{{name}}</h2></center>
-    </div>
+    <title>Preferences Page</title>
+    <div id="page-wrapper">
     <div class="row">
-      <div class="col-sm-12">
-        <div class="well">
-          <div class="col-sm-5">
-           <h4>Email Address</h4>
-            <p>{{email}}
-            <br>
-            <br>
-             <a href="{% url 'password_reset' %}">Reset Password</a>
-            </p>
-          </div>
-          <div class="col-sm-5">
-            <h4>Company Code</h4>
-             <p>{{code}}</p>
-          </div>
-            <div class = "col-sm-1 col-sm-offset-1 text-align:right">
-           </div>
-         <br />
-         <br />
-         <br />
-         <br />
-         <br />
-         <br />
+        <div class="col-lg-12">
+            <h1 class="page-header">Preferences</h1>
         </div>
-      </div>
     </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <center><h2>{{name}}</h2></center>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Personal Information</div>
+        <div class="panel-body">
+            <div class="col-sm-6">
+                <center><h4>Email Address</h4></center>
+                <center><p>{{ email }}
+                </p></center>
+            </div>
+            <div class="col-sm-6">
+                <center><h4>Company Code</h4></center>
+                <center><p>{{code}}</p></center>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Email Notifications</div>
+        <div class="panel-body">
+            <div class="row col-md-12">
+                <p>Send emails to:</p>
+                <table id="email-table" class="table table-striped">
+                    {% if emails %}
+                        {% for email in emails %}
+                            <tr>
+                                <td>{{ email }}</td>
+                                <td><button data-delete="{{ email }}" class="btn btn-danger" value="remove">remove</button></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr id="empty"><td>None</td></tr>
+                    {% endif %}
+                </table>
+            </div>
+            <div id="messages">
+            </div>
+            <div class="row">
+                <div  style="padding-bottom: 30px" class="col-md-6">
+                    {{ form.email_add }}
+                    <button id="add-email" class="btn btn-primary" type="submit">Add email</button>
+                </div>
+                <div class="col-md-6">
+                    {{ form_verify.email }}
+                    <button id="verify-email" class="btn btn-primary">Verify New Email</button>
+                </div>
+            </div>
 
 
-<div class="row">
-   <div class="col-sm-12">
-     <div class="well">
-           <div class="row">
-      </div>
-      <br /><br /><br /> <br /><br /> <br /> <br /> <br /> <br /> <br /> <br /><br /><br /> <br /><br /><br /><br />
-      <br />
+            <p>Alerts Past 30 Days</p>
+            <table id="alert-table" class="table table-striped">
+                <thead>
+                <tr>
+                    <td>Alert Time</td>
+                    <td>Address</td>
+                    <td>Fill % At Alert Time</td>
+                    <td>Current Fill %</td>
+                </tr>
+                </thead>
+                {% for alert in alerts %}
+                    <tr>
+                        <td>{{ alert.timestamp }}</td>
+                        <td>{{ alert.address }}</td>
+                        <td>{% with fill=alert.fill_percent %}
+                            {% if not fill %}<p style="color:green">0%</p>
+                            {% elif fill < 30 %}
+                                <p style="color:green">{{fill}}%</p>
+                            {% elif fill > 50 %}
+                                <p style="color:red">{{fill}}%</p>
+                            {% else %}
+                                <p style="color:#FFA500">{{fill}}%</p>
+                            {% endif %}
+                        {% endwith %}</td>
+                        <td>{% with fill=alert.current_fill %}
+                            {% if not fill %}<p style="color:green">0%</p>
+                            {% elif fill < 30 %}
+                                <p style="color:green">{{fill}}%</p>
+                            {% elif fill > 50 %}
+                                <p style="color:red">{{fill}}%</p>
+                            {% else %}
+                                <p style="color:#FFA500">{{fill}}%</p>
+                            {% endif %}
+                        {% endwith %}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
-  </div>
-</div>
+    <script>
+        $(document).ready(function () {
+            bootstrap_alert = function() {};
+            bootstrap_alert.warning = function(message) {
+                $('#messages').html('<div class="alert alert-danger alert-dismissable">\
+                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">\
+                       &times;</button><span style="font-size:18px">'+message+'</span></div>');
+            };
+            bootstrap_alert.success = function(message) {
+                $('#messages').html('<div class="alert alert-success alert-dismissable">\
+                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">\
+                       &times;</button><span style="font-size:18px">'+message+'</span></div>');
+            }
+            $('#add-email').click(function () {
+                var email = $('.select2-selection__rendered')[0];
+                if (!email) {
+                    return
+                }
+                else {
+                    email = email.title;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{%  url 'preferences' %}",
+                    data: {'email_add': email,
+                        'csrfmiddlewaretoken': "{{ csrf_token }}"},
+                    success: function(data)
+                    {
+                        if ($('#empty')) {
+                            $('#empty').remove()
+                        }
+                        $('#email-table').append('<tr><td>' + data["email"] + '</td>' +
+                            '<td><button data-delete="' + data['email'] + '" class="btn btn-danger" value="remove">remove</button></td>');
+                    },
+                    error: function(data)
+                    {
+                        bootstrap_alert.warning(data['responseJSON']['message']);
+                    }
+                });
+            });
+
+            $('#verify-email').click(function () {
+                var email = $('[name=email]').val();
+                $.ajax({
+                    type: 'POST',
+                    url: "{%  url 'email-verify' %}",
+                    data: {'email': email,
+                        'csrfmiddlewaretoken': "{{ csrf_token }}"},
+                    success: function(data)
+                    {
+                        bootstrap_alert.success(data['message']);
+                    },
+                    error: function(data)
+                    {
+                        bootstrap_alert.warning(data['message']);
+                    }
+                });
+            });
+        });
+
+        $(document).on('click', '.btn-danger', function () {
+            var email = $(this).data().delete;
+            $.ajax({
+                type: 'POST',
+                url: "{%  url 'email-delete' %}",
+                data: {
+                    'email': email,
+                    'csrfmiddlewaretoken': "{{ csrf_token }}"
+                },
+                success: function (data) {
+                    console.log($('#email-table tr').length);
+
+                    var query = 'button[data-delete=\'' + email + '\']';
+                    var row = $(`${query}`).closest('tr')[0];
+                    row.remove();
+                    if ($('#email-table tr').length == 0) {
+                        $('#email-table').append('<tr id="empty"><td>None</td></tr>');
+                    }
+                }
+            });
+        });
+
+        var table = $('#alert-table').DataTable( {
+            responsive:     true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 3, targets: 1 },
+                { responsivePriority: 2, targets: 2 },
+                { responsivePriority: 1, targets: 3 },
+            ],
+            order: [[ 0, 'desc' ]],
+        } );
+    </script>
 {% endblock %}

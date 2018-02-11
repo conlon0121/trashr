@@ -31,6 +31,11 @@ if int(os.environ.get('PRODUCTION', True)):
     patch_environment()
 
 LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
+
+SENDER_EMAIL = 'noreply@trashr.io'
+
+HASH_KEY = '12345'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -74,6 +79,8 @@ DEBUG = int(os.environ.get('DEBUG', True))
 
 INSTALLED_APPS = [
     'trashr',
+    'dal',
+    'dal_select2',
     'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',

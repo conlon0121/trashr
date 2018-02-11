@@ -1,10 +1,13 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
-from django.shortcuts import render, render_to_response, redirect
+from django.http import JsonResponse
+from django.shortcuts import render, render_to_response
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import View
@@ -13,16 +16,18 @@ from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils import six
 
-from trashr.forms import AccountForm, ResetForm, ResetRequestForm
-from trashr.models import Organization, UserProfile
+from trashr.forms import AccountForm, ResetForm, EmailForm
+from trashr.models import Organization, UserProfile, Email
 
 
 class TokenGenerator(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):
         return (
-            six.text_type(user.pk) + six.text_type(timestamp) +
-            six.text_type(user.is_active)
+                six.text_type(user.pk) + six.text_type(timestamp) +
+                six.text_type(user.is_active)
         )
+
+
 account_activation_token = TokenGenerator()
 
 
@@ -33,7 +38,6 @@ class AccountView(View):
 
     def get(self, request):
         return render(request, self.template_name, {'form':AccountForm()})
-
 
     def post(self, request):
         form = AccountForm(request.POST)
@@ -56,10 +60,11 @@ class AccountView(View):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            message = render_to_string('registration/email.html', {
+            message = render_to_string('registration/verification_email.html', {
                 'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+                'email': email
             })
             send_mail(
                 'Please Verify Your Email',
@@ -77,23 +82,63 @@ class AccountView(View):
 
 
 class ActivateAccount(View):
-    def get(self, request, uidb64, token):
+    def get(self, request, uidb64, token, email):
         try:
             uid = force_text(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user is not None and account_activation_token.check_token(user, token):
-            user.is_active = True
-            user.save()
-            login(request, user)
-            return render(request, 'registration/account_success.html')
-        else:
-            return render(request, 'registration/account_info.html', {'info': 'Activation link is invalid!'})
+            if not user.is_active:
+                user.is_active = True
+                user.save()
+                login(request, user)
+                email, _ = Email.objects.update_or_create(email=email,
+                                                          defaults={
+                                                              'org': UserProfile.objects.get(user=user).org,
+                                                              'receives_alerts': True})
+                UserProfile.objects.filter(user=user).update(email=email)
+            return render(request, 'registration/email_verify_success.html')
+        return render(request, 'registration/account_info.html', {'info': 'Activation link is invalid!'})
 
 
+@method_decorator(login_required, name='dispatch')
+class EmailVerify(View):
+    form_class = EmailForm
+
+    def post(self, request):
+        org = UserProfile.objects.get(user=request.user).org
+        if org.name is 'Demo':
+            return JsonResponse({"message": "This action is not allowed as a demo user"}, status=400)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                validate_email(email)
+            except ValidationError:
+                return JsonResponse({"message": "Invalid email address"}, status=400)
+            if Email.objects.filter(email=email, org=org).exists():
+                return JsonResponse({"message": "This email is already verified."}, status=400)
+            current_site = get_current_site(request)
+            message = render_to_string('registration/verification_email.html', {
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(request.user.pk)),
+                'token': account_activation_token.make_token(request.user),
+                'email': email
+            })
+            send_mail(
+                'Please Verify Your Email',
+                message,
+                'trashrwaste@gmail.com',
+                [email]
+            )
+            return JsonResponse({"message": "Verification email sent. Please check your email"}, status=200)
+        return JsonResponse({"message": "Something went wrong, please try again"}, status=400)
+
+
+@method_decorator(login_required, name='dispatch')
 class ResetPasswordRequest(View):
-    form_class = ResetRequestForm
+    form_class = EmailForm
     template_name = 'registration/password_reset_form.html'
 
     def get(self, request):
@@ -103,6 +148,7 @@ class ResetPasswordRequest(View):
         form = ResetForm(request.POST)
         if form.is_valid() and request.user.email == form['email']:
             current_site = get_current_site(request)
+            email = UserProfile.objects.get(user=request.user).email
             message = render_to_string('registration/password_reset_email.html', {
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(request.user.pk)),
@@ -112,12 +158,13 @@ class ResetPasswordRequest(View):
                 'Please Verify Your Email',
                 message,
                 'trashrwaste@gmail.com',
-                [UserProfile.objects.get(user=request.user).email]
+                [email]
             )
             return render(request, 'registration/password_reset_done.html')
         return render(request, self.template_name, {'form': form})
 
 
+@method_decorator(login_required, name='dispatch')
 class ResetConfirm(View):
     form_class = ResetForm
     template_name = 'registration/password_reset_confirm.html'
