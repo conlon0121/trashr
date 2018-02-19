@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
@@ -69,7 +70,7 @@ class AccountView(View):
             send_mail(
                 'Please Verify Your Email',
                 message,
-                'trashrwaste@gmail.com',
+                settings.FROM_EMAIL,
                 [email]
             )
             return render(request, 'registration/account_info.html',
@@ -129,7 +130,7 @@ class EmailVerify(View):
             send_mail(
                 'Please Verify Your Email',
                 message,
-                'trashrwaste@gmail.com',
+                settings.FROM_EMAIL,
                 [email]
             )
             return JsonResponse({"message": "Verification email sent. Please check your email"}, status=200)
@@ -157,7 +158,7 @@ class ResetPasswordRequest(View):
             send_mail(
                 'Please Verify Your Email',
                 message,
-                'trashrwaste@gmail.com',
+                settings.FROM_EMAIL,
                 [email]
             )
             return render(request, 'registration/password_reset_done.html')

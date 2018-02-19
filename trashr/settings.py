@@ -33,7 +33,7 @@ if int(os.environ.get('PRODUCTION', True)):
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
-SENDER_EMAIL = 'noreply@trashr.io'
+FROM_EMAIL = 'noreply@trashr.io'
 
 HASH_KEY = '12345'
 

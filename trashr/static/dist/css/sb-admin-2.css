@@ -6,9 +6,7 @@
 body {
   background-color: #f8f8f8;
 }
-#wrapper {
-  width: 100%;
-}
+
 #page-wrapper {
   padding: 0 15px;
   min-height: 568px;
@@ -17,11 +15,12 @@ body {
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
-    margin: 0 0 0 250px;
+    margin: 0 0 0 215px;
     padding: 0 30px;
     border-left: 1px solid #e7e7e7;
   }
 }
+
 .navbar-top-links {
   margin-right: 0;
 }
@@ -71,9 +70,6 @@ body {
   padding-left: 0;
   padding-right: 0;
 }
-.sidebar {
-  position: fixed;
-}
 .sidebar ul li {
   border-bottom: 1px solid #e7e7e7;
 }
@@ -102,9 +98,9 @@ body {
 @media (min-width: 768px) {
   .sidebar {
     z-index: 1;
-    width: 250px;
+    width: 215px;
     margin-top: 51px;
-    position: fixed;
+    position: absolute;
   }
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
