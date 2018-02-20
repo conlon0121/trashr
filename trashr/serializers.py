@@ -29,10 +29,6 @@ class ReadingSerializer(serializers.Serializer):
             if reading > 0:
                 agg_reading = agg_reading + reading
                 reading_count += 1
-        IntervalReading.objects.create(raw_readings=readings,
-                                       dumpster=dumpster,
-                                       timestamp=timestamp
-                                       )
         if agg_reading < 0:
             agg_reading = agg_reading / reading_count
             percent_fill = 100 * (dumpster.capacity - int(agg_reading)) / dumpster.capacity
