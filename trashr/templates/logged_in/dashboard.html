@@ -184,14 +184,14 @@
             });
 
             table
-                .on('dblclick', 'tr', function ( e, dt, type, indexes ) {
+                .on('dblclick', 'tr', function ( e ) {
                     popup = $(".mapboxgl-popup-close-button");
                     if (map.loaded() && popup) {
                         for (i = 0; i < popup.length; i++) {
                             popup[i].click();
                         }
                     }
-                    data = table.rows( indexes ).data().toArray()[0];
+                    data = table.rows('#' + $(this).attr('id')).data().toArray()[0];
                     coords = data[1];
                     separator = coords.indexOf(' ');
                     latitude = coords.substring(0, separator + 1);
@@ -199,8 +199,6 @@
                     longitude = coords.substring(separator);
                     longitude = longitude.replace(/[^0-9.-]/g, "");
                     longLat = [longitude, latitude];
-                    console.log(coords);
-                    console.log(longLat);
                     point = map.project(longLat);
                     lngLat = new mapboxgl.LngLat(longitude, latitude);
                     html = data[2] +
