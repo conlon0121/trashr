@@ -49,6 +49,7 @@ class ReadingSerializer(serializers.Serializer):
             elif dumpster.percent_fill < percent_fill - 30:
                 dumpster.alert_sent = False
                 Pickup.objects.create(dumpster=dumpster)
+            dumpster.percent_fill = percent_fill
             dumpster.save()
         logging.getLogger().info('reading created')
         return IntervalReading.objects.create(raw_readings=readings,

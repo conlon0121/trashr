@@ -99,6 +99,9 @@ class ActivateAccount(View):
                                                               'org': UserProfile.objects.get(user=user).org,
                                                               'receives_alerts': True})
                 UserProfile.objects.filter(user=user).update(email=email)
+            else:
+                org = UserProfile.objects.get(user=user).org
+                Email.objects.create(email=request.path.split('/')[-2], receives_alerts=True, org=org)
             return render(request, 'registration/email_verify_success.html')
         return render(request, 'registration/account_info.html', {'info': 'Activation link is invalid!'})
 

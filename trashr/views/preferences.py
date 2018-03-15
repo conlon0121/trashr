@@ -52,7 +52,7 @@ class PreferencesView(View):
             except Email.DoesNotExist():
                 return JsonResponse({'message': 'Email address does not exist'}, status=400)
             return JsonResponse({'email': email}, status=200)
-        return JsonResponse({'message': 'Invalid email address'}, status=400)
+        return JsonResponse({'message': 'Invalid email address, you may need to refresh the page.'}, status=400)
 
 
 @method_decorator(login_required, name='dispatch')
