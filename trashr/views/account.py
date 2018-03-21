@@ -121,8 +121,8 @@ class EmailVerify(View):
                 validate_email(email)
             except ValidationError:
                 return JsonResponse({"message": "Invalid email address"}, status=400)
-            if Email.objects.filter(email=email, org=org).exists():
-                return JsonResponse({"message": "This email is already verified."}, status=400)
+            if Email.objects.filter(email=email).exists():
+                return JsonResponse({"message": "This email is already verified by an organization."}, status=400)
             current_site = get_current_site(request)
             message = render_to_string('registration/verification_email.html', {
                 'domain': current_site.domain,

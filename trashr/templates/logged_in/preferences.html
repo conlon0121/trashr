@@ -34,6 +34,7 @@
             </div>
         </div>
     </div>
+    <div id="messages"></div>
     <div class="panel panel-default">
         <div class="panel-heading">Email Notifications</div>
         <div class="panel-body">
@@ -51,8 +52,6 @@
                         <tr id="empty"><td>None</td></tr>
                     {% endif %}
                 </table>
-            </div>
-            <div id="messages">
             </div>
             <div class="row">
                 <div  style="padding-bottom: 30px" class="col-md-6">
@@ -159,7 +158,8 @@
                     },
                     error: function(data)
                     {
-                        bootstrap_alert.warning(data['message']);
+                        console.log(data);
+                        bootstrap_alert.warning(data['responseJSON']['message']);
                     }
                 });
             });

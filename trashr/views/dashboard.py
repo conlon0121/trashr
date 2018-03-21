@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import View
 from trashr.forms import DumpsterUpdateForm
 from trashr.tables import DumpsterTable
-from trashr.models import Dumpster
+from trashr.models import Dumpster, UserProfile
 from trashr.views.utils import get_layer
 
 
@@ -17,7 +17,8 @@ class DashboardView(View):
     form_class = DumpsterUpdateForm
 
     def get(self, request):
-        dumpsters = Dumpster.objects.all()
+        org = UserProfile.objects.get(user=request.user).org
+        dumpsters = Dumpster.objects.filter(org=org)
         layer, lat, long = get_layer(dumpsters)
         table = DumpsterTable(dumpsters)
         return render(request, self.template_name, {'table': table,
