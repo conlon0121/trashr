@@ -24,7 +24,7 @@ class PreferencesView(View):
         company = UserProfile.objects.get(user=request.user).org
         emails = Email.objects.filter(org=company, receives_alerts=True)
         alerts = Alert.objects.filter(timestamp__gte=timezone.now() - timedelta(days=30),
-                                      org=company).prefetch_related('dumpster')\
+                                      dumpster__org=company).prefetch_related('dumpster')\
             .annotate(current_fill=F('dumpster__percent_fill'), address=F('dumpster__address'))
         return render(request, self.template_name, {'name': company.name,
                                                     'code': company.code,

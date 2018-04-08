@@ -86,7 +86,6 @@ class Alert(models.Model):
     fill_percent = models.PositiveSmallIntegerField(default=70)
     timestamp = models.DateTimeField(auto_now_add=True)
     dumpster = models.ForeignKey(Dumpster)
-    org = models.ForeignKey(Organization)
 
     def __str__(self):
         return str(self.timestamp)
