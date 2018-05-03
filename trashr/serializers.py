@@ -1,6 +1,5 @@
 import json
 import logging
-import math
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -17,22 +16,29 @@ class ReadingSerializer(serializers.Serializer):
     coreid = serializers.CharField(max_length=25)
 
     def create(self, validated_data):
+        import pdb; pdb.set_trace()
         try:
             dumpster = Dumpster.objects.get(core_id=validated_data.get('coreid'))
         except Dumpster.DoesNotExist:
             raise ValidationError("Dumpster Does not exist")
+
         readings = json.loads(validated_data.get('data'))['readings']
         timestamp = validated_data.get('published_at')
+
         agg_reading = 0
         reading_count = 0
+
         for reading in readings:
             if reading > 0:
                 agg_reading = agg_reading + reading
                 reading_count += 1
-        if agg_reading < 0:
+
+        if agg_reading > 0:
             agg_reading = agg_reading / reading_count
             percent_fill = 100 * (dumpster.capacity - int(agg_reading)) / dumpster.capacity
-            if percent_fill >= dumpster.alert_percentage and not dumpster.alert_sent:
+            if percent_fill < 0:
+                logging.getLogger().warning('reading exceeds dumpster capacity')
+            elif percent_fill >= dumpster.alert_percentage and not dumpster.alert_sent:
                 dumpster.alert_sent = True
                 rounded_fill = str(round(percent_fill))
                 Alert.objects.create(dumpster=dumpster, fill_percent=rounded_fill)
@@ -46,6 +52,7 @@ class ReadingSerializer(serializers.Serializer):
                                                receives_alerts=True).values_list('email', flat=True))],
                     fail_silently=False,
                     )
+
             elif dumpster.percent_fill < percent_fill - 30:
                 dumpster.alert_sent = False
                 Pickup.objects.create(dumpster=dumpster)

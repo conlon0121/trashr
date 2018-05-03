@@ -22,7 +22,7 @@ class TestRest(APITestCase):
     def test_create_reading(self):
         test_data = {
             "name": "production",
-            "data": "{\"readings\": [192, 192, 192, 192, 192, 192], \"reading_attempts\": 4}",
+            "data": "{\"readings\": [92]}",
             "ttl": 60,
             "published_at": "2018-01-29T14:58:33.046Z",
             "coreid": "470053001951353339373130"
@@ -30,4 +30,5 @@ class TestRest(APITestCase):
 
         self.client.post(reverse('create'), data=test_data, format='json')
         self.assertEqual(1, IntervalReading.objects.count())
-        self.assertEqual(6, len(IntervalReading.objects.first().raw_readings))
+        self.assertEqual(92, IntervalReading.objects.first().raw_readings[0])
+        self.assertEqual(8, Dumpster.objects.first().percent_fill)
