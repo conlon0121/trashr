@@ -116,7 +116,8 @@
                 $('#messages').html('<div class="alert alert-success alert-dismissable">\
                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">\
                        &times;</button><span style="font-size:18px">'+message+'</span></div>');
-            }
+            };
+
             $('#add-email').click(function () {
                 var email = $('.select2-selection__rendered')[0];
                 if (!email) {
@@ -146,6 +147,10 @@
             });
 
             $('#verify-email').click(function () {
+                if ('{{ name }}' === 'Demo') {
+                    bootstrap_alert.warning("Demo users cannot verify new emails");
+                    return;
+                }
                 var email = $('[name=email]').val();
                 $.ajax({
                     type: 'POST',

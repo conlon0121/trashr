@@ -15,7 +15,7 @@ class DumpsterTable(Table):
         '{% if not fill %}<p style="color:green">0%</p>'
         '{% elif fill < 30 %}'
         '<p style="color:green">{{fill}}%</p>'
-        '{% elif fill > 50 %}'
+        '{% elif fill > 60 %}'
         '<p style="color:red">{{fill}}%</p>'
         '{% else %}'
         '<p style="color:#FFA500">{{fill}}%</p>'
@@ -59,7 +59,7 @@ class AlertTable(Table):
         '{% if not fill %}<p style="color:green">0%</p>'
         '{% elif fill < 30 %}'
         '<p style="color:green">{{fill}}%</p>'
-        '{% elif fill > 50 %}'
+        '{% elif fill > 60 %}'
         '<p style="color:red">{{fill}}%</p>'
         '{% else %}'
         '<p style="color:#FFA500">{{fill}}%</p>'
@@ -86,7 +86,7 @@ class AlertTable(Table):
         model = Dumpster
         sequence = ('address', 'date', 'fill_percentage', 'alert_percentage')
         exclude = ('core_id', 'alert_sent', 'utility', 'container_type',
-                   'id', 'org', 'location', 'rfid', 'capacity', 'capacity_units',
+                   'id', 'location', 'rfid', 'capacity', 'capacity_units',
                    'coordinates', 'functioning', 'percent_fill', 'last_updated')
         template = 'table.html'
 

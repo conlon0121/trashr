@@ -91,14 +91,16 @@ class ActivateAccount(View):
             user = None
         if user is not None and account_activation_token.check_token(user, token):
             if not user.is_active:
+                org = UserProfile.objects.get(user=user).org
                 user.is_active = True
                 user.save()
                 login(request, user)
-                email, _ = Email.objects.update_or_create(email=email,
-                                                          defaults={
-                                                              'org': UserProfile.objects.get(user=user).org,
-                                                              'receives_alerts': True})
-                UserProfile.objects.filter(user=user).update(email=email)
+                if not org.name == 'Demo':
+                    email, _ = Email.objects.update_or_create(email=email,
+                                                              defaults={
+                                                                  'org': org,
+                                                                  'receives_alerts': True})
+                    UserProfile.objects.filter(user=user).update(email=email)
             else:
                 org = UserProfile.objects.get(user=user).org
                 Email.objects.create(email=request.path.split('/')[-2], receives_alerts=True, org=org)

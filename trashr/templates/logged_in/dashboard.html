@@ -43,7 +43,7 @@
     </div>
     <script>
         var RATE_LIMIT_IN_MS = 1000;
-        var NUMBER_OF_REQUESTS_ALLOWED = 5;
+        var NUMBER_OF_REQUESTS_ALLOWED = 1;
         var NUMBER_OF_REQUESTS = 0;
 
         setInterval(function()
@@ -79,7 +79,9 @@
         );
 
         function updateInput(inputField, successful) {
-            console.log(inputField)
+            inputField.removeClass('success-glow');
+            inputField.removeClass('fail-glow');
+
             if (successful)
                 cssClass = 'success-glow';
             else
