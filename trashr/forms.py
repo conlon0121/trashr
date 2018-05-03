@@ -48,4 +48,5 @@ class EmailForm(forms.Form):
 class EmailNotificationForm(forms.Form):
     email_add = autocomplete.Select2ListChoiceField(
         widget=autocomplete.ListSelect2(url='email-autocomplete'),
-        choice_list=list(Email.objects.all().values_list('email', flat=True)))
+     #   choice_list=list(Email.objects.all().values_list('email', flat=True)))
+    )

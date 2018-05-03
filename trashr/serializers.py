@@ -4,7 +4,7 @@ import logging
 from django.conf import settings
 from django.core.mail import send_mail
 
-from trashr.models import Dumpster, Pickup, Alert, UserProfile, Email
+from trashr.models import Dumpster, Pickup, Alert, Email
 from trashr.models import IntervalReading
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -16,7 +16,6 @@ class ReadingSerializer(serializers.Serializer):
     coreid = serializers.CharField(max_length=25)
 
     def create(self, validated_data):
-        import pdb; pdb.set_trace()
         try:
             dumpster = Dumpster.objects.get(core_id=validated_data.get('coreid'))
         except Dumpster.DoesNotExist:
