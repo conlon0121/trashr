@@ -1,12 +1,11 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import render, render_to_response
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
@@ -96,12 +95,11 @@ class ActivateAccount(View):
                 user.is_active = True
                 user.save()
                 login(request, user)
-                if not org.name == 'Demo':
-                    email, _ = Email.objects.update_or_create(email=email,
-                                                              defaults={
-                                                                  'org': org,
-                                                                  'receives_alerts': True})
-                    UserProfile.objects.filter(user=user).update(email=email)
+                email, _ = Email.objects.update_or_create(email=email,
+                                                          defaults={
+                                                              'org': org,
+                                                              'receives_alerts': True})
+                UserProfile.objects.filter(user=user).update(email=email)
             else:
                 org = UserProfile.objects.get(user=user).org
                 Email.objects.create(email=request.path.split('/')[-2], receives_alerts=True, org=org)
