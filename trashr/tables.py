@@ -41,7 +41,7 @@ class DumpsterTable(Table):
     class Meta:
         model = Dumpster
         sequence = ('address', 'date', 'fill_percentage', 'alert_percentage')
-        exclude = ('core_id', 'alert_sent', 'utility', 'container_type',
+        exclude = ('core_id', 'active', 'alert_sent', 'utility', 'container_type',
                    'id', 'org', 'location', 'rfid', 'capacity', 'capacity_units',
                    'coordinates', 'functioning', 'percent_fill', 'last_updated')
         template = 'table.html'
@@ -85,7 +85,7 @@ class AlertTable(Table):
     class Meta:
         model = Dumpster
         sequence = ('address', 'date', 'fill_percentage', 'alert_percentage')
-        exclude = ('core_id', 'alert_sent', 'utility', 'container_type',
+        exclude = ('core_id', 'active', 'alert_sent', 'utility', 'container_type',
                    'id', 'location', 'rfid', 'capacity', 'capacity_units',
                    'coordinates', 'functioning', 'percent_fill', 'last_updated')
         template = 'table.html'

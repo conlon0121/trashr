@@ -25,11 +25,11 @@ class AccountForm(UserCreationForm):
         except (Email.DoesNotExist, Organization.DoesNotExist):
             pass
 
-    def clean_company_code(self):
-        data = self.cleaned_data['company_code']
-        if data == 'demo':
-            raise forms.ValidationError("Creating demo users is not allowed.")
-        return data
+    # def clean_company_code(self):
+    #     data = self.cleaned_data['company_code']
+    #     if data == 'demo':
+    #         raise forms.ValidationError("Creating demo users is not allowed.")
+    #     return data
 
 
 class PrefsForm(forms.Form):
@@ -49,3 +49,14 @@ class EmailNotificationForm(forms.Form):
     email_add = autocomplete.Select2ListChoiceField(
         widget=autocomplete.ListSelect2(url='email-autocomplete'),
         choice_list=list(Email.objects.all().values_list('email', flat=True)))
+
+
+class PaymentForm(forms.Form):
+    stripeToken = forms.CharField(required=True)
+    stripeTokenType = forms.CharField(required=False)
+    stripeEmail = forms.EmailField(required=False)
+
+
+class PaymentChange(forms.Form):
+    subscription = forms.CharField(required=True)
+    method = forms.CharField(required=True)

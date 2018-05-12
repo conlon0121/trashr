@@ -1,11 +1,12 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
@@ -104,6 +105,8 @@ class ActivateAccount(View):
             else:
                 org = UserProfile.objects.get(user=user).org
                 Email.objects.create(email=request.path.split('/')[-2], receives_alerts=True, org=org)
+                if len(UserProfile.objects.filter(org=org, user__is_active=True)) is 1:
+                    return render(request, 'registration/payment_redirect.html')
             return render(request, 'registration/email_verify_success.html')
         return render(request, 'registration/account_info.html', {'info': 'Activation link is invalid!'})
 

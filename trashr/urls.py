@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^$', IndexView.as_view(), name="index"),
     url(r'^create/', CreateReading.as_view(), name="create"),
+    url(r'^create-trans/', CreateTransaction.as_view(), name="create-trans"),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^dashboard/$', DashboardView.as_view(), name='dashboard'),
@@ -28,6 +29,8 @@ urlpatterns = [
     url(r'^email-autocomplete/$', EmailAutoComplete.as_view(), name='email-autocomplete'),
     url(r'^email-delete/$', EmailDelete.as_view(), name='email-delete'),
     url(r'^email-verify/$', EmailVerify.as_view(), name='email-verify'),
+    url(r'^checkout/$', CheckoutBeta.as_view(), name="checkout"),
+    url(r'^payment-update/$', PaymentUpdate.as_view(), name="payment_update"),
 ]
 
 if settings.DEBUG:

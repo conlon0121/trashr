@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
@@ -12,6 +12,8 @@ from trashr.views.utils import get_layer
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(user_passes_test(lambda u: UserProfile.objects.get(user=u).org.active,
+                                   login_url='/checkout/'), name='get')
 class DashboardView(View):
     template_name = "logged_in/dashboard.html"
     form_class = DumpsterUpdateForm
@@ -29,6 +31,9 @@ class DashboardView(View):
                                                     })
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_passes_test(lambda u: UserProfile.objects.get(user=u).org.active,
+                                   login_url='/checkout/'), name='post')
 class AlertUpdateView(View):
     form_class = DumpsterUpdateForm
 
