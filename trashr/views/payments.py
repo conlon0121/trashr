@@ -48,9 +48,9 @@ class PaymentUpdate(View):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda u: not UserProfile.objects.get(user=u).org.active,
-                                   login_url='/checkout/'), name='get')
+                                   login_url='/dashboard/'), name='get')
 @method_decorator(user_passes_test(lambda u: not UserProfile.objects.get(user=u).org.active,
-                                   login_url='/checkout/'), name='post')
+                                   login_url='/dashboard/'), name='post')
 class CheckoutBeta(View):
     template_name = "logged_in/checkout.html"
     form_class = PaymentForm
