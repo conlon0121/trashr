@@ -7,3 +7,4 @@ from .preferences import *
 from .account import *
 from .privacy import *
 from .terms import *
+from .payments import *

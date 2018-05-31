@@ -95,15 +95,16 @@ class ActivateAccount(View):
                 user.is_active = True
                 user.save()
                 login(request, user)
-                if not org.name == 'Demo':
-                    email, _ = Email.objects.update_or_create(email=email,
-                                                              defaults={
-                                                                  'org': org,
-                                                                  'receives_alerts': True})
-                    UserProfile.objects.filter(user=user).update(email=email)
+                email, _ = Email.objects.update_or_create(email=email,
+                                                          defaults={
+                                                              'org': org,
+                                                              'receives_alerts': True})
+                UserProfile.objects.filter(user=user).update(email=email)
             else:
                 org = UserProfile.objects.get(user=user).org
                 Email.objects.create(email=request.path.split('/')[-2], receives_alerts=True, org=org)
+                if len(UserProfile.objects.filter(org=org, user__is_active=True)) is 1:
+                    return render(request, 'registration/payment_redirect.html')
             return render(request, 'registration/email_verify_success.html')
         return render(request, 'registration/account_info.html', {'info': 'Activation link is invalid!'})
 

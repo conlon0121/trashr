@@ -1,11 +1,14 @@
-from django.contrib.postgres.fields import ArrayField
+
+from django.contrib.postgres.fields import ArrayField, JSONField
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Organization(models.Model):
     name = models.CharField(max_length=100, default='')
     code = models.CharField(max_length=10, default='')
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -14,7 +17,7 @@ class Organization(models.Model):
 class Email(models.Model):
     email = models.EmailField()
     receives_alerts = models.BooleanField(default=True)
-    org = models.ForeignKey(Organization)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.email
@@ -25,7 +28,7 @@ class Dumpster(models.Model):
     TRASH = 0
     RECYCLING = 1
     COMPOST = 2
-    org = models.ForeignKey(Organization, default=1)
+    org = models.ForeignKey(Organization, default=1, on_delete=models.CASCADE)
     location = models.CharField(max_length=100, default='')
     address = models.CharField(max_length=100, default='')
     rfid = models.CharField(max_length=50, default='')
@@ -43,6 +46,7 @@ class Dumpster(models.Model):
     alert_percentage = models.SmallIntegerField(default=70)
     last_updated = models.DateTimeField(null=True, blank=True)
     alert_sent = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.address)
@@ -58,7 +62,7 @@ class Dumpster(models.Model):
 
 class IntervalReading(models.Model):
     raw_readings = ArrayField(models.SmallIntegerField(default=0))
-    dumpster = models.ForeignKey(Dumpster)
+    dumpster = models.ForeignKey(Dumpster, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -66,7 +70,7 @@ class IntervalReading(models.Model):
 
 
 class Pickup(models.Model):
-    dumpster = models.ForeignKey(Dumpster)
+    dumpster = models.ForeignKey(Dumpster, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -74,9 +78,9 @@ class Pickup(models.Model):
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User)
-    org = models.ForeignKey(Organization)
-    email = models.ForeignKey(Email, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    email = models.ForeignKey(Email, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
@@ -85,7 +89,68 @@ class UserProfile(models.Model):
 class Alert(models.Model):
     fill_percent = models.PositiveSmallIntegerField(default=70)
     timestamp = models.DateTimeField(auto_now_add=True)
-    dumpster = models.ForeignKey(Dumpster)
+    dumpster = models.ForeignKey(Dumpster, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.timestamp)
+
+
+class PaymentMethod(models.Model):
+    card_id = models.CharField(max_length=30, default="")
+    customer_id = models.CharField(max_length=30, default="")
+    card_type = models.CharField(max_length=20, default="")
+    last_four_digits = models.CharField(max_length=20, default="")
+    expires = models.DateField()
+    profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.last_four_digits + ': ' + str(self.expires)
+
+
+# Stripe needs a product for their subscription service
+class Product(models.Model):
+    id = models.CharField(max_length=30, default="", primary_key=True)
+    name = models.CharField(max_length=50, default="")
+
+    def __str__(self):
+        return self.name
+
+
+# Stripe needs a plan as well for their subscription service
+class Plan(models.Model):
+    id = models.CharField(max_length=30, default="", primary_key=True)
+    name = models.CharField(max_length=50, default="")
+    # Frequency with which to charge in months
+    charge_frequency = models.IntegerField(default=1)
+    # Amount to charge in pennies
+    charge_amount = models.IntegerField(default=0)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Subscription(models.Model):
+    id = models.CharField(max_length=30, default="", primary_key=True)
+    plan = models.ForeignKey(Plan, default=1)
+    org = models.ForeignKey(Organization)
+    charge_date = models.SmallIntegerField(default=25)
+    start_date = models.DateTimeField(auto_now_add=True)
+    sensor_count = models.SmallIntegerField(default=1)
+    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.org.name
+
+
+class Transaction(models.Model):
+    amount = models.IntegerField(default=0)
+    created_datetime = models.DateTimeField(auto_now_add=True)
+    filled_datetime = models.DateTimeField(blank=True, null=True)
+    subscription = models.ForeignKey(Subscription, related_name='transactions', null=True, blank=True)
+    # Used if the subscription does not yet exist when the transactions come in.
+    subscription_string = models.CharField(max_length=30, null=True, blank=True)
+    status = models.CharField(max_length=20, default="")
+
+    def __str__(self):
+        return self.status + " " + str(self.created_datetime)

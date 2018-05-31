@@ -4,36 +4,48 @@
 {% load bootstrap3 %}
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'css/account.css' %}">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="{% static 'js/login.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/account.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
 
 
-<title>Log in</title>
-<body>
-  <div class="login-page">
-    <div class="form">
-      <form class="login-form" method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <div>
-          <td>{{ form.username.label_tag }}</td>
-          <td>{{ form.username }}</td>
-          <td>{{ form.username.errors }}</td>
+    <title>Log in</title>
+    <body>
+    <div class="login-page">
+
+        <div class="form">
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger alert-dismissable">
+                    <span style="font-size:18px">
+                <ul class='form-errors'>
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                </span></div>
+            {% endif %}
+            <form class="login-form" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div>
+                    <td>{{ form.username.label_tag }}</td>
+                    <td>{{ form.username }}</td>
+                    <td>{{ form.username.errors }}</td>
+                </div>
+                <div>
+                    <td>{{ form.password.label_tag }}</td>
+                    <td>{{ form.password }}</td>
+                    <td>{{ form.password.errors }}</td>
+                </div>
+                <div>
+                    <input class="btn" type="submit" value="login" />
+                    <input type="hidden" name="next" value="{{ next }}" />
+                </div>
+                <p class="message"><a href="{% url 'signup' %}"> Not registered? Create an account</a></p>
+            </form>
         </div>
-        <div>
-          <td>{{ form.password.label_tag }}</td>
-          <td>{{ form.password }}</td>
-          <td>{{ form.password.errors }}</td>
-        </div>
-        <div>
-          <input class="btn" type="submit" value="login" />
-          <input type="hidden" name="next" value="{{ next }}" />
-        </div>
-        <p class="message"><a href="{% url 'signup' %}"> Not registered? Create an account</a></p>
-        </form>
     </div>
-  </div>
-</body>
+    </body>
 
-</html>
 {% endblock content %}
