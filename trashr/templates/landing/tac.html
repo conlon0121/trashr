@@ -1,0 +1,23 @@
+<title>Terms</title>
+
+{% extends 'landing/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="slider" class="simple-slider">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div id="slide3" class="swiper-slide" style="background-image:url('{% static "images/T_logo_black.png" %}');"></div>
+            </div>
+        </div>
+    </div>
+    <div id="highlight" class="highlight-blue">
+        <div class="container">
+            <div class="intro">
+                <h2 class="text-center">Terms and Conditions</h2>
+                <p class="text-center">Download a copy of the Trashr website Terms and Conditions here.</p>
+            </div>
+            <div class="buttons"><a class="btn btn-primary" role="button" href="#">Download</a></div>
+        </div>
+    </div>
+{% endblock %}
