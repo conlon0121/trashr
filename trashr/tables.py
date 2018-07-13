@@ -44,7 +44,7 @@ class DumpsterTable(Table):
         exclude = ('core_id', 'active', 'alert_sent', 'utility', 'container_type',
                    'id', 'org', 'location', 'rfid', 'capacity', 'capacity_units',
                    'coordinates', 'functioning', 'percent_fill', 'last_updated')
-        template = 'table.html'
+        template = 'logged_in/table.html'
 
 class AlertTable(Table):
     # pylint: disable=no-init
@@ -88,5 +88,5 @@ class AlertTable(Table):
         exclude = ('core_id', 'active', 'alert_sent', 'utility', 'container_type',
                    'id', 'location', 'rfid', 'capacity', 'capacity_units',
                    'coordinates', 'functioning', 'percent_fill', 'last_updated')
-        template = 'table.html'
+        template = 'logged_in/table.html'
 

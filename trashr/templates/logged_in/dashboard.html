@@ -28,7 +28,7 @@
             <form id="form-update" method="post" action="{% url 'alert_update' %}">
                 <div class="hide"> {{ form_update.as_p }} {% csrf_token %} </div>
                 <div id="table" class="col-md-6" style="visibility:hidden">
-                    {% include 'table.html' %}
+                    {% include 'logged_in/table.html' %}
                 </div>
             </form>
 
