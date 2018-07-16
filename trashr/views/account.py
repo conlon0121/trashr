@@ -33,29 +33,33 @@ account_activation_token = TokenGenerator()
 
 
 class AccountView(View):
-    template_name = 'registration/account.html'
+    template_name = 'registration/login.html'
     form_class = AccountForm
-    url = '/signup/$'
 
     def get(self, request):
-        return render(request, self.template_name, {'form':AccountForm()})
+        return render(request, self.template_name, {'form_register': AccountForm()})
 
     def post(self, request):
         form = AccountForm(request.POST)
+
         if form.is_valid():
             email = form.cleaned_data['username']
             password = form.cleaned_data['password1']
+            password_confirm = form.cleaned_data['password2']
             company_code = form.cleaned_data['company_code']
             try:
                 validate_email(email)
             except ValidationError:
                 messages.error(request, 'Invalid email address')
-                return render(request, self.template_name, {'form': form})
+                return render(request, self.template_name, {'form_register': form})
             try:
                 org = Organization.objects.get(code__iexact=company_code)
             except Organization.DoesNotExist:
                 messages.error(request, 'Invalid company code')
-                return render(request, self.template_name, {'form': form})
+                return render(request, self.template_name, {'form_register': form})
+            if password != password_confirm:
+                messages.error(request, 'Passwords do not match')
+                return render(request, self.template_name, {'form_register': form})
             user = User.objects.create_user(email, email, password)
             UserProfile.objects.create(user=user, org=org)
             user.is_active = False
@@ -79,7 +83,7 @@ class AccountView(View):
         for field, err_list in form.errors.items():
             for err in err_list:
                 messages.error(request, err)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form_register': form})
 
 
 class ActivateAccount(View):
