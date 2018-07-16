@@ -13,7 +13,11 @@
             <p style="text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;">
                 A container monitoring system for institutional waste collection and environmental efforts.
             </p>
-            <p><a class="btn btn-primary" role="button" href="#">Dashboard</a></p>
+            {% if request.user.is_authenticated %}
+                <p><a class="btn btn-primary" role="button" href="{% url 'dashboard' %}">Dashboard</a></p>
+            {% else %}
+                <p><a class="btn btn-primary" role="button" href="{% url 'login' %}">Dashboard</a></p>
+            {% endif %}
         </div>
     </div>
     <div id="iconSelect">
@@ -43,12 +47,13 @@
     {#        </div>#}
     {#    </div>#}
     <div style="margin:0 auto 3%" id="contact" class="container contact-clean">
-        <form method="post" id="contactFrm">{% csrf_token %}
+        <form action="mailto:conlon0121@gmail.com" method="post" id="contactFrm">{% csrf_token %}
             <h2 class="text-center">Contact us</h2>
             <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name"></div>
-            <div class="form-group"><input class="form-control is-invalid" type="email" name="email" placeholder="Email"><small class="form-text text-danger">Please enter a correct email address.</small></div>
-            <div class="form-group"><textarea class="form-control" rows="14" name="message" placeholder="Message"></textarea></div>
-            <div class="form-group" id="button"><button class="btn btn-primary" type="submit"></button></div>
+            <div class="form-group"><input class="form-control is-invalid" type="email" name="mail" placeholder="Email"><small class="form-text text-danger">Please enter a correct email address.</small></div>
+            <div class="form-group"><textarea class="form-control" rows="14" name="comment" placeholder="Message"></textarea></div>
+            <div class="form-group" id="button"><button class="btn btn-primary" type="submit">Send</button></div>
         </form>
+    <p>trashrwaste@gmail.com</p>
     </div>
 {% endblock %}
