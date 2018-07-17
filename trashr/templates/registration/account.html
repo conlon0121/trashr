@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Signup{% endblock title %}
+{% load static %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/account.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+    <script src="{% static 'js/login.js' %}"></script>
+
+
+    <div class="login-page text-center">
+        <h3>Create Account</h3>
+        <div class="form">
+            <form class="login-form" action="{% url 'signup' %}" method="post">
+                {% csrf_token %}
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <td>Email Address</td>
+                <td>{{ form.username }}</td>
+                <div>
+                    <td>Password</td>
+                    <td>{{ form.password1}}</td>
+                </div>
+                <div>
+                    <td>Re-enter Password</td>
+                    <td>{{ form.password2 }}</td>
+                </div>
+                <div>
+                    <td>Company Code</td>
+                    <td>{{ form.company_code }}</td>
+                </div>
+                <input class="btn btn-primary" type="submit" value="create">
+                <p class="message">Already registered? <a href="{% url 'login' %}">Sign In</a></p>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

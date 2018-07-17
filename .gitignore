@@ -2,7 +2,6 @@
 .idea/
 # Static files
 .sass-cache/
-static/
 signup/static/custom/.sass-cache/
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -15,7 +14,6 @@ __pycache__/
 env/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -78,3 +76,7 @@ ENV/
 .ropeprojectgitignore
 *.swp
 
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

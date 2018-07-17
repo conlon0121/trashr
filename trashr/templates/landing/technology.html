@@ -1,0 +1,62 @@
+<title>Technology</title>
+
+
+{% extends 'landing/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div style="height:100px"></div>
+    <div data-bs-parallax-bg="true" id="sensor" style="background-image:url({% static 'images/20180211_155852.jpg' %});"></div>
+    <div id="featBox" class="features-boxed" style="background-color:rgba(255,255,255,0);">
+        <div class="container" id="featBoxCont">
+            <div class="intro">
+                <h2 class="text-center">Technology</h2>
+                <p class="text-center">Trashr sensors are rugged and reliable. The hardware we use is industry rated, and proven to withstand tough conditions, while keeping the signal alive, 99% of the time.</p>
+            </div>
+            <div class="row justify-content-center features" id="feat">
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="fa fa-map-marker icon"></i>
+                        <h3 class="name">Location Tracking</h3>
+                        <p class="description">Trashr sensors track container location. Always know where your containers are, as well as their current status.</p>
+                        {#                        <a href="#" class="learn-more">Learn more »</a>#}
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="fa fa-clock-o icon"></i>
+                        <h3 class="name">Always available</h3>
+                        <p class="description">Trashr sensors report live fill level, so you always know if your dumpsters are full, at a glance.</p>
+                        {#                        <a href="#" class="learn-more">Learn more »</a>#}
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="fa fa-exchange icon"></i>
+                        <h3 class="name">Adaptable</h3>
+                        <p class="description">Trashr sensor systems are heavily customizable, to handle unqiue waste situations.</p>
+                        {#                        <a href="#" class="learn-more">Learn more »</a>#}
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="fa fa-file-sound-o icon"></i>
+                        <h3 class="name">Ultrasonic Measuring</h3>
+                        <p class="description">Ultrasonic sensors create precise sound profiles of the dumpsters they're monitoring, to ensure accuracy.</p>
+                        {#                        <a href="#" class="learn-more">Learn more »</a>#}
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="fa fa-exclamation-circle icon"></i>
+                        <h3 class="name">Notifications</h3>
+                        <p class="description">Trashr sensors send alerts when measurements are out of schedule. Get notified about anomalies in your system.</p>
+                        {#                        <a href="#" class="learn-more">Learn more »</a>#}
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="fa fa-battery-4 icon"></i>
+                        <h3 class="name">Reliability</h3>
+                        <p class="description">Trashr sensors are durable and reliable, secured in dumpsters to withstand 3600PSI, and a battery life of 5 years.</p>
+                        {#                        <a href="#" class="learn-more">Learn more »</a>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

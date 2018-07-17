@@ -1,0 +1,29 @@
+<title>Contact</title>
+
+{% extends 'landing/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="slider" class="simple-slider">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div id="slide3" class="swiper-slide" style="background-image:url(&quot;assets/img/T_logo_blackhat.png&quot;);"></div>
+                <div id="slide1" class="swiper-slide"></div>
+                <div id="slide2" class="swiper-slide"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+    <div id="contact" class="contact-clean">
+        <h1>Have a Question?&nbsp;</h1>
+        <form method="post" id="contactFrm">
+            <h2 class="text-center">Contact us</h2>
+            <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name"></div>
+            <div class="form-group"><input class="form-control is-invalid" type="email" name="email" placeholder="Email"><small class="form-text text-danger">Please enter a correct email address.</small></div>
+            <div class="form-group"><textarea class="form-control" rows="14" name="message" placeholder="Message"></textarea></div>
+            <div class="form-group" id="button"><button class="btn btn-primary" type="submit"></button></div>
+        </form>
+    </div>
+{% endblock %}

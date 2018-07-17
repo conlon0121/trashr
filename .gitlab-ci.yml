@@ -1,4 +1,4 @@
-image: python:3.5
+image: python:3.6
 
 services:
   - postgres:latest
@@ -15,6 +15,8 @@ before_script:
 # Run all tests with coverage
 test:
   script:
+  - python manage.py makemigrations
+  - python manage.py migrate
   - python3 manage.py collectstatic --no-input  # whitenoise requires collectstatic for tests
   - coverage run manage.py test
   - coverage report -m

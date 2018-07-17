@@ -1,0 +1,59 @@
+<title>Trashr</title>
+
+{% extends 'landing/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container" id="heading" style="background-image: url({% static 'images/KolkataTrash.jpg' %});">
+        <div class="jumbotron vertical-center" id="opener" style="background-color:rgba(48,48,48,0);">
+            <h1 style="text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;" id="jumboHead">
+                <strong>Waste Collection, Smarter.</strong>
+            </h1>
+            <p style="text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;">
+                A container monitoring system for institutional waste collection and environmental efforts.
+            </p>
+            {% if request.user.is_authenticated %}
+                <p><a class="btn btn-primary" role="button" href="{% url 'dashboard' %}">Dashboard</a></p>
+            {% else %}
+                <p><a class="btn btn-primary" role="button" href="{% url 'login' %}">Dashboard</a></p>
+            {% endif %}
+        </div>
+    </div>
+    <div id="iconSelect">
+        <div class="container" id="useCases">
+            <div class="row" id="iconBreakdown">
+                <div class="col-md-6" id="sensorPic" style="background-image: url({% static 'images/IsometricCase.jpg' %});"></div>
+                <div class="col-md-6" id="iconText">
+                    <h1><i class="fa fa-signal"></i>&nbsp; &nbsp; Fill Level Monitoring</h1>
+                    <p>Monitor how full your dumpsters are, in real time.</p>
+                    <h1><i class="fa fa-location-arrow"></i>&nbsp; &nbsp; &nbsp;Location Services</h1>
+                    <p>Map routes and track mileage to improve resource use and save money.&nbsp;</p>
+                    <h1><i class="fa fa-line-chart"></i>&nbsp; &nbsp; Service Improvements</h1>
+                    <p>Improve services by making smarter decisions educated by data.</p>
+                    <h1><i class="fa fa-calendar"></i>&nbsp; &nbsp; &nbsp;Waste Cycle Predictions</h1>
+                    <p>Predict abnormal waste cycles and repeating events at the touch of a button.</p>
+                    <h1><i class="fa fa-th"></i>&nbsp; &nbsp; &nbsp;Container Inventory</h1>
+                    <p>Track dumpster inventory, plan maintenance, and streamline operations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#    <div id="research" style="background-image:url( {% static 'images/map.png' %});">#}
+    {#        <div class="jumbotron">#}
+    {#            <h1>View the research</h1>#}
+    {#            <p>Across the country, scientists are tracking resource consumption in waste collection. Trashr can help your public entity secure Federal grants by validating sustainable efforts.</p>#}
+    {#            <p><a class="btn btn-primary" role="button" href="#">Learn more</a></p>#}
+    {#        </div>#}
+    {#    </div>#}
+    <div style="margin:0 auto 3%" id="contact" class="container contact-clean">
+        <form action="mailto:conlon0121@gmail.com" method="post" id="contactFrm">{% csrf_token %}
+            <h2 class="text-center">Contact us</h2>
+            <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name"></div>
+            <div class="form-group"><input class="form-control is-invalid" type="email" name="mail" placeholder="Email"><small class="form-text text-danger">Please enter a correct email address.</small></div>
+            <div class="form-group"><textarea class="form-control" rows="14" name="comment" placeholder="Message"></textarea></div>
+            <div class="form-group" id="button"><button class="btn btn-primary" type="submit">Send</button></div>
+        </form>
+    <p>trashrwaste@gmail.com</p>
+    </div>
+{% endblock %}

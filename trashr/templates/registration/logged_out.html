@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<p>Logged out!</p>
+{{user}}
+
+<a href="{% url 'login'%}">Click here to login again.</a>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "logged_in/base.html" %}
+{% load bootstrap3 %}
+{% load i18n %}
+{% load static %}
+{% load tags %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block content %}
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Make Payment</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Begin your subscription!</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>The card you enter will be charged {{ amount|to_dollars }}
+                            every month on the 25th. Your card will be charged a prorated rate today.
+                            once payment is complete, you will have access to the dashboard
+                            and the preferences page, where this card can be edited.</p>
+                        <form action="{% url 'checkout' %}" method="POST">{% csrf_token %}
+                            <script
+                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="{{ stripe_pk }}"
+                                    data-name="TRASHR LLC"
+                                    data-panel-label="Pay Now"
+                                    data-description="Example charge"
+                                    data-image="{% static 'images/trashr.ico' %}"
+                                    data-locale="auto"
+                                    data-zip-code="true"
+                                    data-email="{{ email }}"
+                            >
+                            </script>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
