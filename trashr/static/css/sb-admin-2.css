@@ -34,6 +34,96 @@ body {
 
 }
 
+.hide {
+  display: none;
+}
+.marker {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+#map {
+  position: relative; !important
+top: 0;
+  bottom: 0;
+  width: 100%;
+}
+.driver-btn {
+  position:absolute;
+  z-index: 2;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.map {
+  height:75vh;
+}
+
+@-webkit-keyframes green-glowing {
+  0% { webkit-box-shadow: 0 0 0px #58ca7e; }
+  50% { -webkit-box-shadow: 0 0 40px #58ca7e; }
+  100% { -webkit-box-shadow: 0 0 0px #58ca7e; }
+}
+
+@-moz-keyframes green-glowing {
+  0% { -moz-box-shadow: 0 0 0px #58ca7e; }
+  50% { -moz-box-shadow: 0 0 40px #58ca7e; }
+  100% { -moz-box-shadow: 0 0 0px #58ca7e; }
+}
+
+@-o-keyframes green-glowing {
+  0% { box-shadow: 0 0 0px #58ca7e; }
+  50% { box-shadow: 0 0 40px #58ca7e; }
+  100% { box-shadow: 0 0 0px #58ca7e; }
+}
+
+@keyframes green-glowing {
+  0% { box-shadow: 0 0 0px #58ca7e; }
+  50% { box-shadow: 0 0 40px #58ca7e; }
+  100% { box-shadow: 0 0 0px #58ca7e; }
+}
+
+@-webkit-keyframes red-glowing {
+  0% { webkit-box-shadow: 0 0 1px #B20000; }
+  50% { -webkit-box-shadow: 0 0 40px #FF0000; }
+  100% { -webkit-box-shadow: 0 0 1px #B20000; }
+}
+
+@-moz-keyframes red-glowing {
+  0% { -moz-box-shadow: 0 0 1px #B20000; }
+  50% { -moz-box-shadow: 0 0 40px #FF0000; }
+  100% { -moz-box-shadow: 0 0 1px #B20000; }
+}
+
+@-o-keyframes red-glowing {
+  0% { box-shadow: 0 0 1px #B20000; }
+  50% { box-shadow: 0 0 40px #FF0000; }
+  100% { box-shadow: 0 0 1px #B20000; }
+}
+
+@keyframes red-glowing {
+  0% { box-shadow: 0 0 1px #B20000; }
+  50% { box-shadow: 0 0 40px #FF0000; }
+  100% { box-shadow: 0 0 1px #B20000; }
+}
+
+.success-glow {
+  -webkit-animation: green-glowing 1500ms;
+  -moz-animation: green-glowing 1500ms;
+  -o-animation: green-glowing 1500ms;
+  animation: green-glowing 1500ms;
+}
+
+.fail-glow {
+  -webkit-animation: red-glowing 1500ms;
+  -moz-animation: red-glowing 1500ms;
+  -o-animation: red-glowing 1500ms;
+  animation: red-glowing 1500ms;
+}
+
+.navbar-default {
+  background-color: #545454;
+}
+
 .navbar-top-links {
   margin-right: 0;
 }
