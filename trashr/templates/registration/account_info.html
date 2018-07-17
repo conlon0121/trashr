@@ -1,18 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'landing/base.html' %}
 {% block title %}{% endblock title %}
 {% load static %}
 {% load bootstrap3 %}
 
 {% block content %}
 {% csrf_token %}
-<html lang="en">
-<link rel="stylesheet" href="{% static 'css/account.css' %}">
-<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-<body >
-  <div class="login-page">
-    <div class="form">
+  <div style="background-color: #58ca7e; margin: 35vh auto; padding: 40px" class="container">
       <p>{{info}}</p>
-    </div>
   </div>
 </body>
 {% endblock content %}

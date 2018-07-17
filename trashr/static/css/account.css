@@ -55,3 +55,7 @@
 .hide {
   display: none;
 }
+
+.login-clean form .btn-primary:hover{
+  background: #007c5d;
+}
