@@ -13,7 +13,6 @@ class CreateReading(APIView):
 
     @staticmethod
     def post(request):
-        import pdb; pdb.set_trace()
         try:
             if not request.user.is_superuser:
                 return HttpResponse(status=400)
