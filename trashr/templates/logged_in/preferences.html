@@ -71,7 +71,8 @@
                     <form action="{% url 'payment_update' %}" method="POST">
                         {% csrf_token %}
                         <script
-                                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                src="https://checkout.stripe.com/checkout.js"
+                                class="stripe-button"
                                 data-key="{{ stripe_pk }}"
                                 data-image="{% static 'images/trashr.ico' %}"
                                 data-name="TRASHR LLC"
@@ -86,7 +87,6 @@
                 </div>
             </div>
         </div>
-        <div id="email-messages"></div>
         <div class="panel panel-default">
             <div class="panel-heading">Email Notifications</div>
             <div class="panel-body">
@@ -115,51 +115,57 @@
                         <button id="verify-email" class="btn btn-primary">Verify New Email</button>
                     </div>
                 </div>
+            </div>
+        </div>
 
-
-                <p>Alerts Past 30 Days</p>
-                <table id="alert-table" class="table table-striped">
-                    <thead>
-                    <tr>
-                        <td>Alert Time</td>
-                        <td>Address</td>
-                        <td>Fill % At Alert Time</td>
-                        <td>Current Fill %</td>
-                    </tr>
-                    </thead>
-                    {% for alert in alerts %}
+        <div class="panel panel-default">
+            <div class="panel-heading">Alerts</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <p>Alerts Past 30 Days</p>
+                    <table id="alert-table" class="table display table-striped" cellspacing="0" width="100%">
+                        <thead>
                         <tr>
-                            <td>{{ alert.timestamp }}</td>
-                            <td>{{ alert.address }}</td>
-                            <td>{% with fill=alert.fill_percent %}
-                                {% if not fill %}<p style="color:green">0%</p>
-                                {% elif fill < 30 %}
-                                    <p style="color:green">{{fill}}%</p>
-                                {% elif fill > 50 %}
-                                    <p style="color:red">{{fill}}%</p>
-                                {% else %}
-                                    <p style="color:#FFA500">{{fill}}%</p>
-                                {% endif %}
-                            {% endwith %}</td>
-                            <td>{% with fill=alert.current_fill %}
-                                {% if not fill %}<p style="color:green">0%</p>
-                                {% elif fill < 30 %}
-                                    <p style="color:green">{{fill}}%</p>
-                                {% elif fill > 50 %}
-                                    <p style="color:red">{{fill}}%</p>
-                                {% else %}
-                                    <p style="color:#FFA500">{{fill}}%</p>
-                                {% endif %}
-                            {% endwith %}</td>
+                            <td>Alert Time</td>
+                            <td>Address</td>
+                            <td>Fill % At Alert Time</td>
+                            <td>Current Fill %</td>
                         </tr>
-                    {% endfor %}
-                </table>
+                        </thead>
+                        {% for alert in alerts %}
+                            <tr>
+                                <td>{{ alert.timestamp }}</td>
+                                <td>{{ alert.address }}</td>
+                                <td>{% with fill=alert.fill_percent %}
+                                    {% if not fill %}<p style="color:green">0%</p>
+                                    {% elif fill < 30 %}
+                                        <p style="color:green">{{fill}}%</p>
+                                    {% elif fill > 50 %}
+                                        <p style="color:red">{{fill}}%</p>
+                                    {% else %}
+                                        <p style="color:#FFA500">{{fill}}%</p>
+                                    {% endif %}
+                                {% endwith %}</td>
+                                <td>{% with fill=alert.current_fill %}
+                                    {% if not fill %}<p style="color:green">0%</p>
+                                    {% elif fill < 30 %}
+                                        <p style="color:green">{{fill}}%</p>
+                                    {% elif fill > 50 %}
+                                        <p style="color:red">{{fill}}%</p>
+                                    {% else %}
+                                        <p style="color:#FFA500">{{fill}}%</p>
+                                    {% endif %}
+                                {% endwith %}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">Transaction History</div>
-            <div class="panel-body">
-                <table id="trans-table" class="table table-striped">
+            <div style="width:100%" class="panel-body table-responsive">
+                <table id="trans-table" class="display table table-striped" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <td>

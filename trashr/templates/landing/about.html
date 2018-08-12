@@ -4,7 +4,7 @@
 {% load static %}
 
 {% block content %}
-    <div id="slider" class="simple-slider">
+    <div id="slider" class="hide-small simple-slider">
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <div id="slide1" class="swiper-slide" style="background-image:url({% static 'images/wolfdenimage.jpg' %})"></div>
@@ -24,12 +24,45 @@
             </div>
             <div class="row people">
                 <div class="col-md-4 col-lg-3 item">
+                    <div class="box" style="background-image:url({% static 'images/nickC.jpg' %});">
+                        <div class="cover">
+                            <h3 class="name">Nick Conlon</h3>
+                            <p class="title">Software, AI Lead</p>
+                            <div class="social">
+                                <a href="https://www.linkedin.com/in/nick-conlon-658b23127/">
+                                    <i class="fa fa-linkedin-square"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: center;">
+                        <div style="margin-left: 10%; margin-right: 10%">
+                            <a href="https://www.linkedin.com/in/nick-conlon-658b23127/">
+                                <i style="color: cornflowerblue" class="fa fa-linkedin-square"></i>
+                            </a>
+                        </div>
+                        <p style="color: black; text-align:center" class="title">Software, AI Lead</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 item">
                     <div class="box" style="background-image:url({% static 'images/nicks.jpg' %});">
                         <div class="cover">
                             <h3 class="name">Nick Sischo</h3>
                             <p class="title">Developer, Business Lead</p>
-                            <div class="social"><a href="#"></a><a href="https://linkedin.com"><i class="fa fa-linkedin-square"></i></a><a href="#"></a></div>
+                            <div class="social">
+                                <a href="https://www.linkedin.com/in/nick-sischo-730ba6111/">
+                                    <i class="fa fa-linkedin-square"></i>
+                                </a>
+                            </div>
                         </div>
+                    </div>
+                    <div class="row" style="text-align: center;">
+                        <div style="margin-left: 10%; margin-right: 10%">
+                            <a href="https://www.linkedin.com/in/nick-sischo-730ba6111/">
+                                <i style="color: cornflowerblue" class="fa fa-linkedin-square"></i>
+                            </a>
+                        </div>
+                        <p style="color: black; text-align:center" class="title">Business Lead</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 item">
@@ -37,17 +70,20 @@
                         <div class="cover">
                             <h3 class="name">Goutham Subramanian</h3>
                             <p class="title">Firmware lead</p>
-                            <div class="social"><a href="#"></a><a href="https://linkedin.com"><i class="fa fa-linkedin-square"></i></a><a href="#"></a></div>
+                            <div class="social">
+                                <a href="https://www.linkedin.com/in/goutham-subramanian/">
+                                    <i class="fa fa-linkedin-square"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 col-lg-3 item">
-                    <div class="box" style="background-image:url({% static 'images/nickC.jpg' %});">
-                        <div class="cover">
-                            <h3 class="name">Nick Conlon</h3>
-                            <p class="title">Software, AI Lead</p>
-                            <div class="social"><a href="#"></a><a href="https://linkedin.com"><i class="fa fa-linkedin-square"></i></a><a href="#"></a></div>
+                    <div class="row" style="text-align: center;">
+                        <div style="margin-left: 10%; margin-right: 10%">
+                            <a href="https://www.linkedin.com/in/goutham-subramanian/">
+                                <i style="color: cornflowerblue" class="fa fa-linkedin-square"></i>
+                            </a>
                         </div>
+                        <p style="color: black; text-align:center" class="title">Firmware Lead</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 item">
@@ -55,40 +91,52 @@
                         <div class="cover">
                             <h3 class="name">Hartley Leroy</h3>
                             <p class="title">Hardware Lead</p>
-                            <div class="social"><a href="#"></a><a href="#"><i class="fa fa-linkedin-square"></i></a><a href="#"></a></div>
+                            <div class="social">
+                                <a href="https://www.linkedin.com/in/hartley-leroy-637b68135/">
+                                    <i class="fa fa-linkedin-square"></i>
+                                </a>
+                            </div>
                         </div>
+                    </div>
+                    <div class="row" style="text-align: center;">
+                        <div style="margin-left: 10%; margin-right: 10%">
+                            <a href="https://www.linkedin.com/in/hartley-leroy-637b68135/">
+                                <i style="color: cornflowerblue" class="fa fa-linkedin-square"></i>
+                            </a>
+                        </div>
+                        <p style="color: black; text-align:center" class="title">Hardware Lead</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-{#    <div id="highlight" class="highlight-clean">#}
-{#        <div class="container">#}
-{#            <div class="intro">#}
-{#                <h2 class="text-center">Our Mission</h2>#}
-{#                <p class="text-center">Waste collection generates waste. Waste vehicles are some of the most polluting vehicles on the road today. The more Trashr can streamline waste collection operations, the less pollution is created, the better the world is.&nbsp;</p>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#    <div class="article-list">#}
-{#        <div class="container">#}
-{#            <div class="intro">#}
-{#                <h2 class="text-center"></h2>#}
-{#                <p class="text-center">Trashr's focus is the triple bottom line. In order for Trashr to be working for everyone, it needs to hit these targets.</p>#}
-{#            </div>#}
-{#            <div class="row articles">#}
-{#                <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="{% static 'images/desk.jpg' %}"></a>#}
-{#                    <h3 class="name">People</h3>#}
-{#                    <p class="description">See how Trashr is helping People today.</p><a href="#" class="action"><i class="fa fa-arrow-circle-right"></i></a></div>#}
-{#                <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="{% static 'images/beach.jpg' %}"></a>#}
-{#                    <h3 class="name">Planet</h3>#}
-{#                    <p class="description">Read about Trashr's impact on the environment, and resource use reduction.</p><a href="#" class="action"><i class="fa fa-arrow-circle-right"></i></a></div>#}
-{#                <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="{% static 'images/loft.jpg' %}"></a>#}
-{#                    <h3 class="name">Profit</h3>#}
-{#                    <p class="description">View testimonials where Trashr has saved companies thousands of dollars.</p><a href="#" class="action"><i class="fa fa-arrow-circle-right"></i></a></div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+    {#    <div id="highlight" class="highlight-clean">#}
+    {#        <div class="container">#}
+    {#            <div class="intro">#}
+    {#                <h2 class="text-center">Our Mission</h2>#}
+    {#                <p class="text-center">Waste collection generates waste. Waste vehicles are some of the most polluting vehicles on the road today. The more Trashr can streamline waste collection operations, the less pollution is created, the better the world is.&nbsp;</p>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <div class="article-list">#}
+    {#        <div class="container">#}
+    {#            <div class="intro">#}
+    {#                <h2 class="text-center"></h2>#}
+    {#                <p class="text-center">Trashr's focus is the triple bottom line. In order for Trashr to be working for everyone, it needs to hit these targets.</p>#}
+    {#            </div>#}
+    {#            <div class="row articles">#}
+    {#                <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="{% static 'images/desk.jpg' %}"></a>#}
+    {#                    <h3 class="name">People</h3>#}
+    {#                    <p class="description">See how Trashr is helping People today.</p><a href="#" class="action"><i class="fa fa-arrow-circle-right"></i></a></div>#}
+    {#                <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="{% static 'images/beach.jpg' %}"></a>#}
+    {#                    <h3 class="name">Planet</h3>#}
+    {#                    <p class="description">Read about Trashr's impact on the environment, and resource use reduction.</p><a href="#" class="action"><i class="fa fa-arrow-circle-right"></i></a></div>#}
+    {#                <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="{% static 'images/loft.jpg' %}"></a>#}
+    {#                    <h3 class="name">Profit</h3>#}
+    {#                    <p class="description">View testimonials where Trashr has saved companies thousands of dollars.</p><a href="#" class="action"><i class="fa fa-arrow-circle-right"></i></a></div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
     <div class="map-clean">
         <div class="container">
             <div class="intro">
